@@ -1,3 +1,19 @@
+
+<?php
+require_once('admin/db/config.php');
+
+
+$homeFaqs = [];
+$stmtHomeFaqs = $db->prepare("SELECT * FROM faqs WHERE status = 1 ORDER BY faqs_id ASC LIMIT 5");
+$stmtHomeFaqs->execute();
+$homeFaqs = $stmtHomeFaqs->get_result()->fetch_all(MYSQLI_ASSOC);
+
+$fallbackHomeFaqs = [
+    ['question' => 'No FAQ added', 'answer' => 'No FAQ added yet. Please add FAQs from the admin panel.'],
+];
+
+$displayHomeFaqs = !empty($homeFaqs) ? $homeFaqs : $fallbackHomeFaqs;
+?>
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -272,7 +288,7 @@
 
                         <div class="approach-item-body">
                             <div class="icon-box">
-                                <img src="images/icon-approach-2.svg"
+                                <img src="images/icon-approach-1.svg"
                                     alt="Collaborative Planning">
                             </div>
 
@@ -304,7 +320,7 @@
 
                         <div class="approach-item-body">
                             <div class="icon-box">
-                                <img src="images/icon-approach-3.svg"
+                                <img src="images/icon-approach-1.svg"
                                     alt="Continuous Improvement">
                             </div>
 
@@ -494,211 +510,136 @@
 
 
 
-    <!-- Our Skills Section Start -->
-    <div class="our-skills">
+     <!-- Our Faqs Section Start -->
+    <div class="our-faqs">
         <div class="container">
             <div class="row align-items-center">
 
-                <div class="col-xl-6">
-                    <!-- Skills Image Box Start -->
-                    <div class="skills-image-box">
+                <div class="col-xl-5">
 
-                        <!-- Skills Image Box 1 Start -->
-                        <div class="skills-image-box-1">
+                    <!-- Faqs Image Box Start -->
+                    <div class="faqs-image-box wow fadeInUp" data-wow-delay="0.2s">
 
-                            <!-- Skills Image Start -->
-                            <div class="skills-image image-1">
-                                <figure class="image-anime reveal">
-                                    <img src="images/our-skill-image-1.jpg"
-                                        alt="Tee Mac Medical Event Management">
-                                </figure>
+                        <!-- Faqs Image Start -->
+                        <div class="faqs-image">
+                            <figure class="image-anime">
+                                <img src="images/faqs-image.jpg"
+                                    alt="Eventful Event Management">
+                            </figure>
+                        </div>
+                        <!-- Faqs Image End -->
+
+
+                        <!-- Faqs CTA Image Box Start -->
+                        <div class="faqs-cta-image-box">
+
+                            <!-- Faqs CTA Box Start -->
+                            <div class="faqs-cta-box">
+
+                                <!-- Faqs CTA Box Title Start -->
+                                <div class="faqs-cta-box-title">
+                                    <h3>
+                                        Have questions about your event?
+                                    </h3>
+                                </div>
+                                <!-- Faqs CTA Box Title End -->
+
+
+                                <!-- Faqs CTA Box Item Start -->
+                                <div class="faqs-cta-box-item">
+
+                                    <div class="icon-box">
+                                        <img src="images/icon-phone-accent.svg"
+                                            alt="Call Eventful">
+                                    </div>
+
+                                    <p>
+                                        <a href="tel:+919999999999">
+                                            +91 99999 99999
+                                        </a>
+                                    </p>
+
+                                </div>
+                                <!-- Faqs CTA Box Item End -->
+
                             </div>
-                            <!-- Skills Image End -->
-
-                            <!-- Skills Image Start -->
-                            <div class="skills-image image-2">
-                                <figure class="image-anime reveal">
-                                    <img src="images/our-skill-image-2.jpg"
-                                        alt="Professional Event Planning">
-                                </figure>
-                            </div>
-                            <!-- Skills Image End -->
+                            <!-- Faqs CTA Box End -->
 
                         </div>
-                        <!-- Skills Image Box 1 End -->
-
-
-                        <!-- Skills Image Box 2 Start -->
-                        <div class="skills-image-box-2">
-
-                            <!-- Skills Image Start -->
-                            <div class="skills-image image-3">
-                                <figure class="image-anime reveal">
-                                    <img src="images/our-skill-image-3.jpg"
-                                        alt="Healthcare Conference Management">
-                                </figure>
-                            </div>
-                            <!-- Skills Image End -->
-
-                            <!-- Skills Image Start -->
-                            <div class="skills-image image-4">
-                                <figure class="image-anime reveal">
-                                    <img src="images/our-skill-image-4.jpg"
-                                        alt="Medical Event Execution">
-                                </figure>
-                            </div>
-                            <!-- Skills Image End -->
-
-                        </div>
-                        <!-- Skills Image Box 2 End -->
-
-
-                        <!-- Skills Schedule Circle Start -->
-                        <div class="skills-schedule-circle">
-                            <a href="contact-us.php">
-                                <img src="images/contact-us-circle-metal.svg"
-                                    alt="Plan Your Event">
-                            </a>
-                        </div>
-                        <!-- Skills Schedule Circle End -->
+                        <!-- Faqs CTA Image Box End -->
 
                     </div>
-                    <!-- Skills Image Box End -->
+                    <!-- Faqs Image Box End -->
+
                 </div>
 
 
-                <div class="col-xl-6">
+                <div class="col-xl-7">
 
-                    <!-- Skills Content Start -->
-                    <div class="skills-content">
+                    <!-- Faqs Content Start -->
+                    <div class="faqs-content">
 
                         <!-- Section Title Start -->
                         <div class="section-title">
-                            <h3 class="wow fadeInUp">Our Expertise</h3>
 
-                            <h2 class="text-anime-style-3" data-cursor="-opaque">
-                                Expertise that turns every event into a meaningful experience
+                            <h3 class="wow fadeInUp">
+                                FAQs
+                            </h3>
+
+                            <h2 class="text-anime-style-3"
+                                data-cursor="-opaque">
+                                Everything you need to know about working with Eventful
                             </h2>
 
-                            <p class="wow fadeInUp" data-wow-delay="0.2s">
-                                Our team combines industry knowledge, strategic planning,
-                                creative execution, and attention to detail to deliver
-                                impactful medical and corporate events that meet every
-                                objective.
-                            </p>
                         </div>
                         <!-- Section Title End -->
 
 
-                        <!-- Skills Content Body Start -->
-                        <div class="skills-content-body">
+                        <!-- FAQ Accordion Start -->
+                        <div class="faq-accordion" id="accordion">
 
-                            <!-- Skills Box Start -->
-                            <div class="expert-skills-box">
-
-                                <!-- Our Skills List Start -->
-                                <div class="skills-progress-list">
-
-                                    <!-- Skills Progress Bar Start -->
-                                    <div class="skills-progress-bar">
-                                        <div class="skillbar" data-percent="95%">
-                                            <div class="skill-data">
-                                                <div class="skill-title">
-                                                    Event Planning & Execution
-                                                </div>
-                                                <div class="skill-no">95%</div>
-                                            </div>
-
-                                            <div class="skill-progress">
-                                                <div class="count-bar"></div>
-                                            </div>
-                                        </div>
+                            <?php foreach ($displayHomeFaqs as $faqIndex => $faqItem):
+                                $faqNum = $faqIndex + 1;
+                                $faqDelay = $faqIndex * 0.2;
+                                $faqCollapseClass = $faqIndex === 0 ? 'show' : '';
+                                $faqBtnClass = $faqIndex === 0 ? 'accordion-button' : 'accordion-button collapsed';
+                                $faqExpanded = $faqIndex === 0 ? 'true' : 'false';
+                            ?>
+                            <div class="accordion-item wow fadeInUp"<?php if ($faqDelay > 0): ?> data-wow-delay="<?php echo number_format($faqDelay, 1); ?>s"<?php endif; ?>>
+                                <h2 class="accordion-header" id="heading<?php echo $faqNum; ?>">
+                                    <button class="<?php echo $faqBtnClass; ?>"
+                                        type="button"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#collapse<?php echo $faqNum; ?>"
+                                        aria-expanded="<?php echo $faqExpanded; ?>"
+                                        aria-controls="collapse<?php echo $faqNum; ?>">
+                                        <?php echo $faqNum . '. ' . htmlspecialchars($faqItem['question']); ?>
+                                    </button>
+                                </h2>
+                                <div id="collapse<?php echo $faqNum; ?>"
+                                    class="accordion-collapse collapse <?php echo $faqCollapseClass; ?>"
+                                    role="region"
+                                    aria-labelledby="heading<?php echo $faqNum; ?>"
+                                    data-bs-parent="#accordion">
+                                    <div class="accordion-body">
+                                        <p><?php echo htmlspecialchars($faqItem['answer']); ?></p>
                                     </div>
-                                    <!-- Skills Progress Bar End -->
-
-
-                                    <!-- Skills Progress Bar Start -->
-                                    <div class="skills-progress-bar">
-                                        <div class="skillbar" data-percent="90%">
-                                            <div class="skill-data">
-                                                <div class="skill-title">
-                                                    Client & Stakeholder Management
-                                                </div>
-                                                <div class="skill-no">90%</div>
-                                            </div>
-
-                                            <div class="skill-progress">
-                                                <div class="count-bar"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Skills Progress Bar End -->
-
-
-                                    <!-- Skills Progress Bar Start -->
-                                    <div class="skills-progress-bar">
-                                        <div class="skillbar" data-percent="92%">
-                                            <div class="skill-data">
-                                                <div class="skill-title">
-                                                    Healthcare Event Expertise
-                                                </div>
-                                                <div class="skill-no">92%</div>
-                                            </div>
-
-                                            <div class="skill-progress">
-                                                <div class="count-bar"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Skills Progress Bar End -->
-
                                 </div>
-                                <!-- Skills List End -->
-
-
-                               
-
                             </div>
-                            <!-- Skills Box End -->
-
-
-                            <!-- Skills Achievement Box Start -->
-                            <div class="skills-achievement-box wow fadeInUp"
-                                data-wow-delay="0.4s">
-
-                                <div class="skills-achievement-box-image">
-                                    <figure>
-                                        <img src="images/our-skills-achievement-image.png"
-                                            alt="Tee Mac Excellence in Event Management">
-                                    </figure>
-                                </div>
-
-                                <div class="skills-achievement-box-content">
-                                    <h3>
-                                        Creating impactful experiences through
-                                        precision, expertise and innovation.
-                                    </h3>
-
-                                    <p>
-                                        — Tee Mac Corporation
-                                    </p>
-                                </div>
-
-                            </div>
-                            <!-- Skills Achievement Box End -->
+                            <?php endforeach; ?>
 
                         </div>
-                        <!-- Skills Content Body End -->
+                        <!-- FAQ Accordion End -->
 
                     </div>
-                    <!-- Skills Content End -->
+                    <!-- Faqs Content End -->
 
                 </div>
 
             </div>
         </div>
     </div>
-    <!-- Our Skills Section End -->
+    <!-- Our Faqs Section End -->
 
 
 

@@ -41,7 +41,8 @@ switch ($action) {
                 ]
             ];
             if ($row['end_date'] && $row['end_date'] !== '0000-00-00') {
-                $event['end'] = $row['end_date'];
+                $endDate = date('Y-m-d', strtotime($row['end_date'] . ' +1 day'));
+                $event['end'] = $endDate;
             }
             $events[] = $event;
         }

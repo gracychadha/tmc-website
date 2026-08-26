@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
 
         if ($title && $startDate) {
             $stmt = $db->prepare("INSERT INTO calendar_events (title, start_date, end_date, all_day, color, event_type, description, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("sssissi", $title, $startDate, $endDate, $allDay, $color, $type, $desc, $decodedAdminId);
+            $stmt->bind_param("sssisssi", $title, $startDate, $endDate, $allDay, $color, $type, $desc, $decodedAdminId);
             if ($stmt->execute()) {
                 $_SESSION['message'] = "Event added successfully.";
             } else {
@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
 
         if ($id && $title && $startDate) {
             $stmt = $db->prepare("UPDATE calendar_events SET title=?, start_date=?, end_date=?, all_day=?, color=?, event_type=?, description=? WHERE id=?");
-            $stmt->bind_param("sssissii", $title, $startDate, $endDate, $allDay, $color, $type, $desc, $id);
+            $stmt->bind_param("sssisssi", $title, $startDate, $endDate, $allDay, $color, $type, $desc, $id);
             if ($stmt->execute()) {
                 $_SESSION['message'] = "Event updated successfully.";
             } else {

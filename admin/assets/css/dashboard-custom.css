@@ -6,21 +6,21 @@
 /* --- Welcome Banner --- */
 .tmc-dash-welcome {
   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-  border-radius: 12px;
+  border-radius: 16px;
   border: none;
   overflow: hidden;
   position: relative;
-  box-shadow: 0 8px 32px rgba(15, 52, 96, 0.25);
+  box-shadow: 0 10px 40px rgba(15, 52, 96, 0.3);
 }
 
 .tmc-dash-welcome::before {
   content: '';
   position: absolute;
   top: -50%;
-  right: -20%;
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, rgba(212, 175, 55, 0.12) 0%, transparent 70%);
+  right: -15%;
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
   border-radius: 50%;
   pointer-events: none;
 }
@@ -28,11 +28,11 @@
 .tmc-dash-welcome::after {
   content: '';
   position: absolute;
-  bottom: -30%;
-  left: 10%;
-  width: 300px;
-  height: 300px;
-  background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, transparent 70%);
+  bottom: -40%;
+  left: 5%;
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.10) 0%, transparent 70%);
   border-radius: 50%;
   pointer-events: none;
 }
@@ -40,27 +40,27 @@
 .tmc-dash-welcome .tmc-dash-welcome-content {
   position: relative;
   z-index: 2;
-  padding: 8px 0;
+  padding: 12px 0;
 }
 
 .tmc-dash-welcome .tmc-dash-welcome-greeting {
-  font-size: 15px;
-  color: rgba(255, 255, 255, 0.7);
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.65);
   font-weight: 400;
-  margin-bottom: 4px;
-  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+  letter-spacing: 0.8px;
 }
 
 .tmc-dash-welcome .tmc-dash-welcome-name {
-  font-size: 28px;
-  font-weight: 700;
+  font-size: 32px;
+  font-weight: 800;
   color: #ffffff;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   line-height: 1.2;
 }
 
 .tmc-dash-welcome .tmc-dash-welcome-name span {
-  background: linear-gradient(135deg, #d4af37, #f0d060);
+  background: linear-gradient(135deg, #d4af37, #f5e680, #d4af37);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -68,40 +68,61 @@
 
 .tmc-dash-welcome .tmc-dash-welcome-msg {
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.50);
   margin: 0;
+  font-weight: 400;
 }
 
 .tmc-dash-welcome .tmc-dash-welcome-badge {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.25), rgba(212, 175, 55, 0.10));
-  border: 1px solid rgba(212, 175, 55, 0.45);
-  border-radius: 24px;
-  padding: 10px 20px;
-  font-size: 13px;
+  gap: 10px;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.30), rgba(212, 175, 55, 0.08));
+  border: 1px solid rgba(212, 175, 55, 0.50);
+  border-radius: 12px;
+  padding: 12px 22px;
+  font-size: 12px;
   color: #f0d060;
   font-weight: 700;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
   text-transform: uppercase;
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  animation: tmc-dash-badge-glow 3s ease-in-out infinite;
+  box-shadow: 0 4px 24px rgba(212, 175, 55, 0.20), inset 0 1px 0 rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(4px);
+  transition: all 0.3s ease;
+}
+
+.tmc-dash-welcome .tmc-dash-welcome-badge:hover {
+  box-shadow: 0 6px 32px rgba(212, 175, 55, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
 }
 
 .tmc-dash-welcome .tmc-dash-welcome-badge i {
   font-size: 14px;
-  animation: tmc-dash-badge-spin 6s linear infinite;
+  color: #f0d060;
 }
 
-@keyframes tmc-dash-badge-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(212, 175, 55, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1); }
-  50% { box-shadow: 0 0 30px rgba(212, 175, 55, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15); }
+.tmc-dash-welcome-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  position: relative;
+  z-index: 2;
 }
 
-@keyframes tmc-dash-badge-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.tmc-dash-welcome-datetime {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.70);
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tmc-dash-welcome-datetime i {
+  color: #d4af37;
+  font-size: 13px;
 }
 
 /* --- Section Header --- */
@@ -129,27 +150,27 @@
 /* --- Stats Cards --- */
 .tmc-dash-stats-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin-bottom: 24px;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 18px;
+  margin-bottom: 28px;
 }
 
 .tmc-dash-stat-card {
-  border-radius: 12px;
+  border-radius: 16px;
   border: none;
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
 .tmc-dash-stat-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.16);
 }
 
 .tmc-dash-stat-card .tmc-dash-stat-body {
-  padding: 16px 18px;
+  padding: 22px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -160,38 +181,42 @@
 .tmc-dash-stat-card .tmc-dash-stat-info {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 6px;
 }
 
 .tmc-dash-stat-card .tmc-dash-stat-label {
   font-size: 13px;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.8);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.75);
   margin: 0;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
 }
 
 .tmc-dash-stat-card .tmc-dash-stat-count {
-  font-size: 32px;
-  font-weight: 800;
+  font-size: 36px;
+  font-weight: 900;
   color: #ffffff;
   margin: 0;
   line-height: 1;
+  letter-spacing: -0.5px;
 }
 
 .tmc-dash-stat-card .tmc-dash-stat-icon {
-  width: 46px;
-  height: 46px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.18);
+  width: 54px;
+  height: 54px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.20);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .tmc-dash-stat-card .tmc-dash-stat-icon i {
-  font-size: 19px;
+  font-size: 22px;
   color: #ffffff;
 }
 
@@ -280,6 +305,171 @@
   border-radius: 50%;
 }
 
+.tmc-dash-stat-indigo {
+  background: linear-gradient(135deg, #1a237e, #3949ab, #5c6bc0);
+}
+.tmc-dash-stat-indigo::before {
+  content: '';
+  position: absolute;
+  top: -40%;
+  right: -20%;
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.tmc-dash-stat-pink {
+  background: linear-gradient(135deg, #ad1457, #e91e63, #f06292);
+}
+.tmc-dash-stat-pink::before {
+  content: '';
+  position: absolute;
+  top: -40%;
+  right: -20%;
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.tmc-dash-stat-cyan {
+  background: linear-gradient(135deg, #006064, #0097a7, #26c6da);
+}
+.tmc-dash-stat-cyan::before {
+  content: '';
+  position: absolute;
+  top: -40%;
+  right: -20%;
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.tmc-dash-stat-red {
+  background: linear-gradient(135deg, #b71c1c, #d32f2f, #ef5350);
+}
+.tmc-dash-stat-red::before {
+  content: '';
+  position: absolute;
+  top: -40%;
+  right: -20%;
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+/* --- Chart Cards --- */
+.tmc-dash-chart-card {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+.tmc-dash-chart-card .card-header {
+  background: #fff;
+  border-bottom: 1px solid #f0f0f0;
+  padding: 14px 20px;
+}
+
+.tmc-dash-chart-card .card-header h5 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin: 0;
+}
+
+.tmc-dash-chart-card .card-body {
+  padding: 16px 20px;
+}
+
+/* --- Services Management --- */
+.tmc-dash-service-summary {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+}
+
+.tmc-dash-service-summary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.tmc-dash-service-summary .card-body {
+  padding: 24px 16px;
+}
+
+.tmc-dash-service-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  font-size: 22px;
+}
+
+.tmc-dash-service-active {
+  background: rgba(67, 160, 71, 0.12);
+  color: #43a047;
+}
+
+.tmc-dash-service-inactive {
+  background: rgba(158, 158, 158, 0.12);
+  color: #9e9e9e;
+}
+
+.tmc-dash-service-total {
+  background: rgba(212, 175, 55, 0.12);
+  color: #d4af37;
+}
+
+.tmc-dash-service-count {
+  font-size: 28px;
+  font-weight: 800;
+  color: #1a1a2e;
+  margin-bottom: 4px;
+}
+
+.tmc-dash-service-label {
+  font-size: 13px;
+  color: #888;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* --- Dashboard Table --- */
+.tmc-dash-table {
+  margin-bottom: 0;
+}
+
+.tmc-dash-table thead th {
+  background: #f8f9fa;
+  border-bottom: 2px solid #e9ecef;
+  font-size: 13px;
+  font-weight: 600;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  padding: 10px 16px;
+}
+
+.tmc-dash-table tbody td {
+  padding: 10px 16px;
+  font-size: 14px;
+  color: #333;
+  vertical-align: middle;
+}
+
+.tmc-dash-table tbody tr:hover {
+  background-color: rgba(212, 175, 55, 0.04);
+}
+
 /* --- Calendar Card --- */
 .tmc-dash-calendar-card {
   border-radius: 12px;
@@ -316,6 +506,12 @@
 }
 
 /* --- Responsive --- */
+@media (max-width: 1400px) {
+  .tmc-dash-stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 @media (max-width: 1200px) {
   .tmc-dash-stats-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -328,10 +524,10 @@
   }
 
   .tmc-dash-welcome .tmc-dash-welcome-name {
-    font-size: 22px;
+    font-size: 24px;
   }
 
   .tmc-dash-stat-card .tmc-dash-stat-count {
-    font-size: 26px;
+    font-size: 28px;
   }
 }

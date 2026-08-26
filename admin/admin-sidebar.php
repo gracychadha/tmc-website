@@ -102,32 +102,10 @@ $db->close();
 					</li>
 				<?php } ?>
 
-			<?php if (in_array('All', $menu_titles) || in_array('Hero Slider', $menu_titles) || in_array('About Us', $menu_titles) || in_array('Why Choose Us', $menu_titles) || in_array('Faq', $menu_titles)) { ?>
-				<li class="submenu">
-					<a href="javascript:void(0);"><i class="ti ti-home"></i><span>Home</span><span class="menu-arrow"></span></a>
-					<ul>
-						<?php
-						if (in_array('All', $menu_titles) || in_array('Hero Slider', $menu_titles)) {
-							echo '<li><a href="admin-hero.php">Hero Page</a></li>';
-						}
-						if (in_array('All', $menu_titles) || in_array('About Us', $menu_titles)) {
-							echo '<li><a href="admin-about-us.php">About Us</a></li>';
-						}
-						if (in_array('All', $menu_titles) || in_array('Why Choose Us', $menu_titles)) {
-							echo '<li><a href="admin-why-choose-us.php">Why Choose Us</a></li>';
-						}
-						if (in_array('All', $menu_titles) || in_array('Faq', $menu_titles)) {
-							echo '<li><a href="admin-faqs.php">FAQ</a></li>';
-						}
-						?>
-					</ul>
-				</li>
-			<?php } ?>
-
-			<?php if (in_array('All', $menu_titles) || in_array('Courses', $menu_titles) || in_array('Blog List', $menu_titles) || in_array('Directory Category', $menu_titles) || in_array('Directory List', $menu_titles) || in_array('Pricing', $menu_titles) || in_array('Pricing List', $menu_titles) || in_array('Resources', $menu_titles) || in_array('Pricing', $menu_titles) || in_array('Testinominal', $menu_titles) || in_array('Hero Slider', $menu_titles)) { ?>
-				<li>
-					<h6 class="submenu-hdr"><span>CMS & Blogs</span></h6>
-					<ul>
+				<?php if (in_array('All', $menu_titles) || in_array('Courses', $menu_titles) || in_array('Blog List', $menu_titles) || in_array('Directory Category', $menu_titles) || in_array('Directory List', $menu_titles) || in_array('Pricing', $menu_titles) || in_array('Pricing List', $menu_titles) || in_array('Resources', $menu_titles) || in_array('Pricing', $menu_titles) || in_array('Testinominal', $menu_titles) || in_array('Hero Slider', $menu_titles)) { ?>
+					<li>
+						<h6 class="submenu-hdr"><span>CMS & Blogs</span></h6>
+						<ul>
 							<!-- <li class="">
 								<?php if (in_array('All', $menu_titles) || in_array('Courses', $menu_titles)) { ?>
 									<a href="admin-courses.php"><i class="ti ti-layout-list"></i><span>Manage Courses</span></a>
@@ -137,7 +115,37 @@ $db->close();
 								<?php } ?>
 
 							</li> -->
-
+						
+							<!-- Faq -->
+							<li class="">
+								<?php if (in_array('All', $menu_titles) || in_array('Faq', $menu_titles)) { ?>
+									<a href="admin-faqs.php"><i class="fa-solid fa-circle-question"></i><span>Manage Faq(s)</span></a>
+								<?php } ?>
+							</li>
+							<!-- gallery -->
+							<li class="">
+								<?php if (in_array('All', $menu_titles) || in_array('Gallery', $menu_titles)) { ?>
+									<a href="admin-gallery.php"><i class="fa-solid fa-images"></i><span>Manage Gallery</span></a>
+								<?php } ?>
+							</li>
+							<!-- Partners -->
+							<li class="">
+								<?php if (in_array('All', $menu_titles) || in_array('Partners', $menu_titles)) { ?>
+									<a href="admin-partner.php"><i class="fa-solid fa-building"></i><span>Manage Partners</span></a>
+								<?php } ?>
+							</li>
+							<!-- team -->
+							<li class="">
+								<?php if (in_array('All', $menu_titles) || in_array('Team', $menu_titles)) { ?>
+									<a href="admin-team.php"><i class="ti ti-users"></i><span>Manage Team</span></a>
+								<?php } ?>
+							</li>
+							<!-- testimonial -->
+							<li class="">
+								<?php if (in_array('All', $menu_titles) || in_array('Testimonial', $menu_titles)) { ?>
+									<a href="admin-testimonial.php"><i class="fa-solid fa-quote-left"></i><span>Manage Testimonial</span></a>
+								<?php } ?>
+							</li>
 
 
 
@@ -165,47 +173,68 @@ $db->close();
 
 							<li class="submenu">
 								<?php if (in_array('All', $menu_titles) || in_array('Gallery', $menu_titles) || in_array('Testinominal', $menu_titles) || in_array('Why Choose Us', $menu_titles) || in_array('Work Process', $menu_titles) || in_array('Hero Slider', $menu_titles) || in_array('banner', $menu_titles)) { ?>
-									<a href="javascript:void(0);"><i class="ti ti-building-fortress"></i><span>Manage
-											Section</span><span class="menu-arrow"></span></a>
+									<a href="javascript:void(0);"><i class="ti ti-building-fortress"></i><span> Home Page</span><span class="menu-arrow"></span></a>
 									<ul>
 										<?php
-										if (in_array('All', $menu_titles) || in_array('banner', $menu_titles)) {
-											echo '<li><a href="admin-ticker.php">ticker home</a></li>';
+										if (in_array('All', $menu_titles) || in_array('Home Banner', $menu_titles)) {
+											echo '<li><a href="admin-hero.php">Banner / Flyer</a></li>';
 										}
-										if (in_array('All', $menu_titles) || in_array('banner', $menu_titles)) {
-											echo '<li><a href="admin-about-us.php">About us home</a></li>';
+										if (in_array('All', $menu_titles) || in_array('Ticker', $menu_titles)) {
+											echo '<li><a href="admin-ticker.php">Event Ticker</a></li>';
 										}
-										if (in_array('All', $menu_titles) || in_array('banner', $menu_titles)) {
-											echo '<li><a href="admin-common-banner.php">Common Banner</a></li>';
+										if (in_array('All', $menu_titles) || in_array('About Us', $menu_titles)) {
+											echo '<li><a href="admin-about-us.php">About us </a></li>';
 										}
-										if (in_array('All', $menu_titles) || in_array('Faq', $menu_titles)) {
-											echo '<li><a href="admin-faqs.php">Faq(s)</a></li>';
-										}
-										if (in_array('All', $menu_titles) || in_array('Hero Slider', $menu_titles)) {
-											echo '<li><a href="admin-hero.php">Hero Slider</a></li>';
-										}
-										if (in_array('All', $menu_titles) || in_array('Gallery', $menu_titles)) {
-											echo '<li><a href="admin-gallery.php">Gallery</a></li>';
-										}
-										if (in_array('All', $menu_titles) || in_array('Testimonial', $menu_titles)) {
+										
 
-											echo '<li><a href="admin-testimonial.php">Testimonial</a></li>';
-										}
+
+
+
 										// if (in_array('All', $menu_titles) || in_array('Image Slider', $menu_titles)) {
 										// 	echo '<li><a href="admin-sliders.php">Image Slider</a></li>';
 										// }
-										if (in_array('All', $menu_titles) || in_array('Image Slider', $menu_titles)) {
-											echo '<li><a href="admin-partner.php">Partners</a></li>';
-										}
+
 										// if (in_array('All', $menu_titles) || in_array('Counter', $menu_titles)) {
 										// 	echo '<li><a href="admin-counter.php">Counter</a></li>';
 										// }
-										if (in_array('All', $menu_titles) || in_array('Team Member', $menu_titles)) {
-											echo '<li><a href="admin-team.php">Team Member</a></li>';
-										}
+
 										// if (in_array('All', $menu_titles) || in_array('Common Services', $menu_titles)) {
 										// 	echo '<li><a href="admin-common-services.php">Common Services</a></li>';
 										// }
+
+										?>
+									</ul>
+								<?php } ?>
+							</li>
+							<li class="submenu">
+								<?php if (in_array('All', $menu_titles) || in_array('Gallery', $menu_titles) || in_array('Testinominal', $menu_titles) || in_array('Why Choose Us', $menu_titles) || in_array('Work Process', $menu_titles) || in_array('Hero Slider', $menu_titles) || in_array('banner', $menu_titles)) { ?>
+									<a href="javascript:void(0);"><i class="ti ti-info-circle"></i><span> About Page</span><span class="menu-arrow"></span></a>
+									<ul>
+										<?php
+										if (in_array('All', $menu_titles) || in_array('Common Banner', $menu_titles)) {
+											echo '<li><a href="admin-common-banner.php">Banner / Flyer</a></li>';
+										}
+										if (in_array('All', $menu_titles) || in_array('About Us', $menu_titles)) {
+											echo '<li><a href="about-us.php">About us </a></li>';
+										}
+										if (in_array('All', $menu_titles) || in_array('Approach', $menu_titles)) {
+											echo '<li><a href="admin-approach.php">Approach Section </a></li>';
+										}
+										if (in_array('All', $menu_titles) || in_array('Achievements', $menu_titles)) {
+											echo '<li><a href="admin-acheivements.php">Achievements  </a></li>';
+										}
+										
+
+
+
+
+										
+
+										// if (in_array('All', $menu_titles) || in_array('Counter', $menu_titles)) {
+										// 	echo '<li><a href="admin-counter.php">Counter</a></li>';
+										// }
+
+									
 
 										?>
 									</ul>
