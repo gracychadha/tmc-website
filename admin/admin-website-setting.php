@@ -276,6 +276,7 @@ if ($stmt = $db->prepare($sqlfav)) {
 
     <!-- Main CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/admin-custom.css">
 </head>
 
 <body>
@@ -451,6 +452,7 @@ if ($stmt = $db->prepare($sqlfav)) {
 
     <!-- Custom JS -->
     <script src="assets/js/script.js"></script>
+    <script src="assets/js/admin-custom.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

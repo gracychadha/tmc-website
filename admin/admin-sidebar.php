@@ -215,7 +215,7 @@ $db->close();
 											echo '<li><a href="admin-common-banner.php">Banner / Flyer</a></li>';
 										}
 										if (in_array('All', $menu_titles) || in_array('About Us', $menu_titles)) {
-											echo '<li><a href="about-us.php">About us </a></li>';
+											echo '<li><a href="admin-about-us.php">About us </a></li>';
 										}
 										if (in_array('All', $menu_titles) || in_array('Approach', $menu_titles)) {
 											echo '<li><a href="admin-approach.php">Approach Section </a></li>';

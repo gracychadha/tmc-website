@@ -169,6 +169,7 @@ if ($stmt = $db->prepare($sqlfav)) {
 
 	<!-- Main CSS -->
 	<link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/admin-custom.css">
 	<!-- SweetAlert2 CSS -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 	<!-- SweetAlert2 JS -->
@@ -299,38 +300,15 @@ if ($stmt = $db->prepare($sqlfav)) {
 						<h4 class="mb-3">FAQs List</h4>
 						<!-- <p class="small-text">Kindly add only 5 question answers </p> -->
 						<div class="d-flex align-items-center flex-wrap">
-							<div class="dropdown mb-3 me-2">
-								<a href="javascript:void(0);" class="btn btn-outline-light bg-white dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="outside"><i class="ti ti-filter me-2"></i>Filter</a>
-								<div class="dropdown-menu drop-width">
-								</div>
-							</div>
-
-							<div class="dropdown mb-3">
-								<a href="javascript:void(0);" class="btn btn-outline-light bg-white dropdown-toggle" data-bs-toggle="dropdown"><i class="ti ti-sort-ascending-2 me-2"></i>Sort by A-Z
-								</a>
-								<ul class="dropdown-menu p-3">
-									<li>
-										<a href="javascript:void(0);" class="dropdown-item rounded-1 active">
-											Ascending
-										</a>
-									</li>
-									<li>
-										<a href="javascript:void(0);" class="dropdown-item rounded-1">
-											Descending
-										</a>
-									</li>
-									<li>
-										<a href="javascript:void(0);" class="dropdown-item rounded-1">
-											Recently Viewed
-										</a>
-									</li>
-									<li>
-										<a href="javascript:void(0);" class="dropdown-item rounded-1">
-											Recently Added
-										</a>
-									</li>
-								</ul>
-							</div>
+	                            <?php
+                            $filterConfig = [
+                                'page_type'    => 'faqs',
+                                'table_id'     => 'datatable',
+                                'show_filters' => ['status'],
+                                'sort_enabled' => true,
+                            ];
+                            include 'includes/filter-bar.php';
+                            ?>
 
 							<div class="dropdown mb-3 me-2">
 								<a href="javascript:void(0);" class="btn btn-outline-light bg-white delete-btn" id="delete-selected" data-bs-toggle="dropdown" data-bs-auto-close="outside"><i class="ti ti-trash me-2"></i>Delete Selected</a>
@@ -342,7 +320,7 @@ if ($stmt = $db->prepare($sqlfav)) {
 					<div class="card-body p-0 py-3">
 						<!-- Categories List -->
 						<div class="custom-datatable-filter table-responsive">
-							<table class="table datatable">
+							<table class="table datatable" data-status-col="3">
 								<thead class="thead-light">
 									<tr>
 										<th class="no-sort">
@@ -564,6 +542,7 @@ if ($stmt = $db->prepare($sqlfav)) {
 
 	<!-- Custom JS -->
 	<script src="assets/js/script.js" type="094c2cc781cee01c60adaad3-text/javascript"></script>
+    <script src="assets/js/admin-custom.js"></script>
 
 	<script src="assets/js/rocket-loader.min.js" data-cf-settings="094c2cc781cee01c60adaad3-|49" defer=""></script>
 

@@ -100,6 +100,7 @@ if ($stmt = $db->prepare($sqlfav)) {
     <link rel="stylesheet" href="assets/plugins/select2/css/select2.min.css">
     <link rel="stylesheet" href="assets/css/bootstrap-datetimepicker.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/admin-custom.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 </head>
 
@@ -222,12 +223,12 @@ if ($stmt = $db->prepare($sqlfav)) {
                                 data-date-col="5">
                                 <thead class="thead-light">
                                     <tr>
-                                        <th class="no-sort" style="width:40px;">
+                                        <th class="no-sort tmc-col-check">
                                             <div class="form-check form-check-md">
                                                 <input class="form-check-input" type="checkbox" id="select-all">
                                             </div>
                                         </th>
-                                        <th style="width:50px;">Sr. No.</th>
+                                        <th class="tmc-col-num">Sr. No.</th>
                                         <th>Name</th>
                                         <th>Email</th>
                                         <th>Phone</th>
@@ -366,6 +367,7 @@ if ($stmt = $db->prepare($sqlfav)) {
     <script src="assets/js/dataTables.bootstrap5.min.js"></script>
     <script src="assets/plugins/select2/js/select2.min.js"></script>
     <script src="assets/js/script.js"></script>
+    <script src="assets/js/admin-custom.js"></script>
     <script src="assets/js/filters.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.10/pdfmake.min.js"></script>

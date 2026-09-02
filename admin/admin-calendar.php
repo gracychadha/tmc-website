@@ -112,17 +112,19 @@ if ($stmt = $db->prepare("SELECT favicon FROM system_setting LIMIT 1")) {
     <link rel="stylesheet" href="assets/plugins/select2/css/select2.min.css">
     <link rel="stylesheet" href="assets/css/bootstrap-datetimepicker.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="assets/css/admin-custom.css">
 </head>
 
 <body>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             <?php if (isset($_SESSION['message'])): ?>
-                Swal.fire({ toast: true, position: 'bottom-end', icon: 'success', title: "<?php echo htmlspecialchars($_SESSION['message'], ENT_QUOTES, 'UTF-8'); ?>", showConfirmButton: false, timer: 4000 });
+                tmcToast('success', "<?php echo htmlspecialchars($_SESSION['message'], ENT_QUOTES, 'UTF-8'); ?>", 4000);
                 <?php unset($_SESSION['message']); ?>
             <?php endif; ?>
             <?php if (isset($_SESSION['error'])): ?>
-                Swal.fire({ toast: true, position: 'bottom-end', icon: 'error', title: "<?php echo htmlspecialchars($_SESSION['error'], ENT_QUOTES, 'UTF-8'); ?>", showConfirmButton: false, timer: 4000 });
+                tmcToast('error', "<?php echo htmlspecialchars($_SESSION['error'], ENT_QUOTES, 'UTF-8'); ?>", 4000);
                 <?php unset($_SESSION['error']); ?>
             <?php endif; ?>
         });
@@ -178,6 +180,15 @@ if ($stmt = $db->prepare("SELECT favicon FROM system_setting LIMIT 1")) {
                     <div class="card-header d-flex align-items-center justify-content-between flex-wrap pb-0">
                         <h4 class="mb-3">All Events</h4>
                         <div class="d-flex align-items-center flex-wrap">
+                            <?php
+                            $filterConfig = [
+                                'page_type'    => 'calendar',
+                                'table_id'     => 'datatable',
+                                'show_filters' => ['title', 'event_type', 'date_range'],
+                                'sort_enabled' => true,
+                            ];
+                            include 'includes/filter-bar.php';
+                            ?>
                             <div class="mb-3 me-2">
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEventModal">
                                     <i class="ti ti-plus me-1"></i>Add Event
@@ -192,15 +203,18 @@ if ($stmt = $db->prepare("SELECT favicon FROM system_setting LIMIT 1")) {
                     </div>
                     <div class="card-body p-0 py-3">
                         <div class="custom-datatable-filter table-responsive">
-                            <table class="table datatable">
+                            <table class="table datatable"
+                                data-title-col="2"
+                                data-date-col="3"
+                                data-event_type-col="5">
                                 <thead class="thead-light">
                                     <tr>
-                                        <th class="no-sort" style="width:40px;">
+                                        <th class="no-sort tmc-col-check">
                                             <div class="form-check form-check-md">
                                                 <input class="form-check-input" type="checkbox" id="select-all">
                                             </div>
                                         </th>
-                                        <th style="width:50px;">Sr. No.</th>
+                                        <th class="tmc-col-num">Sr. No.</th>
                                         <th>Event Title</th>
                                         <th>Start Date</th>
                                         <th>End Date</th>
@@ -481,6 +495,7 @@ if ($stmt = $db->prepare("SELECT favicon FROM system_setting LIMIT 1")) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.10/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.10/vfs_fonts.js"></script>
     <script src="assets/js/export.js"></script>
+    <script src="assets/js/admin-custom.js"></script>
     <script>
         $(document).ready(function() {
 

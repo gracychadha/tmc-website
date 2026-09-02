@@ -180,9 +180,7 @@ $result_permission = $db->query($permission);
     <link rel="stylesheet" href="assets/plugins/summernote/summernote-lite.min.css">
     <link rel="stylesheet" href="assets/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/admin-custom.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 </head>
 
@@ -246,21 +244,15 @@ $result_permission = $db->query($permission);
                     <div class="card-header d-flex align-items-center justify-content-between flex-wrap pb-0">
                         <h4 class="mb-3">User List</h4>
                         <div class="d-flex align-items-center flex-wrap">
-                            <div class="dropdown mb-3 me-2">
-                                <a href="javascript:void(0);" class="btn btn-outline-light bg-white dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="outside"><i class="ti ti-filter me-2"></i>Filter</a>
-                                <div class="dropdown-menu drop-width">
-                                    <!-- Filter form can be added here -->
-                                </div>
-                            </div>
-                            <div class="dropdown mb-3">
-                                <a href="javascript:void(0);" class="btn btn-outline-light bg-white dropdown-toggle" data-bs-toggle="dropdown"><i class="ti ti-sort-ascending-2 me-2"></i>Sort by A-Z</a>
-                                <ul class="dropdown-menu p-3">
-                                    <li><a href="javascript:void(0);" class="dropdown-item rounded-1 active">Ascending</a></li>
-                                    <li><a href="javascript:void(0);" class="dropdown-item rounded-1">Descending</a></li>
-                                    <li><a href="javascript:void(0);" class="dropdown-item rounded-1">Recently Viewed</a></li>
-                                    <li><a href="javascript:void(0);" class="dropdown-item rounded-1">Recently Added</a></li>
-                                </ul>
-                            </div>
+                            <?php
+                            $filterConfig = [
+                                'page_type'    => 'permission',
+                                'table_id'     => 'datatable',
+                                'show_filters' => ['name', 'status'],
+                                'sort_enabled' => true,
+                            ];
+                            include 'includes/filter-bar.php';
+                            ?>
                             <div class="dropdown mb-3 me-2">
                                 <a href="javascript:void(0);" class="btn btn-outline-light bg-white delete-btn" id="delete-selected" data-bs-toggle="modal" data-bs-target="#delete-modal"><i class="ti ti-trash me-2"></i>Delete Selected</a>
                             </div>
@@ -268,7 +260,7 @@ $result_permission = $db->query($permission);
                     </div>
                     <div class="card-body p-0 py-3">
                         <div class="custom-datatable-filter table-responsive">
-                            <table class="table datatable">
+                            <table class="table datatable" data-name-col="1" data-status-col="4">
                                 <thead class="thead-light">
                                     <tr>
                                         <th class="no-sort">
@@ -390,7 +382,7 @@ $result_permission = $db->query($permission);
                         </div>
                         <div class="modal-footer">
                             <button type="submit" name="edit-user" class="btn btn-primary">Save Changes</button>
-                            <button type="button" class="btn btn-danger" style="margin-left: 10px;" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-danger tmc-close-mr" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </form>
@@ -432,9 +424,9 @@ $result_permission = $db->query($permission);
         <script src="assets/plugins/select2/js/select2.min.js" type="094c2cc781cee01c60adaad3-text/javascript"></script>
         <script src="assets/plugins/summernote/summernote-lite.min.js" type="094c2cc781cee01c60adaad3-text/javascript"></script>
         <script src="assets/js/script.js" type="094c2cc781cee01c60adaad3-text/javascript"></script>
+        <script src="assets/js/admin-custom.js"></script>
         <script src="assets/js/rocket-loader.min.js" data-cf-settings="094c2cc781cee01c60adaad3-|49" defer=""></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.js"></script>
+
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
         
     

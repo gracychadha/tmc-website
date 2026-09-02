@@ -14,6 +14,16 @@ $fallbackHomeFaqs = [
 
 $displayHomeFaqs = !empty($homeFaqs) ? $homeFaqs : $fallbackHomeFaqs;
 ?>
+<?php
+require_once('admin/db/config.php');
+$homeFaqs = [];
+$stmtHomeFaqs = $db->prepare("SELECT * FROM faqs WHERE status = 1 ORDER BY faqs_id ASC LIMIT 5");
+$stmtHomeFaqs->execute();
+$homeFaqs = $stmtHomeFaqs->get_result()->fetch_all(MYSQLI_ASSOC);
+$displayHomeFaqs = !empty($homeFaqs) ? $homeFaqs : [
+    ['question' => 'No FAQ added', 'answer' => 'No FAQ added yet. Please add FAQs from the admin panel.'],
+];
+?>
 <!DOCTYPE html>
 <html lang="zxx">
 

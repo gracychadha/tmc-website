@@ -455,7 +455,7 @@ $displayHomeFaqs = !empty($homeFaqs) ? $homeFaqs : $fallbackHomeFaqs;
             </div>
         </div>
     </div>
-    <!-- About Us Section Start -->
+    <!-- About Us Section End -->
 
     <!-- Our Feature Section Start -->
     <div class="our-feature-metal dark-section">

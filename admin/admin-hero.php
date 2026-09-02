@@ -103,15 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['hero_submit'])) {
     <link rel="stylesheet" href="assets/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
-    <style>
-        .tmc-hero-current-img {
-            max-width: 320px;
-            max-height: 180px;
-            object-fit: cover;
-            border-radius: 8px;
-            border: 1px solid #e5e5e5;
-        }
-    </style>
+    <link rel="stylesheet" href="assets/css/admin-custom.css">
 </head>
 
 <body>
@@ -162,7 +154,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['hero_submit'])) {
                                             <label for="image" class="form-label">Background Image</label>
                                             <?php if (!empty($hero['image'])): ?>
                                                 <div class="mb-2">
-                                                    <img src="<?php echo htmlspecialchars($hero['image']); ?>" alt="Current Hero Image" class="tmc-hero-current-img">
+                                                    <img src="<?php echo htmlspecialchars($hero['image']); ?>" alt="Current Hero Image" class="tmc-hero-img">
                                                 </div>
                                             <?php endif; ?>
                                             <input type="hidden" name="existing_image" value="<?php echo htmlspecialchars($hero['image'] ?? ''); ?>">
@@ -210,6 +202,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['hero_submit'])) {
     <script src="assets/js/dataTables.bootstrap5.min.js" type="094c2cc781cee01c60adaad3-text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <script src="assets/js/script.js" type="094c2cc781cee01c60adaad3-text/javascript"></script>
+    <script src="assets/js/admin-custom.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

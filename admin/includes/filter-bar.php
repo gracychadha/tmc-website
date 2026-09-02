@@ -34,6 +34,13 @@ $sortEnabled   = $fc['sort_enabled'] ?? true;
             </div>
             <?php endif; ?>
 
+            <?php if (in_array('title', $showFilters)): ?>
+            <div class="col-lg-3 col-sm-6">
+                <label class="form-label fw-semibold">Title</label>
+                <input type="text" class="form-control filter-input" data-filter-column="title" placeholder="Search by title">
+            </div>
+            <?php endif; ?>
+
             <?php if (in_array('email', $showFilters)): ?>
             <div class="col-lg-3 col-sm-6">
                 <label class="form-label fw-semibold">Email</label>
@@ -52,6 +59,29 @@ $sortEnabled   = $fc['sort_enabled'] ?? true;
             <div class="col-lg-3 col-sm-6">
                 <label class="form-label fw-semibold">Subject</label>
                 <input type="text" class="form-control filter-input" data-filter-column="subject" placeholder="Search by subject">
+            </div>
+            <?php endif; ?>
+
+            <?php if (in_array('status', $showFilters)): ?>
+            <div class="col-lg-3 col-sm-6">
+                <label class="form-label fw-semibold">Status</label>
+                <select class="form-select filter-input" data-filter-column="status">
+                    <option value="">All</option>
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                </select>
+            </div>
+            <?php endif; ?>
+
+            <?php if (in_array('event_type', $showFilters)): ?>
+            <div class="col-lg-3 col-sm-6">
+                <label class="form-label fw-semibold">Event Type</label>
+                <select class="form-select filter-input" data-filter-column="event_type">
+                    <option value="">All</option>
+                    <option value="Event">Event</option>
+                    <option value="Reminder">Reminder</option>
+                    <option value="Holiday">Holiday</option>
+                </select>
             </div>
             <?php endif; ?>
 

@@ -217,8 +217,8 @@ $stmt->close();
 	<link rel="stylesheet" href="assets/plugins/icons/feather/feather.css">
 	<link rel="stylesheet" href="assets/plugins/tabler-icons/tabler-icons.css">
 	<link rel="stylesheet" href="assets/plugins/daterangepicker/daterangepicker.css">
-	<link rel="stylesheet" href="assets/plugins/fullcalendar/calendar.js">
-	<link rel="stylesheet" href="assets/plugins/fullcalendar/calendar-data.js">
+	<script src="assets/plugins/fullcalendar/calendar.js"></script>
+	<script src="assets/plugins/fullcalendar/calendar-data.js"></script>
 	<link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
 	<link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
 	<link rel="stylesheet" href="assets/css/dataTables.bootstrap5.min.css">
@@ -226,6 +226,7 @@ $stmt->close();
 	<link rel="stylesheet" href="assets/css/bootstrap-datetimepicker.min.css">
 	<link rel="stylesheet" href="assets/css/style.css">
 	<link rel="stylesheet" href="assets/css/dashboard-custom.css">
+	<link rel="stylesheet" href="assets/css/admin-custom.css">
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
@@ -612,6 +613,7 @@ $stmt->close();
 	<script src="assets/plugins/fullcalendar/calendar-data.js" type="feb024e4d970c7c806ef5348-text/javascript"></script>
 	<script src="assets/js/bootstrap-datetimepicker.min.js" type="feb024e4d970c7c806ef5348-text/javascript"></script>
 	<script src="assets/js/script.js" type="feb024e4d970c7c806ef5348-text/javascript"></script>
+	<script src="assets/js/admin-custom.js"></script>
 	<script src="assets/js/rocket-loader.min.js" data-cf-settings="feb024e4d970c7c806ef5348-|49" defer=""></script>
 
 	<!-- Live Clock -->

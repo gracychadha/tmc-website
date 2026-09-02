@@ -236,6 +236,7 @@ if ($stmt = $db->prepare($sqlfav)) {
 
     <!-- Main CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/admin-custom.css">
 
     <!-- SweetAlert2 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
@@ -366,37 +367,15 @@ if ($stmt = $db->prepare($sqlfav)) {
                     <div class="card-header d-flex align-items-center justify-content-between flex-wrap pb-0">
                         <h4 class="mb-3">Team Member List</h4>
                         <div class="d-flex align-items-center flex-wrap">
-                            <div class="dropdown mb-3 me-2">
-                                <a href="javascript:void(0);" class="btn btn-outline-light bg-white dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="outside"><i class="ti ti-filter me-2"></i>Filter</a>
-                                <div class="dropdown-menu drop-width">
-                                </div>
-                            </div>
-                            <div class="dropdown mb-3">
-                                <a href="javascript:void(0);" class="btn btn-outline-light bg-white dropdown-toggle" data-bs-toggle="dropdown"><i class="ti ti-sort-ascending-2 me-2"></i>Sort by A-Z
-                                </a>
-                                <ul class="dropdown-menu p-3">
-                                    <li>
-                                        <a href="javascript:void(0);" class="dropdown-item rounded-1 active">
-                                            Ascending
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);" class="dropdown-item rounded-1">
-                                            Descending
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);" class="dropdown-item rounded-1">
-                                            Recently Viewed
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);" class="dropdown-item rounded-1">
-                                            Recently Added
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
+                            <?php
+                            $filterConfig = [
+                                'page_type'    => 'team',
+                                'table_id'     => 'datatable',
+                                'show_filters' => ['name', 'status'],
+                                'sort_enabled' => true,
+                            ];
+                            include 'includes/filter-bar.php';
+                            ?>
                             <div class="dropdown mb-3 me-2">
                                 <a href="javascript:void(0);" class="btn btn-outline-light bg-white delete-btn" id="delete-selected" data-bs-toggle="dropdown" data-bs-auto-close="outside"><i class="ti ti-trash me-2"></i>Delete Selected</a>
                             </div>
@@ -406,7 +385,7 @@ if ($stmt = $db->prepare($sqlfav)) {
                         <!-- Categories List -->
 
                         <div class="custom-datatable-filter table-responsive">
-                            <table class="table datatable">
+                            <table class="table datatable" data-name-col="2" data-status-col="5">
                                 <thead class="thead-light">
                                     <tr>
                                         <th class="no-sort">
@@ -435,7 +414,7 @@ if ($stmt = $db->prepare($sqlfav)) {
                                                         <input class="form-check-input delete-checkbox" type="checkbox" value="<?php echo $rowteam['idteam_members']; ?>">
                                                     </div>
                                                 </td>
-                                                <td><img src="<?php echo $imagePath; ?>" style="width: 50px" alt=""></td>
+                                                <td><img src="<?php echo $imagePath; ?>" class="tmc-img-sm" alt=""></td>
 
                                                 <td>
                                                     <div class="d-flex align-items-center">
@@ -644,7 +623,7 @@ if ($stmt = $db->prepare($sqlfav)) {
                                     <label class="form-label">Image</label>
                                     <div class="d-flex align-items-center upload-pic flex-wrap row-gap-3">
                                         <div class="d-flex align-items-center justify-content-center avatar avatar-xxl border border-dashed me-2 flex-shrink-0 text-dark frames">
-                                            <img id="edit-image-preview" src="" alt="Team Image" class="img-fluid" style="max-width: 50%;">
+                                            <img id="edit-image-preview" src="" alt="Team Image" class="img-fluid tmc-img-preview">
                                         </div>
                                         <div class="profile-upload">
                                             <div class="profile-uploader d-flex align-items-center">
@@ -747,12 +726,12 @@ if ($stmt = $db->prepare($sqlfav)) {
     <!-- Custom JS -->
     <script src="assets/js/script.js" type="094c2cc781cee01c60adaad3-text/javascript"></script>
 
+    <script src="assets/js/admin-custom.js"></script>
+
     <script src="assets/js/rocket-loader.min.js" data-cf-settings="094c2cc781cee01c60adaad3-|49" defer=""></script>
 
-    <!-- Include jQuery from CDN -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 
 

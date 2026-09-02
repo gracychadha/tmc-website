@@ -122,32 +122,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['approach_submit'])) {
     <link rel="stylesheet" href="assets/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="assets/plugins/summernote/summernote-lite.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/admin-custom.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    <style>
-        .tmc-approach-img {
-            max-width: 180px;
-            max-height: 120px;
-            object-fit: cover;
-            border-radius: 8px;
-            border: 1px solid #e5e5e5;
-            margin-top: 8px;
-        }
-        .tmc-step-card {
-            border: 1px solid #e9ecef;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-            background: #fafbfc;
-        }
-        .tmc-step-card h6 {
-            color: #1a1a2e;
-            font-weight: 700;
-            margin-bottom: 14px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid #d4af37;
-            display: inline-block;
-        }
-    </style>
 </head>
 
 <body>
@@ -309,6 +285,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['approach_submit'])) {
     <script src="assets/js/dataTables.bootstrap5.min.js"></script>
     <script src="assets/plugins/summernote/summernote-lite.min.js"></script>
     <script src="assets/js/script.js"></script>
+    <script src="assets/js/admin-custom.js"></script>
     <script src="assets/js/rocket-loader.min.js" data-cf-settings="094c2cc781cee01c60adaad3-|49" defer=""></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 

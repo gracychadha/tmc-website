@@ -98,17 +98,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['about_submit'])) {
     <link rel="stylesheet" href="assets/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="assets/plugins/summernote/summernote-lite.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/admin-custom.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    <style>
-        .tmc-about-img {
-            max-width: 200px;
-            max-height: 150px;
-            object-fit: cover;
-            border-radius: 8px;
-            border: 1px solid #e5e5e5;
-            margin-top: 8px;
-        }
-    </style>
 </head>
 
 <body>
@@ -205,6 +196,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['about_submit'])) {
     <script src="assets/js/dataTables.bootstrap5.min.js" ></script>
     <script src="assets/plugins/summernote/summernote-lite.min.js" ></script>
     <script src="assets/js/script.js" ></script>
+    <script src="assets/js/admin-custom.js"></script>
     <script src="assets/js/rocket-loader.min.js" data-cf-settings="094c2cc781cee01c60adaad3-|49" defer=""></script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>

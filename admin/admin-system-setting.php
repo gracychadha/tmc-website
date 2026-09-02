@@ -165,12 +165,7 @@ if ($stmt = $db->prepare($sqlfav)) {
 
     <!-- Main CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
-
-    <style>
-        .img-thumbnail {
-            width: 150px !important;
-        }
-    </style>
+    <link rel="stylesheet" href="assets/css/admin-custom.css">
 </head>
 
 <body>
@@ -223,22 +218,22 @@ if ($stmt = $db->prepare($sqlfav)) {
                                         <div class="col-md-6 mb-3">
                                             <label for="logo" class="form-label">Logo</label>
                                             <input type="file" class="form-control" id="logo" name="logo" onchange="previewImage(event, 'logoPreview')">
-                                            <img id="logoPreview" src="<?php echo !empty($logo) ? 'logo/' . htmlspecialchars($logo) : ''; ?>" alt="Logo Preview" class="img-thumbnail mt-2" style="display: <?php echo !empty($logo) ? 'block' : 'none'; ?>">
+                                            <img id="logoPreview" src="<?php echo !empty($logo) ? 'logo/' . htmlspecialchars($logo) : ''; ?>" alt="Logo Preview" class="tmc-settings-thumb mt-2<?php echo empty($logo) ? ' tmc-hidden' : ''; ?>">
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label for="logo_white" class="form-label">Logo White</label>
                                             <input type="file" class="form-control" id="logo_white" name="logo_white" onchange="previewImage(event, 'logoWhitePreview')">
-                                            <img id="logoWhitePreview" src="<?php echo !empty($logo_white) ? 'logo/' . htmlspecialchars($logo_white) : ''; ?>" alt="Logo White Preview" class="img-thumbnail mt-2" style="display: <?php echo !empty($logo_white) ? 'block' : 'none'; ?>">
+                                            <img id="logoWhitePreview" src="<?php echo !empty($logo_white) ? 'logo/' . htmlspecialchars($logo_white) : ''; ?>" alt="Logo White Preview" class="tmc-settings-thumb mt-2<?php echo empty($logo_white) ? ' tmc-hidden' : ''; ?>">
                                         </div>
                                         <!-- <div class="col-md-6 mb-3">
                                             <label for="backpanel_image" class="form-label">Backpanel Image</label>
                                             <input type="file" class="form-control" id="backpanel_image" name="backpanel_image" onchange="previewImage(event, 'backpanelImagePreview')">
-                                            <img id="backpanelImagePreview" src="<?php echo !empty($backpanel_image) ? 'logo/' . htmlspecialchars($backpanel_image) : ''; ?>" alt="Backpanel Image Preview" class="img-thumbnail mt-2" style="display: <?php echo !empty($backpanel_image) ? 'block' : 'none'; ?>">
+                                            <img id="backpanelImagePreview" src="<?php echo !empty($backpanel_image) ? 'logo/' . htmlspecialchars($backpanel_image) : ''; ?>" alt="Backpanel Image Preview" class="tmc-settings-thumb mt-2<?php echo empty($backpanel_image) ? ' tmc-hidden' : ''; ?>">
                                         </div> -->
                                         <div class="col-md-6 mb-3">
                                             <label for="favicon" class="form-label">Favicon</label>
                                             <input type="file" class="form-control" id="favicon" name="favicon" onchange="previewImage(event, 'faviconPreview')">
-                                            <img id="faviconPreview" src="<?php echo !empty($favicon) ? 'logo/' . htmlspecialchars($favicon) : ''; ?>" alt="Favicon Preview" class="img-thumbnail mt-2" style="display: <?php echo !empty($favicon) ? 'block' : 'none'; ?>">
+                                            <img id="faviconPreview" src="<?php echo !empty($favicon) ? 'logo/' . htmlspecialchars($favicon) : ''; ?>" alt="Favicon Preview" class="tmc-settings-thumb mt-2<?php echo empty($favicon) ? ' tmc-hidden' : ''; ?>">
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label for="helpdesk_number" class="form-label">Helpdesk Number</label>
@@ -289,6 +284,7 @@ if ($stmt = $db->prepare($sqlfav)) {
 
     <!-- Custom JS -->
     <script src="assets/js/script.js"></script>
+    <script src="assets/js/admin-custom.js"></script>
 
     <!-- Theme Script JS -->
     <script src="assets/js/theme-script.js"></script>
@@ -303,11 +299,11 @@ if ($stmt = $db->prepare($sqlfav)) {
                     const reader = new FileReader();
                     reader.onload = function(e) {
                         preview.src = e.target.result;
-                        preview.style.display = 'block';
+                        preview.classList.remove('tmc-hidden');
                     };
                     reader.readAsDataURL(input.files[0]);
                 } else {
-                    preview.style.display = 'none';
+                    preview.classList.add('tmc-hidden');
                 }
             }
 

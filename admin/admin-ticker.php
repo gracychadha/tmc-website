@@ -144,6 +144,7 @@ if ($stmt = $db->prepare($sqlfav)) {
 
 	<!-- Main CSS -->
 	<link rel="stylesheet" href="assets/css/style.css">
+	<link rel="stylesheet" href="assets/css/admin-custom.css">
 	<!-- Toast -->
 	 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
@@ -507,6 +508,7 @@ if ($stmt = $db->prepare($sqlfav)) {
 
 	<!-- Custom JS -->
 	<script src="assets/js/script.js" type="094c2cc781cee01c60adaad3-text/javascript"></script>
+	<script src="assets/js/admin-custom.js" type="094c2cc781cee01c60adaad3-text/javascript"></script>
 
 	<script src="assets/js/rocket-loader.min.js" data-cf-settings="094c2cc781cee01c60adaad3-|49" defer=""></script>
 

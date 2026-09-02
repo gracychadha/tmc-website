@@ -186,6 +186,7 @@ if ($stmt = $db->prepare($sqlfav)) {
 
     <!-- Main CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/admin-custom.css">
 
     <!-- SweetAlert2 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
@@ -299,19 +300,15 @@ if ($stmt = $db->prepare($sqlfav)) {
                     <div class="card-header d-flex align-items-center justify-content-between flex-wrap pb-0">
                         <h4 class="mb-3">Partner List</h4>
                         <div class="d-flex align-items-center flex-wrap">
-                            <div class="dropdown mb-3 me-2">
-                                <a href="javascript:void(0);" class="btn btn-outline-light bg-white dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="outside"><i class="ti ti-filter me-2"></i>Filter</a>
-                                <div class="dropdown-menu drop-width"></div>
-                            </div>
-                            <div class="dropdown mb-3">
-                                <a href="javascript:void(0);" class="btn btn-outline-light bg-white dropdown-toggle" data-bs-toggle="dropdown"><i class="ti ti-sort-ascending-2 me-2"></i>Sort by A-Z</a>
-                                <ul class="dropdown-menu p-3">
-                                    <li><a href="javascript:void(0);" class="dropdown-item rounded-1 active">Ascending</a></li>
-                                    <li><a href="javascript:void(0);" class="dropdown-item rounded-1">Descending</a></li>
-                                    <li><a href="javascript:void(0);" class="dropdown-item rounded-1">Recently Viewed</a></li>
-                                    <li><a href="javascript:void(0);" class="dropdown-item rounded-1">Recently Added</a></li>
-                                </ul>
-                            </div>
+                            <?php
+                            $filterConfig = [
+                                'page_type'    => 'partner',
+                                'table_id'     => 'datatable',
+                                'show_filters' => ['date_range'],
+                                'sort_enabled' => true,
+                            ];
+                            include 'includes/filter-bar.php';
+                            ?>
                             <div class="dropdown mb-3 me-2">
                                 <a href="javascript:void(0);" class="btn btn-outline-light bg-white delete-btn" id="delete-selected" data-bs-toggle="dropdown" data-bs-auto-close="outside"><i class="ti ti-trash me-2"></i>Delete Selected</a>
                             </div>
@@ -320,7 +317,7 @@ if ($stmt = $db->prepare($sqlfav)) {
                     <div class="card-body p-0 py-3">
                         <!-- Partner List -->
                         <div class="custom-datatable-filter table-responsive">
-                            <table class="table datatable">
+                            <table class="table datatable" data-date-col="3">
                                 <thead class="thead-light">
                                     <tr>
                                         <th class="no-sort">
@@ -346,7 +343,7 @@ if ($stmt = $db->prepare($sqlfav)) {
                                                         <input class="form-check-input delete-checkbox" type="checkbox" value="<?php echo $rowpartner['idpartner']; ?>">
                                                     </div>
                                                 </td>
-                                                <td><img src="<?php echo $imagePath; ?>" style="width: 25%;" alt="Partner Image"></td>
+                                                <td><img src="<?php echo $imagePath; ?>" class="tmc-img-thumb" alt="Partner Image"></td>
                                                 <td>
                                                     <?php if ($rowpartner['status'] == 1) { ?>
                                                         <span class="badge badge-soft-success d-inline-flex align-items-center"><i class="ti ti-circle-filled fs-5 me-1"></i>Active</span>
@@ -442,7 +439,7 @@ if ($stmt = $db->prepare($sqlfav)) {
                                     <label class="form-label">Image</label>
                                     <div class="d-flex align-items-center upload-pic flex-wrap row-gap-3">
                                         <div class="d-flex align-items-center justify-content-center avatar avatar-xxl border border-dashed me-2 flex-shrink-0 text-dark frames">
-                                            <img id="edit-image-preview" src="" alt="Partner Image" class="img-fluid" style="max-width: 50%;">
+                                            <img id="edit-image-preview" src="" alt="Partner Image" class="tmc-img-preview img-fluid">
                                         </div>
                                         <div class="profile-upload">
                                             <div class="profile-uploader d-flex align-items-center">
@@ -536,6 +533,7 @@ if ($stmt = $db->prepare($sqlfav)) {
 
     <!-- Custom JS -->
     <script src="assets/js/script.js"></script>
+    <script src="assets/js/admin-custom.js"></script>
 
     <script>
         $(document).ready(function() {
