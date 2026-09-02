@@ -1,6 +1,7 @@
 ﻿<?php
 session_start();
 require_once('db/config.php');
+require_once('includes/mailer.php');
 
 if (!isset($_SESSION['adminId'])) {
     header("Location: index.php");
@@ -10,6 +11,80 @@ if (!isset($_SESSION['adminId'])) {
 
 // Set default timezone
 date_default_timezone_set('Asia/Kolkata');
+
+// Check whether a login account already exists for a team member
+function team_admin_exists($team_id)
+{
+    global $db;
+    $stmt = $db->prepare("SELECT admin_id FROM admin WHERE team_id = ?");
+    $stmt->bind_param("i", $team_id);
+    $stmt->execute();
+    $r = $stmt->get_result();
+    $stmt->close();
+    return $r->num_rows > 0;
+}
+
+// Build a unique-ish username from a member name
+function team_username_from_name($member_name)
+{
+    global $db;
+    $base = strtolower(trim(preg_replace('/[^A-Za-z0-9]+/', '', $member_name)));
+    if (strlen($base) < 3) {
+        $base = 'team';
+    }
+    $username = $base;
+    $stmt = $db->prepare("SELECT admin_id FROM admin WHERE username = ?");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $r = $stmt->get_result();
+    $stmt->close();
+    if ($r->num_rows > 0) {
+        $username = $base . '_' . random_int(100, 999);
+    }
+    return $username;
+}
+
+// Create an admin login account for a team member (returns array with ok/msg/password)
+function create_team_login($team_id, $member_name, $email, $phone = '')
+{
+    global $db;
+
+    // Skip if a login already exists for this team member
+    if (team_admin_exists($team_id)) {
+        return ['ok' => true, 'msg' => 'Login already exists for this team member.'];
+    }
+
+    // Block duplicate account emails
+    $stmt = $db->prepare("SELECT admin_id FROM admin WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $r = $stmt->get_result();
+    $stmt->close();
+    if ($r->num_rows > 0) {
+        return ['ok' => false, 'msg' => 'An account with this email already exists. Login not created.'];
+    }
+
+    $username = team_username_from_name($member_name);
+    $password = generate_password();
+    $hash = password_hash($password, PASSWORD_BCRYPT);
+    $perm = json_encode([1, 27]); // Dashboard + Team Profile menus
+
+    date_default_timezone_set('Asia/Kolkata');
+    $now = date('Y-m-d H:i:s');
+    $expire = date('Y-m-d', time() + 31536000);
+
+    $stmt = $db->prepare("INSERT INTO admin (username, email, phone, password, date, type, activation, status, expire_time, permission, team_id) VALUES (?, ?, ?, ?, ?, 'team', '', 'Enable', ?, ?, ?)");
+    $stmt->bind_param("sssssssi", $username, $email, $phone, $hash, $now, $expire, $perm, $team_id);
+
+    if ($stmt->execute()) {
+        $admin_id = $db->insert_id;
+        $stmt->close();
+        return ['ok' => true, 'msg' => 'Login created.', 'admin_id' => $admin_id, 'username' => $username, 'password' => $password];
+    }
+    $err = $stmt->error;
+    $stmt->close();
+    return ['ok' => false, 'msg' => $err];
+}
 
 // Handle form submissions for adding a new team post
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -70,7 +145,22 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 
         if ($stmt->execute()) {
-            $_SESSION['message'] = "Team Member added successfully!";
+            $team_id = $db->insert_id;
+            $stmt->close();
+
+            // Create a login account for the team member on the basis of their email
+            $login = create_team_login($team_id, $name, $email, $phone);
+
+            if ($login['ok'] && isset($login['password'])) {
+                $mailResult = send_credentials_email($email, $name, $login['username'], $login['password']);
+                $_SESSION['message'] = ($mailResult === true)
+                    ? "Team Member added successfully! Login credentials emailed to $email."
+                    : "Team Member added successfully and login created, but credentials email failed: " . $mailResult;
+            } elseif ($login['ok']) {
+                $_SESSION['message'] = "Team Member added successfully! " . $login['msg'];
+            } else {
+                $_SESSION['message'] = "Team Member added successfully, but login not created: " . $login['msg'];
+            }
         } else {
             $_SESSION['message'] = "Error: " . $stmt->error;
         }
@@ -113,12 +203,43 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("ssssssssssi", $name, $designation, $email, $phone, $linkedin, $twitter, $facebook, $content, $image_path, $status, $idteam_members);
 
         if ($stmt->execute()) {
-            $_SESSION['message'] = "Team post updated successfully!";
+            $stmt->close();
+
+            // Full sync: update the linked admin login account when name/email change
+            $stmt = $db->prepare("SELECT admin_id FROM admin WHERE team_id = ?");
+            $stmt->bind_param("i", $idteam_members);
+            $stmt->execute();
+            $r = $stmt->get_result();
+            $stmt->close();
+
+            if ($r->num_rows > 0) {
+                $adminRow = $r->fetch_assoc();
+                $adminRowId = $adminRow['admin_id'];
+
+                $stmt = $db->prepare("SELECT admin_id FROM admin WHERE email = ? AND admin_id != ?");
+                $stmt->bind_param("si", $email, $adminRowId);
+                $stmt->execute();
+                $dup = $stmt->get_result();
+                $stmt->close();
+
+                if ($dup->num_rows == 0) {
+                    $newUsername = team_username_from_name($name);
+                    $stmt = $db->prepare("UPDATE admin SET email = ?, username = ?, phone = ? WHERE admin_id = ?");
+                    $stmt->bind_param("sssi", $email, $newUsername, $phone, $adminRowId);
+                    $stmt->execute();
+                    $stmt->close();
+                    $_SESSION['message'] = "Team post updated successfully and login account synced!";
+                } else {
+                    $_SESSION['message'] = "Team post updated, but login email not changed (that email already belongs to another account).";
+                }
+            } else {
+                $_SESSION['message'] = "Team post updated successfully!";
+            }
         } else {
             $_SESSION['message'] = "Error updating career post: " . $stmt->error;
+            $stmt->close();
         }
 
-        $stmt->close();
         header('Location: admin-team.php');
         exit();
     }
@@ -138,8 +259,14 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->bind_param($types, ...$idsArray);
 
             if ($stmt->execute()) {
+                // Full sync: remove the linked admin login accounts too
+                $stmt2 = $db->prepare("DELETE FROM admin WHERE team_id IN ($placeholders)");
+                $stmt2->bind_param($types, ...$idsArray);
+                $stmt2->execute();
+                $stmt2->close();
+
                 $_SESSION['message'] = ($stmt->affected_rows > 0)
-                    ? "Team member deleted successfully!"
+                    ? "Team member deleted successfully! (Linked login accounts removed)"
                     : "No career post found with those IDs.";
             } else {
                 $_SESSION['message'] = "Error deleting career post(s): " . $stmt->error;
@@ -148,6 +275,61 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->close();
         } else {
             $_SESSION['message'] = "Invalid career IDs.";
+        }
+
+        header('Location: admin-team.php');
+        exit();
+    }
+
+    // Reset the login password and resend credentials for a team member
+    if (isset($_POST['reset-form']) && $_SERVER['REQUEST_METHOD'] == "POST") {
+        $idteam_members = intval($_POST['reset_id']);
+
+        $stmt = $db->prepare("SELECT member_name, email, phone FROM team_members WHERE idteam_members = ?");
+        $stmt->bind_param("i", $idteam_members);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $stmt->close();
+
+        if ($res->num_rows > 0) {
+            $member = $res->fetch_assoc();
+
+            $stmt = $db->prepare("SELECT admin_id, username FROM admin WHERE team_id = ?");
+            $stmt->bind_param("i", $idteam_members);
+            $stmt->execute();
+            $resAdmin = $stmt->get_result();
+            $stmt->close();
+
+            if ($resAdmin->num_rows > 0) {
+                $admin = $resAdmin->fetch_assoc();
+                $adminId = $admin['admin_id'];
+                $newPassword = generate_password();
+                $hash = password_hash($newPassword, PASSWORD_BCRYPT);
+                $loginEmail = $member['email'];
+
+                $stmt = $db->prepare("UPDATE admin SET password = ?, email = ?, status = 'Enable' WHERE admin_id = ?");
+                $stmt->bind_param("ssi", $hash, $loginEmail, $adminId);
+                $stmt->execute();
+                $stmt->close();
+
+                $mailResult = send_credentials_email($loginEmail, $member['member_name'], $admin['username'], $newPassword);
+                $_SESSION['message'] = ($mailResult === true)
+                    ? "Password reset and new credentials emailed to $loginEmail successfully!"
+                    : "Password reset, but credentials email failed: " . $mailResult;
+            } else {
+                // No login yet - create one and email the credentials
+                $created = create_team_login($idteam_members, $member['member_name'], $member['email'], $member['phone']);
+                if ($created['ok'] && isset($created['password'])) {
+                    $mailResult = send_credentials_email($member['email'], $member['member_name'], $created['username'], $created['password']);
+                    $_SESSION['message'] = ($mailResult === true)
+                        ? "Login created and credentials emailed to " . $member['email'] . " successfully!"
+                        : "Login created, but credentials email failed: " . $mailResult;
+                } else {
+                    $_SESSION['message'] = "Could not create login: " . $created['msg'];
+                }
+            }
+        } else {
+            $_SESSION['message'] = "Team member not found.";
         }
 
         header('Location: admin-team.php');
@@ -170,6 +352,15 @@ if (!$resultteam) {
     $_SESSION['message'] = "Error fetching data: " . $db->error;
     header('Location: admin-team.php');
     exit();
+}
+
+// Map of team members that have an admin login account
+$loginMap = [];
+$qLogin = $db->query("SELECT team_id FROM admin WHERE team_id IS NOT NULL");
+if ($qLogin) {
+    while ($lLogin = $qLogin->fetch_assoc()) {
+        $loginMap[$lLogin['team_id']] = true;
+    }
 }
 
 // SQL query with a prepared statement
@@ -385,7 +576,7 @@ if ($stmt = $db->prepare($sqlfav)) {
                         <!-- Categories List -->
 
                         <div class="custom-datatable-filter table-responsive">
-                            <table class="table datatable" data-name-col="2" data-status-col="5">
+                            <table class="table datatable" data-name-col="2" data-status-col="4">
                                 <thead class="thead-light">
                                     <tr>
                                         <th class="no-sort">
@@ -398,6 +589,7 @@ if ($stmt = $db->prepare($sqlfav)) {
                                         <th>Name</th>
                                         <th>Designation</th>
                                         <th>Status</th>
+                                        <th>Login</th>
                                         <th>Created Date</th>
                                         <th>Action</th>
                                     </tr>
@@ -431,6 +623,13 @@ if ($stmt = $db->prepare($sqlfav)) {
                                                         <span class="badge badge-soft-danger d-inline-flex align-items-center"><i class="ti ti-circle-filled fs-5 me-1"></i>Inactive</span>
                                                     <?php } ?>
                                                 </td>
+                                                <td>
+                                                    <?php if (isset($loginMap[$rowteam['idteam_members']])) { ?>
+                                                        <span class="badge badge-soft-success d-inline-flex align-items-center"><i class="ti ti-user-check fs-5 me-1"></i>Active</span>
+                                                    <?php } else { ?>
+                                                        <span class="badge badge-soft-secondary d-inline-flex align-items-center"><i class="ti ti-user-off fs-5 me-1"></i>No Login</span>
+                                                    <?php } ?>
+                                                </td>
                                                 <td><?php echo $rowteam['date']; ?></td>
                                                 <td>
                                                     <div class="d-flex align-items-center">
@@ -447,6 +646,10 @@ if ($stmt = $db->prepare($sqlfav)) {
                                                             data-image="<?php echo $rowteam['profile_picture']; ?>"
                                                             data-status="<?php echo $rowteam['status']; ?>"
                                                             data-bs-toggle="modal" data-bs-target="#edit_role"><i class="ti ti-edit-circle text-primary"></i></a>
+                                                        <form method="POST" action="admin-team.php" class="d-inline" onsubmit="return confirm('Reset this member\'s login password and email new credentials to them?');">
+                                                            <input type="hidden" name="reset_id" value="<?php echo $rowteam['idteam_members']; ?>">
+                                                            <button type="submit" name="reset-form" class="btn btn-outline-light bg-white btn-icon d-flex align-items-center justify-content-center rounded-circle p-0 me-2" title="Reset Login Password & Email Credentials"><i class="ti ti-key text-warning"></i></button>
+                                                        </form>
                                                         <a href="#" class="btn btn-outline-light bg-white btn-icon d-flex align-items-center justify-content-center delete-btn rounded-circle p-0 me-3" data-id="<?php echo $rowteam['idteam_members']; ?>" data-bs-toggle="modal" data-bs-target="#delete-modal"><i class="ti ti-trash-x text-danger"></i></a>
                                                     </div>
                                                 </td>
@@ -491,6 +694,7 @@ if ($stmt = $db->prepare($sqlfav)) {
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Email Address</label>
                                     <input type="email" name="email" class="form-control" placeholder="Enter Email Address">
+                                    <small class="text-muted">A login account will be created on this email and the credentials will be sent to it.</small>
                                 </div>
 
                                 <div class="col-md-6 mb-3">

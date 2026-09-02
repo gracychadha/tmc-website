@@ -116,6 +116,12 @@ $db->close();
 
 							</li> -->
 						
+							<!-- Event -->
+							<li class="">
+								<?php if (in_array('All', $menu_titles) || in_array('Event', $menu_titles)) { ?>
+									<a href="admin-event.php"><i class="fa-solid fa-calendar-days"></i><span>Manage Event(s)</span></a>
+								<?php } ?>
+							</li>
 							<!-- Faq -->
 							<li class="">
 								<?php if (in_array('All', $menu_titles) || in_array('Faq', $menu_titles)) { ?>
@@ -287,6 +293,20 @@ $db->close();
 						</ul>
 					</li>
 				<?php } ?> -->
+
+				<?php if (in_array('All', $menu_titles) || in_array('Team Profile', $menu_titles)) { ?>
+					<li>
+						<h6 class="submenu-hdr"><span>My Account</span></h6>
+						<ul>
+							<li>
+								<a href="team-profile.php"><i class="ti ti-user-heart"></i><span>My Team Profile</span></a>
+							</li>
+							<li>
+								<a href="profile.php"><i class="ti ti-user"></i><span>Profile</span></a>
+							</li>
+						</ul>
+					</li>
+				<?php } ?>
 
 				<?php if (in_array('All', $menu_titles) || in_array('General Setting', $menu_titles) || in_array('System Setting', $menu_titles) || in_array('Website Setting', $menu_titles) || in_array('SEO Setup', $menu_titles)) { ?>
 					<li>
