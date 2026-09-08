@@ -108,7 +108,7 @@ $db->close();
 						<ul>
 							<!-- <li class="">
 								<?php if (in_array('All', $menu_titles) || in_array('Courses', $menu_titles)) { ?>
-									<a href="admin-courses.php"><i class="ti ti-layout-list"></i><span>Manage Courses</span></a>
+									<a href="admin-4courses.php"><i class="ti ti-layout-list"></i><span>Manage Courses</span></a>
 
 
 
