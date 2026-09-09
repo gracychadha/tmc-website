@@ -1,3 +1,55 @@
+<?php
+require_once('admin/db/config.php');
+require_once('fetch-all.php');
+
+
+// Fetch active services from DB
+$homeServices = [];
+$stmtHomeServices = $db->prepare("SELECT * FROM services WHERE status = 1 ORDER BY idservices ASC");
+$stmtHomeServices->execute();
+$homeServices = $stmtHomeServices->get_result()->fetch_all(MYSQLI_ASSOC);
+
+// Fallback services if DB returns nothing
+$fallbackHomeServices = [
+    [
+        'idservices'  => '1',
+        'title'       => 'Medical Events',
+        'description' => 'From medical conferences and seminars to professional gatherings, we create well-organised experiences for the healthcare community.',
+        'icon'        => 'images/icon-service-1-metal.svg'
+    ],
+    [
+        'idservices'  => '2',
+        'title'       => 'Conferences & Workshops',
+        'description' => 'We manage conferences, workshops and seminars with thoughtful planning, engaging formats and seamless on-ground execution.',
+        'icon'        => 'images/icon-service-2-metal.svg'
+    ],
+    [
+        'idservices'  => '3',
+        'title'       => 'Corporate Events',
+        'description' => 'From corporate gatherings to brand-focused experiences, we help businesses create events that connect teams, audiences and ideas.',
+        'icon'        => 'images/icon-service-3-metal.svg'
+    ],
+    [
+        'idservices'  => '4',
+        'title'       => 'Event Logistics',
+        'description' => 'We coordinate venues, registrations, hospitality, transportation and on-ground requirements to keep every event running smoothly.',
+        'icon'        => 'images/icon-service-4-metal.svg'
+    ],
+    [
+        'idservices'  => '5',
+        'title'       => 'Audio Visual Solutions',
+        'description' => 'From sound and lighting to screens and event production, we provide the technical support needed for a powerful event experience.',
+        'icon'        => 'images/icon-service-5-metal.svg'
+    ],
+];
+
+// Use DB results if available, otherwise fallback
+$displayHomeServices = !empty($homeServices) ? $homeServices : $fallbackHomeServices;
+
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -42,7 +94,7 @@
     ?>
 
     <!-- Page Header Section Start -->
-    <div class="page-header parallaxie">
+    <div class="page-header parallaxie" style="background: url('<?= htmlspecialchars($bannerImage) ?>') no-repeat;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -63,252 +115,64 @@
     </div>
     <!-- Page Header Section End -->
 
-    <!-- Page Features Start -->
-    <div class="page-features">
-        <div class="container">
-            <div class="row feature-item-list">
+  <!-- Page Features Start -->
+<div class="page-features">
+    <div class="container">
+        <div class="row feature-item-list">
 
-                <!-- Feature Item 1 -->
+            <?php foreach ($displayHomeServices as $index => $service): ?>
+                <?php
+                // 1. Calculate animation delay dynamically (0s, 0.2s, 0.4s, 0.6s, etc.)
+                $delay = ($index * 0.2) . 's';
+
+                // 2. Resolve icon: use DB icon if exists, otherwise fallback to feature-item pattern
+                $iconPath = !empty($service['icon']) 
+                    ? $service['icon'] 
+                    : 'images/icon-feature-item-' . ($index + 1) . '.svg';
+
+                // 3. Resolve link: use slug if available, otherwise fallback to ID param
+                $serviceLink = !empty($service['slug']) 
+                    ? 'service/' . $service['slug'] 
+                    : 'our-features.php?id=' . $service['idservices'];
+
+                // 4. Clean description: strips HTML tags and converts newlines to <br>
+                $cleanDesc = nl2br(strip_tags($service['description']));
+                
+                // 5. Optional: Replicate the 'active' class on the 2nd item (index 1) from your original design
+                $activeClass = ($index === 1) ? 'active ' : '';
+                ?>
+
+                <!-- Feature Item <?= $index + 1 ?> -->
                 <div class="col-xl-3 col-md-6">
-                    <div class="feature-item wow fadeInUp">
+                    <div class="feature-item <?= $activeClass ?>wow fadeInUp" data-wow-delay="<?= $delay ?>">
+                        
                         <div class="icon-box">
-                            <img src="images/icon-feature-item-1.svg"
-                                alt="Event Planning">
+                            <img src="<?= htmlspecialchars($iconPath) ?>" 
+                                 alt="<?= htmlspecialchars($service['title']) ?>">
                         </div>
 
                         <div class="feature-item-body">
                             <div class="feature-item-content">
-                                <h3>Strategic Event Planning</h3>
-                                <p>
-                                    From concept to execution, we carefully plan every
-                                    aspect of your event to ensure a smooth and
-                                    successful experience.
-                                </p>
+                                <h3><?= htmlspecialchars($service['title']) ?></h3>
+                                <p><?= $cleanDesc ?></p>
                             </div>
 
                             <div class="feature-item-btn">
-                                <a href="contact-us.php" class="readmore-btn">
+                                <a href="<?= htmlspecialchars($serviceLink) ?>" class="readmore-btn">
                                     Contact Now
                                 </a>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
 
+            <?php endforeach; ?>
 
-                <!-- Feature Item 2 -->
-                <div class="col-xl-3 col-md-6">
-                    <div class="feature-item active wow fadeInUp"
-                        data-wow-delay="0.2s">
-
-                        <div class="icon-box">
-                            <img src="images/icon-feature-item-2.svg"
-                                alt="Conference Coordination">
-                        </div>
-
-                        <div class="feature-item-body">
-                            <div class="feature-item-content">
-                                <h3>Conference Coordination</h3>
-                                <p>
-                                    We coordinate conferences, seminars and professional
-                                    gatherings with precision, ensuring every element
-                                    works together seamlessly.
-                                </p>
-                            </div>
-
-                            <div class="feature-item-btn">
-                                <a href="contact-us.php" class="readmore-btn">
-                                    Contact Now
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <!-- Feature Item 3 -->
-                <div class="col-xl-3 col-md-6">
-                    <div class="feature-item wow fadeInUp"
-                        data-wow-delay="0.4s">
-
-                        <div class="icon-box">
-                            <img src="images/icon-feature-item-3.svg"
-                                alt="Venue Management">
-                        </div>
-
-                        <div class="feature-item-body">
-                            <div class="feature-item-content">
-                                <h3>Venue & Logistics</h3>
-                                <p>
-                                    From venue selection and setup to on-site logistics,
-                                    we take care of the details that keep your event
-                                    running efficiently.
-                                </p>
-                            </div>
-
-                            <div class="feature-item-btn">
-                                <a href="contact-us.php" class="readmore-btn">
-                                    Contact Now
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <!-- Feature Item 4 -->
-                <div class="col-xl-3 col-md-6">
-                    <div class="feature-item wow fadeInUp"
-                        data-wow-delay="0.6s">
-
-                        <div class="icon-box">
-                            <img src="images/icon-feature-item-4.svg"
-                                alt="Event Management">
-                        </div>
-
-                        <div class="feature-item-body">
-                            <div class="feature-item-content">
-                                <h3>End-to-End Management</h3>
-                                <p>
-                                    Our dedicated team manages your event from initial
-                                    planning through execution, ensuring consistency
-                                    and attention to detail at every stage.
-                                </p>
-                            </div>
-
-                            <div class="feature-item-btn">
-                                <a href="contact-us.php" class="readmore-btn">
-                                    Contact Now
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <!-- Feature Item 5 -->
-                <div class="col-xl-3 col-md-6">
-                    <div class="feature-item wow fadeInUp"
-                        data-wow-delay="0.8s">
-
-                        <div class="icon-box">
-                            <img src="images/icon-feature-item-5.svg"
-                                alt="Professional Support">
-                        </div>
-
-                        <div class="feature-item-body">
-                            <div class="feature-item-content">
-                                <h3>Dedicated Support</h3>
-                                <p>
-                                    Our team remains available throughout the event
-                                    journey to address requirements quickly and keep
-                                    everything on track.
-                                </p>
-                            </div>
-
-                            <div class="feature-item-btn">
-                                <a href="contact-us.php" class="readmore-btn">
-                                    Contact Now
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <!-- Feature Item 6 -->
-                <div class="col-xl-3 col-md-6">
-                    <div class="feature-item wow fadeInUp"
-                        data-wow-delay="1s">
-
-                        <div class="icon-box">
-                            <img src="images/icon-feature-item-6.svg"
-                                alt="Guest Management">
-                        </div>
-
-                        <div class="feature-item-body">
-                            <div class="feature-item-content">
-                                <h3>Delegate & Guest Management</h3>
-                                <p>
-                                    We streamline registrations, delegate coordination
-                                    and guest experiences to create an organized and
-                                    welcoming event.
-                                </p>
-                            </div>
-
-                            <div class="feature-item-btn">
-                                <a href="contact-us.php" class="readmore-btn">
-                                    Contact Now
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <!-- Feature Item 7 -->
-                <div class="col-xl-3 col-md-6">
-                    <div class="feature-item wow fadeInUp"
-                        data-wow-delay="1.2s">
-
-                        <div class="icon-box">
-                            <img src="images/icon-feature-item-7.svg"
-                                alt="Technical Production">
-                        </div>
-
-                        <div class="feature-item-body">
-                            <div class="feature-item-content">
-                                <h3>Advanced Technical Setup</h3>
-                                <p>
-                                    We coordinate audio-visual, presentation and
-                                    technical requirements to deliver a reliable and
-                                    professional event environment.
-                                </p>
-                            </div>
-
-                            <div class="feature-item-btn">
-                                <a href="contact-us.php" class="readmore-btn">
-                                    Contact Now
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <!-- Feature Item 8 -->
-                <div class="col-xl-3 col-md-6">
-                    <div class="feature-item wow fadeInUp"
-                        data-wow-delay="1.4s">
-
-                        <div class="icon-box">
-                            <img src="images/icon-feature-item-8.svg"
-                                alt="Post Event Support">
-                        </div>
-
-                        <div class="feature-item-body">
-                            <div class="feature-item-content">
-                                <h3>Post-Event Insights</h3>
-                                <p>
-                                    We review event outcomes and feedback to help
-                                    measure engagement, identify opportunities and
-                                    improve future events.
-                                </p>
-                            </div>
-
-                            <div class="feature-item-btn">
-                                <a href="contact-us.php" class="readmore-btn">
-                                    Contact Now
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
         </div>
     </div>
-    <!-- Page Features End -->
+</div>
+<!-- Page Features End -->
 
 
 

@@ -24,12 +24,12 @@
                              <p>Stay informed with instant updates delivered straight to your inbox.</p>
                          </div>
 
-                         <form id="newslettersForm" action="#" method="POST">
-                             <div class="form-group">
-                                 <input type="email" name="mail" class="form-control" id="mail" placeholder="Enter E-mail Address*" required="">
-                                 <button type="submit" class="newsletter-btn"><i class="fa-regular fa-paper-plane"></i></button>
-                             </div>
-                         </form>
+                        <form id="newslettersForm" method="POST">
+    <div class="form-group">
+        <input type="email" name="mail" class="form-control" id="mail" placeholder="Enter E-mail Address*" required>
+        <button type="submit" class="newsletter-btn"><i class="fa-regular fa-paper-plane"></i></button>
+    </div>
+</form>
                      </div>
                      <!-- Footer Newsletter Form End -->
                  </div>

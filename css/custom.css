@@ -432,16 +432,16 @@ a:focus{
 }
 
 .section-title h1{
-	font-size: 76px;
-	font-weight: 800;
+	font-size: 60px;
+	font-weight: 600;
 	letter-spacing: -0.02em;
 	margin-bottom: 0;
 	cursor: none;
 }
 
 .section-title h2{
-	font-size: 48px;
-	font-weight: 600;
+	font-size: 40px;
+	font-weight: 300;
 	letter-spacing: -0.02em;
 	margin-bottom: 0;
 	cursor: none;
@@ -1039,8 +1039,8 @@ header.main-header .header-sticky.active{
 
 .scrolling-content span{
 	display: inline-block;
-	font-size: 30px;
-	font-weight: 700;
+	font-size: 20px;
+	/* font-weight: 700; */
 	line-height: 1.1em;
 	text-transform: capitalize;
 	color: var(--white-color);
@@ -3274,7 +3274,7 @@ header.main-header .header-sticky.active{
 
 .page-header{
 	position: relative;
-	background: url('../images/page-header-bg.jpg') no-repeat;
+	
 	background-position: center center;
 	background-size: cover;
 	padding: 265px 0 165px;
@@ -3303,9 +3303,9 @@ header.main-header .header-sticky.active{
 
 .page-header-box h1{
 	display: inline-block;
-    font-size: 76px;
+    font-size: 55px;
     line-height: 1.1em;
-	font-weight: 800;
+	font-weight: 500;
     letter-spacing: -0.02em;
 	color: var(--white-color);
 	margin-bottom: 10px;

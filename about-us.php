@@ -1,7 +1,7 @@
-
 <?php
-require_once('admin/db/config.php');
 
+require_once('admin/db/config.php');
+require_once('fetch-all.php');
 
 $homeFaqs = [];
 $stmtHomeFaqs = $db->prepare("SELECT * FROM faqs WHERE status = 1 ORDER BY faqs_id ASC LIMIT 5");
@@ -70,7 +70,7 @@ $displayHomeFaqs = !empty($homeFaqs) ? $homeFaqs : [
     ?>
 
     <!-- Page Header Section Start -->
-    <div class="page-header parallaxie">
+    <div class="page-header parallaxie" style="background: url('<?= htmlspecialchars($bannerImage) ?>') no-repeat;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -90,7 +90,6 @@ $displayHomeFaqs = !empty($homeFaqs) ? $homeFaqs : [
         </div>
     </div>
     <!-- Page Header Section End -->
-
     <div class="about-us">
         <div class="container">
             <div class="row align-items-center">
@@ -105,7 +104,7 @@ $displayHomeFaqs = !empty($homeFaqs) ? $homeFaqs : [
                             <!-- About Us Image Start -->
                             <div class="about-us-image">
                                 <figure class="image-anime">
-                                    <img src="images/about-us-image.jpg" alt="Tee Mac Corporation Medical Events">
+                                    <img src="<?= htmlspecialchars($aboutImage) ?>" alt="<?= htmlspecialchars($displayAbout['title']) ?>">
                                 </figure>
                             </div>
                             <!-- About Us Image End -->
@@ -134,12 +133,12 @@ $displayHomeFaqs = !empty($homeFaqs) ? $homeFaqs : [
 
                                 <div class="about-achievement-image">
                                     <figure>
-                                        <img src="images/about-achievement-image.png" alt="Tee Mac Corporation">
+                                        <img src="<?= htmlspecialchars($aboutImage2) ?>" alt="<?= htmlspecialchars($displayAbout['title']) ?>">
                                     </figure>
                                 </div>
 
                                 <div class="about-achievement-content">
-                                    <h3>Professional Medical Event Management</h3>
+                                    <h3><?= htmlspecialchars($displayAbout['sub_title'] ?? 'Professional Medical Event Management') ?></h3>
                                     <p>Chandigarh, India</p>
                                 </div>
 
@@ -164,30 +163,18 @@ $displayHomeFaqs = !empty($homeFaqs) ? $homeFaqs : [
                         <!-- Section Title Start -->
                         <div class="section-title">
 
-                            <h3 class="wow fadeInUp">About Us</h3>
+                            <h3 class="wow fadeInUp"><?= htmlspecialchars($displayAbout['title']) ?></h3>
 
                             <h2 class="text-anime-style-3" data-cursor="-opaque">
-                                Professional Medical Event Management Solutions
+                                <?= htmlspecialchars($displayAbout['sub_title']) ?>
                             </h2>
 
                             <p class="wow fadeInUp text-justify" data-wow-delay="0.2s">
-                                Established in Chandigarh, India, Tee Mac Corporation is a
-                                professional medical event management company dedicated to
-                                delivering creative and reliable solutions for medical events.
+                                <?= strip_tags($displayAbout['content'], '<p><br><strong><em><ul><ol><li>') ?>
                             </p>
 
-                            <p class="wow fadeInUp text-justify" data-wow-delay="0.3s">
-                                From medical seminars, conferences and workshops to other
-                                professional events, our experienced team manages every
-                                aspect of the event with attention to detail and a commitment
-                                to delivering the highest standards of service.
-                            </p>
 
-                            <p class="wow fadeInUp text-justify" data-wow-delay="0.4s">
-                                We take care of planning, organisation, logistics and execution
-                                so that our clients can focus on creating meaningful experiences
-                                for their attendees.
-                            </p>
+
 
                         </div>
                         <!-- Section Title End -->
@@ -242,9 +229,9 @@ $displayHomeFaqs = !empty($homeFaqs) ? $homeFaqs : [
                 <div class="col-lg-12">
                     <!-- Section Title Start -->
                     <div class="section-title section-title-center">
-                        <h3 class="wow fadeInUp">Our Approach</h3>
+                        <h3 class="wow fadeInUp"><?= htmlspecialchars($displayApproach['title']) ?></h3>
                         <h2 class="text-anime-style-3" data-cursor="-opaque">
-                            A strategic approach to delivering seamless medical events
+                            <?= htmlspecialchars($displayApproach['sub_title']) ?>
                         </h2>
                     </div>
                     <!-- Section Title End -->
@@ -259,23 +246,21 @@ $displayHomeFaqs = !empty($homeFaqs) ? $homeFaqs : [
 
                         <div class="approach-item-image">
                             <figure>
-                                <img src="images/our-approach-image-1.jpg"
-                                    alt="Seamless Medical Event Execution">
+                                <img src="<?= htmlspecialchars($approachImage1) ?>"
+                                    alt="<?= htmlspecialchars($displayApproach['step1']) ?>">
                             </figure>
                         </div>
 
                         <div class="approach-item-body">
                             <div class="icon-box">
                                 <img src="images/icon-approach-1.svg"
-                                    alt="Seamless Execution">
+                                    alt="<?= htmlspecialchars($displayApproach['step1']) ?>">
                             </div>
 
                             <div class="approach-item-content">
-                                <h3>Seamless Execution</h3>
+                                <h3><?= htmlspecialchars($displayApproach['step1']) ?></h3>
                                 <p>
-                                    From planning to execution, we manage every detail
-                                    with precision to ensure your medical event runs
-                                    smoothly and successfully.
+                                    <?= nl2br(htmlspecialchars(strip_tags($displayApproach['description1']))) ?>
                                 </p>
                             </div>
                         </div>
@@ -291,23 +276,21 @@ $displayHomeFaqs = !empty($homeFaqs) ? $homeFaqs : [
 
                         <div class="approach-item-image">
                             <figure>
-                                <img src="images/our-approach-image-2.jpg"
-                                    alt="Collaborative Medical Event Planning">
+                                <img src="<?= htmlspecialchars($approachImage2) ?>"
+                                    alt="<?= htmlspecialchars($displayApproach['step2']) ?>">
                             </figure>
                         </div>
 
                         <div class="approach-item-body">
                             <div class="icon-box">
-                                <img src="images/icon-approach-1.svg"
-                                    alt="Collaborative Planning">
+                                <img src="images/icon-approach-2.svg"
+                                    alt="<?= htmlspecialchars($displayApproach['step2']) ?>">
                             </div>
 
                             <div class="approach-item-content">
-                                <h3>Collaborative Planning</h3>
+                                <h3><?= htmlspecialchars($displayApproach['step2']) ?></h3>
                                 <p>
-                                    We work closely with clients, healthcare
-                                    professionals, speakers and partners to create
-                                    well-structured and impactful events.
+                                    <?= nl2br(htmlspecialchars(strip_tags($displayApproach['description2']))) ?>
                                 </p>
                             </div>
                         </div>
@@ -323,23 +306,21 @@ $displayHomeFaqs = !empty($homeFaqs) ? $homeFaqs : [
 
                         <div class="approach-item-image">
                             <figure>
-                                <img src="images/our-approach-image-3.jpg"
-                                    alt="Continuous Improvement in Event Management">
+                                <img src="<?= htmlspecialchars($approachImage3) ?>"
+                                    alt="<?= htmlspecialchars($displayApproach['step3']) ?>">
                             </figure>
                         </div>
 
                         <div class="approach-item-body">
                             <div class="icon-box">
-                                <img src="images/icon-approach-1.svg"
-                                    alt="Continuous Improvement">
+                                <img src="images/icon-approach-3.svg"
+                                    alt="<?= htmlspecialchars($displayApproach['step3']) ?>">
                             </div>
 
                             <div class="approach-item-content">
-                                <h3>Continuous Improvement</h3>
+                                <h3><?= htmlspecialchars($displayApproach['step3']) ?></h3>
                                 <p>
-                                    We continuously refine our processes, learn from
-                                    every event and embrace innovative ideas to deliver
-                                    better experiences every time.
+                                    <?= nl2br(htmlspecialchars(strip_tags($displayApproach['description3']))) ?>
                                 </p>
                             </div>
                         </div>
@@ -377,7 +358,6 @@ $displayHomeFaqs = !empty($homeFaqs) ? $homeFaqs : [
         </div>
     </div>
     <!-- Our Approach Section End -->
-
     <!-- Our Speaker Section Start -->
     <?php
     require_once('includes/team.php');
@@ -393,8 +373,8 @@ $displayHomeFaqs = !empty($homeFaqs) ? $homeFaqs : [
                     <!-- Achievements Image Start -->
                     <div class="achievements-image wow fadeInUp">
                         <figure>
-                            <img src="images/our-achievements-image.jpg"
-                                alt="Tee Mac Corporation Event Management">
+                            <img src="<?= htmlspecialchars($achievementsImage) ?>"
+                                alt="<?= htmlspecialchars($displayAchievements['title']) ?>">
                         </figure>
                     </div>
                     <!-- Achievements Image End -->
@@ -405,17 +385,14 @@ $displayHomeFaqs = !empty($homeFaqs) ? $homeFaqs : [
 
                         <!-- Section Title Start -->
                         <div class="section-title">
-                            <h3 class="wow fadeInUp">Our Achievements</h3>
+                            <h3 class="wow fadeInUp"><?= htmlspecialchars($displayAchievements['title']) ?></h3>
 
                             <h2 class="text-anime-style-3" data-cursor="-opaque">
-                                Delivering excellence through experience and expertise
+                                <?= htmlspecialchars($displayAchievements['sub_title']) ?>
                             </h2>
 
                             <p class="wow fadeInUp" data-wow-delay="0.2s">
-                                Our journey is built on experience, strong partnerships,
-                                meticulous planning, and a commitment to delivering
-                                impactful medical and corporate events that create
-                                meaningful experiences.
+                                <?= nl2br(htmlspecialchars(strip_tags($displayAchievements['content']))) ?>
                             </p>
                         </div>
                         <!-- Section Title End -->
@@ -425,72 +402,31 @@ $displayHomeFaqs = !empty($homeFaqs) ? $homeFaqs : [
                         <div class="achievement-items-list wow fadeInUp"
                             data-wow-delay="0.4s">
 
-                            <!-- Achievement Item Start -->
-                            <div class="achievement-item">
-                                <div class="icon-box">
-                                    <img src="images/icon-our-achievement-1.svg"
-                                        alt="Years of Experience">
+                            <?php foreach ($achievementsItems as $index => $item): ?>
+                                <?php
+                                $icon = !empty($item['icon']) ? $item['icon'] : 'icon-our-achievement-' . ($index + 1) . '.svg';
+                                $number = $item['number'] ?? '0';
+                                $suffix = $item['suffix'] ?? '+';
+                                $label = $item['label'] ?? 'Achievement';
+                                ?>
+
+                                <!-- Achievement Item Start -->
+                                <div class="achievement-item">
+                                    <div class="icon-box">
+                                        <img src="images/<?= htmlspecialchars($icon) ?>"
+                                            alt="<?= htmlspecialchars($label) ?>">
+                                    </div>
+
+                                    <div class="achievement-item-content">
+                                        <h3>
+                                            <span class="counter"><?= htmlspecialchars($number) ?></span><?= htmlspecialchars($suffix) ?>
+                                        </h3>
+                                        <p><?= htmlspecialchars($label) ?></p>
+                                    </div>
                                 </div>
+                                <!-- Achievement Item End -->
 
-                                <div class="achievement-item-content">
-                                    <h3>
-                                        <span class="counter">15</span>+
-                                    </h3>
-                                    <p>Years of Industry Experience</p>
-                                </div>
-                            </div>
-                            <!-- Achievement Item End -->
-
-
-                            <!-- Achievement Item Start -->
-                            <div class="achievement-item">
-                                <div class="icon-box">
-                                    <img src="images/icon-our-achievement-2.svg"
-                                        alt="Events Delivered">
-                                </div>
-
-                                <div class="achievement-item-content">
-                                    <h3>
-                                        <span class="counter">500</span>+
-                                    </h3>
-                                    <p>Events Successfully Delivered</p>
-                                </div>
-                            </div>
-                            <!-- Achievement Item End -->
-
-
-                            <!-- Achievement Item Start -->
-                            <div class="achievement-item">
-                                <div class="icon-box">
-                                    <img src="images/icon-our-achievement-3.svg"
-                                        alt="Healthcare Professionals">
-                                </div>
-
-                                <div class="achievement-item-content">
-                                    <h3>
-                                        <span class="counter">50</span>K+
-                                    </h3>
-                                    <p>Professionals Engaged</p>
-                                </div>
-                            </div>
-                            <!-- Achievement Item End -->
-
-
-                            <!-- Achievement Item Start -->
-                            <div class="achievement-item">
-                                <div class="icon-box">
-                                    <img src="images/icon-our-achievement-4.svg"
-                                        alt="Trusted Partners">
-                                </div>
-
-                                <div class="achievement-item-content">
-                                    <h3>
-                                        <span class="counter">100</span>+
-                                    </h3>
-                                    <p>Trusted Clients & Partners</p>
-                                </div>
-                            </div>
-                            <!-- Achievement Item End -->
+                            <?php endforeach; ?>
 
                         </div>
                         <!-- Achievements List End -->
@@ -518,9 +454,7 @@ $displayHomeFaqs = !empty($homeFaqs) ? $homeFaqs : [
 
 
 
-
-
-     <!-- Our Faqs Section Start -->
+    <!-- Our Faqs Section Start -->
     <div class="our-faqs">
         <div class="container">
             <div class="row align-items-center">
@@ -615,27 +549,27 @@ $displayHomeFaqs = !empty($homeFaqs) ? $homeFaqs : [
                                 $faqBtnClass = $faqIndex === 0 ? 'accordion-button' : 'accordion-button collapsed';
                                 $faqExpanded = $faqIndex === 0 ? 'true' : 'false';
                             ?>
-                            <div class="accordion-item wow fadeInUp"<?php if ($faqDelay > 0): ?> data-wow-delay="<?php echo number_format($faqDelay, 1); ?>s"<?php endif; ?>>
-                                <h2 class="accordion-header" id="heading<?php echo $faqNum; ?>">
-                                    <button class="<?php echo $faqBtnClass; ?>"
-                                        type="button"
-                                        data-bs-toggle="collapse"
-                                        data-bs-target="#collapse<?php echo $faqNum; ?>"
-                                        aria-expanded="<?php echo $faqExpanded; ?>"
-                                        aria-controls="collapse<?php echo $faqNum; ?>">
-                                        <?php echo $faqNum . '. ' . htmlspecialchars($faqItem['question']); ?>
-                                    </button>
-                                </h2>
-                                <div id="collapse<?php echo $faqNum; ?>"
-                                    class="accordion-collapse collapse <?php echo $faqCollapseClass; ?>"
-                                    role="region"
-                                    aria-labelledby="heading<?php echo $faqNum; ?>"
-                                    data-bs-parent="#accordion">
-                                    <div class="accordion-body">
-                                        <p><?php echo htmlspecialchars($faqItem['answer']); ?></p>
+                                <div class="accordion-item wow fadeInUp" <?php if ($faqDelay > 0): ?> data-wow-delay="<?php echo number_format($faqDelay, 1); ?>s" <?php endif; ?>>
+                                    <h2 class="accordion-header" id="heading<?php echo $faqNum; ?>">
+                                        <button class="<?php echo $faqBtnClass; ?>"
+                                            type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#collapse<?php echo $faqNum; ?>"
+                                            aria-expanded="<?php echo $faqExpanded; ?>"
+                                            aria-controls="collapse<?php echo $faqNum; ?>">
+                                            <?php echo $faqNum . '. ' . htmlspecialchars($faqItem['question']); ?>
+                                        </button>
+                                    </h2>
+                                    <div id="collapse<?php echo $faqNum; ?>"
+                                        class="accordion-collapse collapse <?php echo $faqCollapseClass; ?>"
+                                        role="region"
+                                        aria-labelledby="heading<?php echo $faqNum; ?>"
+                                        data-bs-parent="#accordion">
+                                        <div class="accordion-body">
+                                            <p><?php echo htmlspecialchars($faqItem['answer']); ?></p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                             <?php endforeach; ?>
 
                         </div>

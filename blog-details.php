@@ -1,5 +1,6 @@
 <?php
 require_once('admin/db/config.php');
+require_once('fetch-all.php');
 
 $blogId = isset($_GET['id']) ? intval($_GET['id']) : 0;
 $blog = null;
@@ -76,7 +77,7 @@ if ($blogImage && $blogImage !== 'images/post-1.jpg' && !file_exists($blogImage)
     require_once('includes/header.php');
     ?>
     <!-- Page Header Section Start -->
-    <div class="page-header parallaxie">
+   <div class="page-header parallaxie" style="background: url('<?= htmlspecialchars($bannerImage) ?>') no-repeat;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
