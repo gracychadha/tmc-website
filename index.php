@@ -15,7 +15,7 @@ require_once('fetch-all.php');
     <!-- Page Title -->
     <title>Welcome to Tee Mac Corporation</title>
     <!-- Favicon Icon -->
-    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
+     <link rel="icon" type="image/png" href="<?= htmlspecialchars($favicon) ?>">
     <!-- Google Fonts Css-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
@@ -49,185 +49,83 @@ require_once('fetch-all.php');
     ?>
 
 
-    <!-- Hero Section Start -->
-    <div class="hero dark-section parallaxie">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <!-- Hero Box Start -->
-                    <div class="hero-box">
-                        <!-- Hero Content Start -->
-                        <div class="hero-content">
-                            <!-- Hero Sub Heading Start -->
-                            <div class="hero-sub-heading wow fadeInUp">
-
-
-                                <!-- Satisfy Client Content Start -->
-                                <div class="satisfy-client-content">
-                                    <p>EVENTS • EXPERIENCES • CONNECTIONS</p>
-                                </div>
-                                <!-- Satisfy Client Content End -->
+   <!-- Hero Section Start -->
+<div class="hero dark-section parallaxie" style="background-image: url('<?= htmlspecialchars($heroBgImage) ?>');">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- Hero Box Start -->
+                <div class="hero-box">
+                    <!-- Hero Content Start -->
+                    <div class="hero-content">
+                        <!-- Hero Sub Heading Start -->
+                        <div class="hero-sub-heading wow fadeInUp">
+                            <!-- Satisfy Client Content Start -->
+                            <div class="satisfy-client-content">
+                                <p><?= htmlspecialchars($displayHero['sub_title']) ?></p>
                             </div>
-                            <!-- Hero Sub Heading Start -->
-
-                            <!-- Section Title Start -->
-                            <div class="section-title">
-                                <h1 class="text-anime-style-3" data-cursor="-opaque">We Create Events That People Remember.</h1>
-                                <p class="wow fadeInUp" data-wow-delay="0.2s">From medical conferences and corporate events to workshops, branded experiences, and live gatherings, we bring together the right people, ideas, and experiences to make every event impactful.</p>
-                            </div>
-                            <!-- Section Title End -->
-
-                            <!-- Hero Content Body Start -->
-                            <div class="hero-content-body wow fadeInUp" data-wow-delay="0.4s">
-                                <!-- Hero Button Start -->
-                                <div class="hero-btn">
-                                    <a href="about-us.php" class="btn-default btn-highlighted">Explore More</a>
-                                </div>
-                                <!-- Hero Button End -->
-
-                                <!-- Video Play Button Start -->
-                                <!-- <div class="video-play-button">
-                                    <a href="https://www.youtube.com/watch?v=Y-x0efG1seA" class="popup-video" data-cursor-text="Play">
-                                        <i class="fa-solid fa-play"></i>
-                                    </a>
-                                    <h3>Watch Video</h3>
-                                </div> -->
-                                <!-- Video Play Button End -->
-                            </div>
-                            <!-- Hero Content Body End -->
+                            <!-- Satisfy Client Content End -->
                         </div>
-                        <!-- Hero Content End -->
+                        <!-- Hero Sub Heading End -->
 
+                        <!-- Section Title Start -->
+                        <div class="section-title">
+                            <h1 class="text-anime-style-3" data-cursor="-opaque">
+                                <?= htmlspecialchars($displayHero['main_title']) ?>
+                            </h1>
+                            <p class="wow fadeInUp" data-wow-delay="0.2s">
+                                <?= nl2br(htmlspecialchars(strip_tags($displayHero['description']))) ?>
+                            </p>
+                        </div>
+                        <!-- Section Title End -->
 
+                        <!-- Hero Content Body Start -->
+                        <div class="hero-content-body wow fadeInUp" data-wow-delay="0.4s">
+                            <!-- Hero Button Start -->
+                            <div class="hero-btn">
+                                <a href="about-us.php" class="btn-default btn-highlighted">Explore More</a>
+                            </div>
+                            <!-- Hero Button End -->
+
+                            <!-- Video Play Button Start -->
+                            <!-- <div class="video-play-button">
+                                <a href="https://www.youtube.com/watch?v=Y-x0efG1seA" class="popup-video" data-cursor-text="Play">
+                                    <i class="fa-solid fa-play"></i>
+                                </a>
+                                <h3>Watch Video</h3>
+                            </div> -->
+                            <!-- Video Play Button End -->
+                        </div>
+                        <!-- Hero Content Body End -->
                     </div>
-                    <!-- Hero Box End -->
+                    <!-- Hero Content End -->
                 </div>
+                <!-- Hero Box End -->
             </div>
         </div>
     </div>
-    <!-- Hero Section End -->
+</div>
+<!-- Hero Section End -->
 
     <!-- Scrolling Ticker Section Start -->
     <div class="our-scrolling-ticker">
         <!-- Scrolling Ticker Start -->
         <div class="scrolling-ticker-box">
 
+            <!-- First Content Block -->
             <div class="scrolling-content">
-
-                <span>
-                    <img src="images/icon-asterisk.svg" alt="">
-                    Medical Events
-                </span>
-
-                <span>
-                    <img src="images/icon-asterisk.svg" alt="">
-                    Conferences
-                </span>
-
-                <span>
-                    <img src="images/icon-asterisk.svg" alt="">
-                    Corporate Events
-                </span>
-
-                <span>
-                    <img src="images/icon-asterisk.svg" alt="">
-                    Workshops
-                </span>
-
-                <span>
-                    <img src="images/icon-asterisk.svg" alt="">
-                    Branded Events
-                </span>
-
-                <span>
-                    <img src="images/icon-asterisk.svg" alt="">
-                    Event Management
-                </span>
-
-                <span>
-                    <img src="images/icon-asterisk.svg" alt="">
-                    Event Logistics
-                </span>
-
-                <span>
-                    <img src="images/icon-asterisk.svg" alt="">
-                    Venue Management
-                </span>
-
-                <span>
-                    <img src="images/icon-asterisk.svg" alt="">
-                    Audio Visual Solutions
-                </span>
-
-                <span>
-                    <img src="images/icon-asterisk.svg" alt="">
-                    Seamless Experiences
-                </span>
-
+                <?= $tickerHtml ?>
             </div>
 
-
             <!-- Duplicate for seamless scrolling -->
-
             <div class="scrolling-content">
-
-                <span>
-                    <img src="images/icon-asterisk.svg" alt="">
-                    Medical Events
-                </span>
-
-                <span>
-                    <img src="images/icon-asterisk.svg" alt="">
-                    Conferences
-                </span>
-
-                <span>
-                    <img src="images/icon-asterisk.svg" alt="">
-                    Corporate Events
-                </span>
-
-                <span>
-                    <img src="images/icon-asterisk.svg" alt="">
-                    Workshops
-                </span>
-
-                <span>
-                    <img src="images/icon-asterisk.svg" alt="">
-                    Branded Events
-                </span>
-
-                <span>
-                    <img src="images/icon-asterisk.svg" alt="">
-                    Event Management
-                </span>
-
-                <span>
-                    <img src="images/icon-asterisk.svg" alt="">
-                    Event Logistics
-                </span>
-
-                <span>
-                    <img src="images/icon-asterisk.svg" alt="">
-                    Venue Management
-                </span>
-
-                <span>
-                    <img src="images/icon-asterisk.svg" alt="">
-                    Audio Visual Solutions
-                </span>
-
-                <span>
-                    <img src="images/icon-asterisk.svg" alt="">
-                    Seamless Experiences
-                </span>
-
+                <?= $tickerHtml ?>
             </div>
 
         </div>
         <!-- Scrolling Ticker End -->
     </div>
     <!-- Scrolling Ticker Section End -->
-
     <!-- About Us Section Start -->
     <div class="about-us-metal">
         <div class="container">
@@ -243,8 +141,8 @@ require_once('fetch-all.php');
                             <!-- About Us Image Start -->
                             <div class="about-us-image-metal">
                                 <figure class="image-anime">
-                                    <img src="images/about-us-image-1-metal.jpg"
-                                        alt="Eventful Event Management">
+                                    <img src="<?= htmlspecialchars($aboutImage1) ?>"
+                                        alt="<?= htmlspecialchars($displayAboutMetal['sub_title']) ?>">
                                 </figure>
                             </div>
                             <!-- About Us Image End -->
@@ -253,7 +151,7 @@ require_once('fetch-all.php');
                             <div class="contact-us-circle-metal">
                                 <a href="contact-us.php">
                                     <img src="images/contact-us-circle-metal.svg"
-                                        alt="Contact Eventful">
+                                        alt="Contact Tee Mac">
                                 </a>
                             </div>
                             <!-- Contact Us Circle End -->
@@ -268,7 +166,7 @@ require_once('fetch-all.php');
                             <!-- About Us Image Start -->
                             <div class="about-us-image-metal">
                                 <figure class="image-anime">
-                                    <img src="images/about-us-image-2-metal.jpg"
+                                    <img src="<?= htmlspecialchars($aboutImage2) ?>"
                                         alt="Event Conference Management">
                                 </figure>
                             </div>
@@ -291,29 +189,19 @@ require_once('fetch-all.php');
                         <div class="section-title">
 
                             <h3 class="wow fadeInUp">
-                                About Tee Mac Corporation
+                                <?= htmlspecialchars($displayAboutMetal['sub_title']) ?>
                             </h3>
 
-                            <h2 class="text-anime-style-3"
-                                data-cursor="-opaque">
-                                Creating meaningful events that bring people, ideas and experiences together
+                            <h2 class="text-anime-style-3" data-cursor="-opaque">
+                                <?= htmlspecialchars($displayAboutMetal['title']) ?>
                             </h2>
 
                             <p class="wow fadeInUp text-justify" data-wow-delay="0.2s">
-                                Tee Mac Corporation is a professional event management company
-                                dedicated to creating impactful and memorable experiences.
-                                From medical conferences and corporate events to workshops,
-                                seminars and branded experiences, we bring together
-                                creativity, strategy and seamless execution.
+                                <?= nl2br(htmlspecialchars(strip_tags($displayAboutMetal['content']))) ?>
                             </p>
 
-                            <p class="wow fadeInUp text-justify" data-wow-delay="0.2s">
-                                From planning and venue management to event logistics,
-                                production, audio-visual solutions and on-ground execution,
-                                our team takes care of every detail. We work closely with
-                                our clients to understand their objectives and deliver
-                                experiences that connect audiences, strengthen brands and
-                                leave a lasting impression.
+                            <p class="wow fadeInUp text-justify" data-wow-delay="0.3s">
+                                <?= nl2br(htmlspecialchars(strip_tags($displayAboutMetal['benefits']))) ?>
                             </p>
 
                         </div>
@@ -321,8 +209,7 @@ require_once('fetch-all.php');
 
 
                         <!-- About Us Client Box Start -->
-                        <div class="about-us-client-box-metal wow fadeInUp"
-                            data-wow-delay="0.6s">
+                        <div class="about-us-client-box-metal wow fadeInUp" data-wow-delay="0.6s">
 
                             <!-- About Client Content Start -->
                             <div class="about-client-content-metal">
@@ -338,29 +225,25 @@ require_once('fetch-all.php');
 
                                 <div class="satisfy-client-image">
                                     <figure class="image-anime">
-                                        <img src="images/author-1.jpg"
-                                            alt="Event Attendee">
+                                        <img src="images/author-1.jpg" alt="Event Attendee">
                                     </figure>
                                 </div>
 
                                 <div class="satisfy-client-image">
                                     <figure class="image-anime">
-                                        <img src="images/author-2.jpg"
-                                            alt="Conference Attendee">
+                                        <img src="images/author-2.jpg" alt="Conference Attendee">
                                     </figure>
                                 </div>
 
                                 <div class="satisfy-client-image">
                                     <figure class="image-anime">
-                                        <img src="images/author-3.jpg"
-                                            alt="Corporate Event">
+                                        <img src="images/author-3.jpg" alt="Corporate Event">
                                     </figure>
                                 </div>
 
                                 <div class="satisfy-client-image">
                                     <figure class="image-anime">
-                                        <img src="images/author-4.jpg"
-                                            alt="Event Experience">
+                                        <img src="images/author-4.jpg" alt="Event Experience">
                                     </figure>
                                 </div>
 
@@ -378,8 +261,7 @@ require_once('fetch-all.php');
 
 
                         <!-- About Us Footer Start -->
-                        <div class="about-us-footer-metal wow fadeInUp"
-                            data-wow-delay="0.8s">
+                        <div class="about-us-footer-metal wow fadeInUp" data-wow-delay="0.8s">
 
                             <!-- About Us Btn Start -->
                             <div class="about-us-btn-metal">
@@ -394,8 +276,7 @@ require_once('fetch-all.php');
                             <div class="about-email-box-metal">
 
                                 <div class="icon-box">
-                                    <img src="images/icon-email.svg"
-                                        alt="Email">
+                                    <img src="images/icon-email.svg" alt="Email">
                                 </div>
 
                                 <div class="about-email-box-content-metal">
@@ -405,9 +286,8 @@ require_once('fetch-all.php');
                                     </h3>
 
                                     <p>
-                                        <a href="mailto:info@eventful.co.in"
-                                            target="_blank">
-                                            info@eventful.co.in
+                                        <a href="mailto:info@teemaccorp.com" target="_blank">
+                                            info@teemaccorp.com
                                         </a>
                                     </p>
 
@@ -456,82 +336,78 @@ require_once('fetch-all.php');
             <div class="row">
                 <div class="col-lg-12">
 
-                    <!-- Services Slider Start -->
-                    <div class="feature-slider-metal wow fadeInUp" data-wow-delay="0.2s">
+                  <!-- Services Slider Start -->
+<div class="feature-slider-metal wow fadeInUp" data-wow-delay="0.2s">
 
-                        <div class="swiper">
+    <div class="swiper">
 
-                            <div class="swiper-wrapper" data-cursor-text="Drag">
+        <div class="swiper-wrapper" data-cursor-text="Drag">
 
-                                <?php foreach ($displayHomeServices as $index => $service): ?>
-                                    <?php
+            <?php foreach ($displayHomeServices as $index => $service): ?>
+                <?php
+                // Zero-padded number: 01, 02, 03...
+                $serviceNo = str_pad($index + 1, 2, '0', STR_PAD_LEFT);
 
-                                    $serviceNo = str_pad($index + 1, 2, '0', STR_PAD_LEFT);
+                // Resolve icon — use DB column if exists, else fallback pattern
+                $iconPath = !empty($service['icon']) 
+                    ? $service['icon'] 
+                    : 'images/icon-service-' . ($index + 1) . '-metal.svg';
+                ?>
 
+                <!-- <?= htmlspecialchars($service['title']) ?> Start -->
+                <div class="swiper-slide">
 
-                                    $iconPath = !empty($service['icon'])
-                                        ? $service['icon']
-                                        : 'images/icon-service-' . ($index + 1) . '-metal.svg';
+                    <div class="feature-item-metal box-bg-shape">
 
-                                    // Resolve link — use slug/id if available, else default
-                                    $serviceLink = !empty($service['slug'])
-                                        ? 'service/' . $service['slug']
-                                        : 'our-features.php?id=' . $service['idservices'];
-                                    ?>
+                        <div class="feature-item-content-metal">
 
-                                    <!-- <?= htmlspecialchars($service['title']) ?> Start -->
-                                    <div class="swiper-slide">
+                            <div class="feature-item-header-metal">
 
-                                        <div class="feature-item-metal box-bg-shape">
+                                <div class="feature-item-title-metal">
+                                    <h3><?= htmlspecialchars($service['title']) ?></h3>
+                                </div>
 
-                                            <div class="feature-item-content-metal">
-
-                                                <div class="feature-item-header-metal">
-
-                                                    <div class="feature-item-title-metal">
-                                                        <h3><?= htmlspecialchars($service['title']) ?></h3>
-                                                    </div>
-
-                                                    <div class="feature-item-no-metal">
-                                                        <h4><?= $serviceNo ?>.</h4>
-                                                    </div>
-
-                                                </div>
-
-                                                <div class="feature-item-body-metal">
-                                                    <p>
-                                                        <?= nl2br(htmlspecialchars(strip_tags($service['description']))) ?>
-                                                    </p>
-                                                </div>
-
-                                            </div>
-
-                                            <div class="feature-item-btn-metal">
-                                                <a href="<?= htmlspecialchars($serviceLink) ?>" class="readmore-btn">
-                                                    Explore Service
-                                                </a>
-                                            </div>
-
-                                            <div class="feature-item-icon-metal">
-                                                <img src="<?= htmlspecialchars($iconPath) ?>"
-                                                    alt="<?= htmlspecialchars($service['title']) ?>">
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-                                    <!-- <?= htmlspecialchars($service['title']) ?> End -->
-
-                                <?php endforeach; ?>
+                                <div class="feature-item-no-metal">
+                                    <h4><?= $serviceNo ?>.</h4>
+                                </div>
 
                             </div>
 
-                            <div class="feature-pagination-metal"></div>
+                            <div class="feature-item-body-metal">
+                                <p>
+                                    <?= nl2br(htmlspecialchars(strip_tags($service['description']))) ?>
+                                </p>
+                            </div>
 
                         </div>
 
+                        <div class="feature-item-btn-metal">
+                            <!-- Link changed to contact-us.php -->
+                            <a href="contact-us.php" class="readmore-btn">
+                                Contact Us
+                            </a>
+                        </div>
+
+                        <div class="feature-item-icon-metal">
+                            <img src="<?= htmlspecialchars($iconPath) ?>"
+                                alt="<?= htmlspecialchars($service['title']) ?>">
+                        </div>
+
                     </div>
-                    <!-- Services Slider End -->
+
+                </div>
+                <!-- <?= htmlspecialchars($service['title']) ?> End -->
+
+            <?php endforeach; ?>
+
+        </div>
+
+        <div class="feature-pagination-metal"></div>
+
+    </div>
+
+</div>
+<!-- Services Slider End -->
 
                 </div>
             </div>
@@ -555,57 +431,26 @@ require_once('fetch-all.php');
                         <div class="section-title">
 
                             <h3 class="wow fadeInUp">
-                                Why Choose Eventful
+                                <?= htmlspecialchars($displayWhy['sub_title']) ?>
                             </h3>
 
-                            <h2 class="text-anime-style-3"
-                                data-cursor="-opaque">
-                                Everything you need to create an event that truly makes an impact
+                            <h2 class="text-anime-style-3" data-cursor="-opaque">
+                                <?= htmlspecialchars($displayWhy['title']) ?>
                             </h2>
 
-                            <p class="wow fadeInUp" data-wow-delay="0.2s">
-                                We combine strategic planning, creative thinking and
-                                seamless execution to deliver events that meet your
-                                objectives and create meaningful experiences for
-                                every attendee.
-                            </p>
+                            <!-- Content from DB (contains HTML tags like <p>) -->
+                            <div class="wow fadeInUp" data-wow-delay="0.2s">
+                                <?= $displayWhy['content'] ?>
+                            </div>
 
                         </div>
                         <!-- Section Title End -->
 
 
                         <!-- Key Benefits List Start -->
-                        <div class="key-benefits-list-gold wow fadeInUp"
-                            data-wow-delay="0.4s">
-
-                            <ul>
-
-                                <li>
-                                    End-to-end event planning and execution
-                                </li>
-
-                                <li>
-                                    Experienced team for conferences, medical and corporate events
-                                </li>
-
-                                <li>
-                                    Seamless venue, logistics and on-ground coordination
-                                </li>
-
-                                <li>
-                                    Professional audio-visual and production support
-                                </li>
-
-                                <li>
-                                    Creative solutions tailored to your event objectives
-                                </li>
-
-                                <li>
-                                    Dedicated support from planning to completion
-                                </li>
-
-                            </ul>
-
+                        <!-- Benefits from DB (contains HTML tags like <ul>) -->
+                        <div class="key-benefits-list-gold wow fadeInUp" data-wow-delay="0.4s">
+                            <?= $displayWhy['benefits'] ?>
                         </div>
                         <!-- Key Benefits List End -->
 
@@ -622,24 +467,19 @@ require_once('fetch-all.php');
 
                         <!-- Our Benefits Image Start -->
                         <div class="our-benefits-img image-1">
-
                             <figure class="image-anime reveal">
-                                <img src="images/our-benefits-image-1.jpg"
-                                    alt="Eventful Event Experience">
+                                <img src="<?= htmlspecialchars($benefitsImage1) ?>"
+                                    alt="<?= htmlspecialchars($displayWhy['sub_title']) ?>">
                             </figure>
-
                         </div>
                         <!-- Our Benefits Image End -->
 
-
                         <!-- Our Benefits Image Start -->
                         <div class="our-benefits-img image-2">
-
                             <figure class="image-anime reveal">
-                                <img src="images/our-benefits-image-2.jpg"
-                                    alt="Event Management and Conference">
+                                <img src="<?= htmlspecialchars($benefitsImage2) ?>"
+                                    alt="<?= htmlspecialchars($displayWhy['title']) ?>">
                             </figure>
-
                         </div>
                         <!-- Our Benefits Image End -->
 
@@ -652,7 +492,6 @@ require_once('fetch-all.php');
         </div>
     </div>
     <!-- Our Benefits Section End -->
-
 
     <!-- Our Event Section Start -->
     <div class="our-event-gold dark-section">
@@ -847,71 +686,46 @@ require_once('fetch-all.php');
 
 
                     <!-- Intro Video Counter List Start -->
-                    <div class="intro-video-counter-list-metal wow fadeInUp"
-                        data-wow-delay="0.2s">
+                    <div class="intro-video-counter-list-metal wow fadeInUp" data-wow-delay="0.2s">
 
                         <!-- Counter Item Start -->
                         <div class="intro-video-item-metal">
-
                             <h2>
-                                <span class="counter">4</span>+
+                                <span class="counter"><?= htmlspecialchars($displayCounters['counter1']) ?></span>+
                             </h2>
-
-                            <p>
-                                Years of Experience
-                            </p>
-
+                            <p><?= htmlspecialchars($displayCounters['title1']) ?></p>
                         </div>
                         <!-- Counter Item End -->
 
-
                         <!-- Counter Item Start -->
                         <div class="intro-video-item-metal">
-
                             <h2>
-                                <span class="counter">50</span>+
+                                <span class="counter"><?= htmlspecialchars($displayCounters['counter2']) ?></span>+
                             </h2>
-
-                            <p>
-                                National Conferences
-                            </p>
-
+                            <p><?= htmlspecialchars($displayCounters['title2']) ?></p>
                         </div>
                         <!-- Counter Item End -->
 
-
                         <!-- Counter Item Start -->
                         <div class="intro-video-item-metal">
-
                             <h2>
-                                <span class="counter">100</span>+
+                                <span class="counter"><?= htmlspecialchars($displayCounters['counter3']) ?></span>+
                             </h2>
-
-                            <p>
-                                Online Meetups
-                            </p>
-
+                            <p><?= htmlspecialchars($displayCounters['title3']) ?></p>
                         </div>
                         <!-- Counter Item End -->
 
-
                         <!-- Counter Item Start -->
                         <div class="intro-video-item-metal">
-
                             <h2>
-                                <span class="counter">20</span>+
+                                <span class="counter"><?= htmlspecialchars($displayCounters['counter4']) ?></span>+
                             </h2>
-
-                            <p>
-                                Live Surgeries
-                            </p>
-
+                            <p><?= htmlspecialchars($displayCounters['title4']) ?></p>
                         </div>
                         <!-- Counter Item End -->
 
                     </div>
                     <!-- Intro Video Counter List End -->
-
                 </div>
             </div>
         </div>

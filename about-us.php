@@ -38,7 +38,7 @@ $displayHomeFaqs = !empty($homeFaqs) ? $homeFaqs : [
     <!-- Page Title -->
     <title>About Us - Tee Mac Corporation</title>
     <!-- Favicon Icon -->
-    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
+     <link rel="icon" type="image/png" href="<?= htmlspecialchars($favicon) ?>">
     <!-- Google Fonts Css-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
@@ -89,138 +89,188 @@ $displayHomeFaqs = !empty($homeFaqs) ? $homeFaqs : [
             </div>
         </div>
     </div>
-    <!-- Page Header Section End -->
-    <div class="about-us">
-        <div class="container">
-            <div class="row align-items-center">
+      <!-- About Us Section Start -->
+<div class="about-us-metal">
+    <div class="container">
+        <div class="row align-items-center">
 
-                <div class="col-xl-6">
-                    <!-- About Us Image Box Start -->
-                    <div class="about-us-image-box wow fadeInUp">
+            <div class="col-xl-5">
+                <!-- About Us Image Box Start -->
+                <div class="about-us-image-box-metal wow fadeInUp" data-wow-delay="0.2s">
 
-                        <!-- About Image Circle Box Start -->
-                        <div class="about-image-circle-box">
+                    <!-- About Us Image Box-1 Start -->
+                    <div class="about-us-image-box-1-metal">
 
-                            <!-- About Us Image Start -->
-                            <div class="about-us-image">
+                        <!-- About Us Image Start -->
+                        <div class="about-us-image-metal">
+                            <figure class="image-anime">
+                                <img src="<?= htmlspecialchars($aboutImage1) ?>"
+                                    alt="<?= htmlspecialchars($displayAboutMetal['sub_title']) ?>">
+                            </figure>
+                        </div>
+                        <!-- About Us Image End -->
+
+                        <!-- Contact Us Circle Start -->
+                        <div class="contact-us-circle-metal">
+                            <a href="contact-us.php">
+                                <img src="images/contact-us-circle-metal.svg"
+                                    alt="Contact Tee Mac">
+                            </a>
+                        </div>
+                        <!-- Contact Us Circle End -->
+
+                    </div>
+                    <!-- About Us Image Box-1 End -->
+
+
+                    <!-- About Us Image Box-2 Start -->
+                    <div class="about-us-image-box-2-metal">
+
+                        <!-- About Us Image Start -->
+                        <div class="about-us-image-metal">
+                            <figure class="image-anime">
+                                <img src="<?= htmlspecialchars($aboutImage2) ?>"
+                                    alt="Event Conference Management">
+                            </figure>
+                        </div>
+                        <!-- About Us Image End -->
+
+                    </div>
+                    <!-- About Us Image Box-2 End -->
+
+                </div>
+                <!-- About Us Image Box End -->
+            </div>
+
+
+            <div class="col-xl-7">
+
+                <!-- About us Content Start -->
+                <div class="about-us-content-metal">
+
+                    <!-- Section Title Start -->
+                    <div class="section-title">
+
+                        <h3 class="wow fadeInUp">
+                            <?= htmlspecialchars($displayAboutMetal['sub_title']) ?>
+                        </h3>
+
+                        <h2 class="text-anime-style-3" data-cursor="-opaque">
+                            <?= htmlspecialchars($displayAboutMetal['title']) ?>
+                        </h2>
+
+                        <p class="wow fadeInUp text-justify" data-wow-delay="0.2s">
+                            <?= nl2br(htmlspecialchars(strip_tags($displayAboutMetal['content']))) ?>
+                        </p>
+
+                        <p class="wow fadeInUp text-justify" data-wow-delay="0.3s">
+                            <?= nl2br(htmlspecialchars(strip_tags($displayAboutMetal['benefits']))) ?>
+                        </p>
+
+                    </div>
+                    <!-- Section Title End -->
+
+
+                    <!-- About Us Client Box Start -->
+                    <div class="about-us-client-box-metal wow fadeInUp" data-wow-delay="0.6s">
+
+                        <!-- About Client Content Start -->
+                        <div class="about-client-content-metal">
+                            <h3>
+                                Delivering Experiences That Bring People Together
+                            </h3>
+                        </div>
+                        <!-- About Client Content End -->
+
+
+                        <!-- Satisfy Client Images Start -->
+                        <div class="satisfy-client-images">
+
+                            <div class="satisfy-client-image">
                                 <figure class="image-anime">
-                                    <img src="<?= htmlspecialchars($aboutImage) ?>" alt="<?= htmlspecialchars($displayAbout['title']) ?>">
+                                    <img src="images/author-1.jpg" alt="Event Attendee">
                                 </figure>
                             </div>
-                            <!-- About Us Image End -->
 
-                            <!-- Years Experience Circle Start -->
-                            <div class="years-experience-circle">
-                                <figure>
-                                    <img src="images/years-experience-circle.svg" alt="Years of Experience">
+                            <div class="satisfy-client-image">
+                                <figure class="image-anime">
+                                    <img src="images/author-2.jpg" alt="Conference Attendee">
                                 </figure>
-
-                                <!-- Years Experience Counter Box Start -->
-                                <div class="years-experience-counter-box">
-                                    <h2><span class="counter">25</span>+</h2>
-                                </div>
-                                <!-- Years Experience Counter Box End -->
-                            </div>
-                            <!-- Years Experience Circle End -->
-
-                        </div>
-                        <!-- About Image Circle Box End -->
-
-                        <!-- About Achievement Box Start -->
-                        <div class="about-achievement-box">
-
-                            <div class="about-achievement-box-header">
-
-                                <div class="about-achievement-image">
-                                    <figure>
-                                        <img src="<?= htmlspecialchars($aboutImage2) ?>" alt="<?= htmlspecialchars($displayAbout['title']) ?>">
-                                    </figure>
-                                </div>
-
-                                <div class="about-achievement-content">
-                                    <h3><?= htmlspecialchars($displayAbout['sub_title'] ?? 'Professional Medical Event Management') ?></h3>
-                                    <p>Chandigarh, India</p>
-                                </div>
-
                             </div>
 
-                            <div class="about-achievement-box-body">
-                                <h3>Creating Memorable & Successful Events</h3>
+                            <div class="satisfy-client-image">
+                                <figure class="image-anime">
+                                    <img src="images/author-3.jpg" alt="Corporate Event">
+                                </figure>
+                            </div>
+
+                            <div class="satisfy-client-image">
+                                <figure class="image-anime">
+                                    <img src="images/author-4.jpg" alt="Event Experience">
+                                </figure>
+                            </div>
+
+                            <div class="satisfy-client-image add-more">
+                                <h3>
+                                    <span class="counter">100</span>+
+                                </h3>
                             </div>
 
                         </div>
-                        <!-- About Achievement Box End -->
+                        <!-- Satisfy Client Images End -->
 
                     </div>
-                    <!-- About Us Image Box End -->
-                </div>
+                    <!-- About Us Client Box End -->
 
 
-                <div class="col-xl-6">
-                    <!-- About Us Content Start -->
-                    <div class="about-us-content">
+                    <!-- About Us Footer Start -->
+                    <div class="about-us-footer-metal wow fadeInUp" data-wow-delay="0.8s">
 
-                        <!-- Section Title Start -->
-                        <div class="section-title">
-
-                            <h3 class="wow fadeInUp"><?= htmlspecialchars($displayAbout['title']) ?></h3>
-
-                            <h2 class="text-anime-style-3" data-cursor="-opaque">
-                                <?= htmlspecialchars($displayAbout['sub_title']) ?>
-                            </h2>
-
-                            <p class="wow fadeInUp text-justify" data-wow-delay="0.2s">
-                                <?= strip_tags($displayAbout['content'], '<p><br><strong><em><ul><ol><li>') ?>
-                            </p>
-
-
-
-
+                        <!-- About Us Btn Start -->
+                        <div class="about-us-btn-metal">
+                            <a href="about-us.php" class="btn-default">
+                                Discover Our Story
+                            </a>
                         </div>
-                        <!-- Section Title End -->
+                        <!-- About Us Btn End -->
 
 
-                        <!-- About Us Footer Start -->
-                        <div class="about-us-footer wow fadeInUp" data-wow-delay="0.8s">
+                        <!-- About Email Box Start -->
+                        <div class="about-email-box-metal">
 
-                            <!-- About Us Button Start -->
-                            <div class="about-us-btn">
-                                <a href="contact-us.php" class="btn-default">
-                                    Contact Now
-                                </a>
+                            <div class="icon-box">
+                                <img src="images/icon-email.svg" alt="Email">
                             </div>
-                            <!-- About Us Button End -->
 
+                            <div class="about-email-box-content-metal">
 
-                            <!-- About Contact Box Start -->
-                            <div class="about-contact-box">
+                                <h3>
+                                    Plan Your Next Event
+                                </h3>
 
-                                <div class="icon-box">
-                                    <img src="images/icon-phone-white.svg" alt="Call Tee Mac">
-                                </div>
-
-                                <div class="about-contact-box-content">
-                                    <h3>Call Now!</h3>
-                                    <p>
-                                        <a href="tel:+917380015666">
-                                            +91 73800 15666
-                                        </a>
-                                    </p>
-                                </div>
+                                <p>
+                                    <a href="mailto:info@teemaccorp.com" target="_blank">
+                                        info@teemaccorp.com
+                                    </a>
+                                </p>
 
                             </div>
-                            <!-- About Contact Box End -->
 
                         </div>
-                        <!-- About Us Footer End -->
+                        <!-- About Email Box End -->
 
                     </div>
-                    <!-- About Us Content End -->
+                    <!-- About Us Footer End -->
+
                 </div>
+                <!-- About us Content End -->
 
             </div>
+
         </div>
     </div>
+</div>
+<!-- About Us Section End -->
 
     <!-- Our Approach Section Start -->
     <div class="our-approach dark-section">

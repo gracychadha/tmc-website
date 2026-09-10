@@ -243,15 +243,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
                                 <div class="row">
                                     <!-- Counter 1 -->
-                                    <div class="col-md-4 mb-3">
+                                    <div class="col-md-6 mb-3">
                                         <label for="counter_title1" class="form-label">Counter 1 Title</label>
                                         <input type="text" class="form-control" id="counter_title1" name="counter_title1" placeholder="e.g., Students Enrolled" value="<?php echo htmlspecialchars($counter_title1); ?>">
                                     </div>
-                                    <div class="col-md-4 mb-3">
+                                    <div class="col-md-6 mb-3">
                                         <label for="counter1" class="form-label">Counter 1 Value</label>
                                         <input type="number" class="form-control" id="counter1" name="counter1" placeholder="e.g., 5000" value="<?php echo $counter1; ?>">
                                     </div>
-                                    <div class="col-md-4 mb-3">
+                                    <!-- <div class="col-md-6 mb-3">
                                         <label for="icon1" class="form-label">Icon 1 (Image)</label>
                                        
                                         <input type="file" class="form-control" name="icon1" accept="image/*">
@@ -262,18 +262,18 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <small>Current file</small>
                                             </div>
                                         <?php endif; ?>
-                                    </div>
+                                    </div> -->
 
                                     <!-- Counter 2 -->
-                                    <div class="col-md-4 mb-3">
+                                    <div class="col-md-6 mb-3">
                                         <label for="counter_title2" class="form-label">Counter 2 Title</label>
                                         <input type="text" class="form-control" id="counter_title2" name="counter_title2" placeholder="e.g., Courses Offered" value="<?php echo htmlspecialchars($counter_title2); ?>">
                                     </div>
-                                    <div class="col-md-4 mb-3">
+                                    <div class="col-md-6 mb-3">
                                         <label for="counter2" class="form-label">Counter 2 Value</label>
                                         <input type="number" class="form-control" id="counter2" name="counter2" placeholder="e.g., 120" value="<?php echo $counter2; ?>">
                                     </div>
-                                    <div class="col-md-4 mb-3">
+                                    <!-- <div class="col-md-6 mb-3">
                                         <label for="icon2" class="form-label">Icon 2 (Image)</label>
                                        
                                         <input type="file" class="form-control" name="icon2" accept="image/*">
@@ -284,18 +284,18 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <small>Current file</small>
                                             </div>
                                         <?php endif; ?>
-                                    </div>
+                                    </div> -->
 
                                     <!-- Counter 3 -->
-                                    <div class="col-md-4 mb-3">
+                                    <div class="col-md-6 mb-3">
                                         <label for="counter_title3" class="form-label">Counter 3 Title</label>
                                         <input type="text" class="form-control" id="counter_title3" name="counter_title3" placeholder="e.g., Instructors" value="<?php echo htmlspecialchars($counter_title3); ?>">
                                     </div>
-                                    <div class="col-md-4 mb-3">
+                                    <div class="col-md-6 mb-3">
                                         <label for="counter3" class="form-label">Counter 3 Value</label>
                                         <input type="number" class="form-control" id="counter3" name="counter3" placeholder="e.g., 45" value="<?php echo $counter3; ?>">
                                     </div>
-                                    <div class="col-md-4 mb-3">
+                                    <!-- <div class="col-md-6 mb-3">
                                         <label for="icon3" class="form-label">Icon 3 (Image)</label>
                                        
                                         <input type="file" class="form-control" name="icon3" accept="image/*">
@@ -306,18 +306,18 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <small>Current file</small>
                                             </div>
                                         <?php endif; ?>
-                                    </div>
+                                    </div> -->
 
                                     <!-- Counter 4 -->
-                                    <div class="col-md-4 mb-3">
+                                    <div class="col-md-6 mb-3">
                                         <label for="counter_title4" class="form-label">Counter 4 Title</label>
                                         <input type="text" class="form-control" id="counter_title4" name="counter_title4" placeholder="e.g., Completion Rate" value="<?php echo htmlspecialchars($counter_title4); ?>">
                                     </div>
-                                    <div class="col-md-4 mb-3">
+                                    <div class="col-md-6 mb-3">
                                         <label for="counter4" class="form-label">Counter 4 Value</label>
                                         <input type="number" class="form-control" id="counter4" name="counter4" placeholder="e.g., 98" value="<?php echo $counter4; ?>">
                                     </div>
-                                    <div class="col-md-4 mb-3">
+                                    <!-- <div class="col-md-6 mb-3">
                                         <label for="icon4" class="form-label">Icon 4 (Image)</label>
                                         <input type="file" class="form-control" name="icon4" accept="image/*">
                                         
@@ -328,7 +328,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <small>Current file</small>
                                             </div>
                                         <?php endif; ?>
-                                    </div>
+                                    </div> -->
                                 </div>
 
                                 <div class="text-start mt-3">

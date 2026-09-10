@@ -1,6 +1,29 @@
 <?php
 require_once('admin/db/config.php');
 
+// hero
+// Fetch latest active hero from database
+$heroData = null;
+$stmtHero = $db->prepare("SELECT * FROM hero WHERE status = 1 ORDER BY idhero DESC LIMIT 1");
+$stmtHero->execute();
+$heroData = $stmtHero->get_result()->fetch_assoc();
+
+// Fallback data if database returns nothing
+$fallbackHero = [
+    'sub_title' => 'EVENTS • EXPERIENCES • CONNECTIONS',
+    'main_title' => 'We Create Events That People Remember.',
+    'description' => 'From medical conferences and corporate events to workshops, branded experiences, and live gatherings, we bring together the right people, ideas, and experiences to make every event impactful.',
+    'image' => 'hero-bg.jpg'
+];
+
+// Use DB results if available, otherwise fallback
+$displayHero = !empty($heroData) ? $heroData : $fallbackHero;
+
+// Prepare background image path
+$heroBgImage = !empty($displayHero['image']) ? 'admin/' . $displayHero['image'] : 'images/hero-bg.jpg';
+
+
+
 $homeBlogs = [];
 $stmtHomeBlogs = $db->prepare("SELECT * FROM blog WHERE status = 1 ORDER BY idblog DESC LIMIT 3");
 $stmtHomeBlogs->execute();
@@ -62,6 +85,113 @@ $fallbackHomeServices = [
 // Use DB results if available, otherwise fallback
 $displayHomeServices = !empty($homeServices) ? $homeServices : $fallbackHomeServices;
 
+// Ticker
+// Fetch active tickers from DB
+$tickers = [];
+$stmtTicker = $db->prepare("SELECT * FROM ticker WHERE status = 1 ORDER BY idticker ASC");
+$stmtTicker->execute();
+$tickers = $stmtTicker->get_result()->fetch_all(MYSQLI_ASSOC);
+
+// Fallback data if database returns nothing
+$fallbackTickers = [
+    ['title' => 'Medical Events'],
+    ['title' => 'Conferences'],
+    ['title' => 'Corporate Events'],
+    ['title' => 'Workshops'],
+    ['title' => 'Branded Events'],
+    ['title' => 'Event Management'],
+    ['title' => 'Event Logistics'],
+    ['title' => 'Venue Management'],
+    ['title' => 'Audio Visual Solutions'],
+    ['title' => 'Seamless Experiences']
+];
+
+// Use DB results if available, otherwise fallback
+$displayTickers = !empty($tickers) ? $tickers : $fallbackTickers;
+
+// Generate the HTML for the ticker items once
+$tickerHtml = '';
+foreach ($displayTickers as $item) {
+    $tickerHtml .= '
+    <span>
+        <img src="images/icon-asterisk.svg" alt="icon">
+        ' . htmlspecialchars($item['title']) . '
+    </span>';
+}
+
+// home about
+// Fetch about section data from database
+$aboutMetal = null;
+$stmtAboutMetal = $db->prepare("SELECT * FROM about_section WHERE id = 1 LIMIT 1");
+$stmtAboutMetal->execute();
+$aboutMetal = $stmtAboutMetal->get_result()->fetch_assoc();
+
+// Fallback data if database returns nothing
+$fallbackAboutMetal = [
+    'title' => 'Creating meaningful events that bring people, ideas and experiences together',
+    'sub_title' => 'About Tee Mac Corporation',
+    'content' => 'Tee Mac Corporation is a professional event management company dedicated to creating impactful and memorable experiences. From medical conferences and corporate events to workshops, seminars and branded experiences, we bring together creativity, strategy and seamless execution.',
+    'benefits' => 'From planning and venue management to event logistics, production, audio-visual solutions and on-ground execution, our team takes care of every detail. We work closely with our clients to understand their objectives and deliver experiences that connect audiences, strengthen brands and leave a lasting impression.',
+    'image' => 'about-us-image-1-metal.jpg',
+    'image2' => 'about-us-image-2-metal.jpg'
+];
+
+// Use DB results if available, otherwise fallback
+$displayAboutMetal = !empty($aboutMetal) ? $aboutMetal : $fallbackAboutMetal;
+
+// Prepare image paths
+$aboutImage1 = !empty($displayAboutMetal['image']) ? 'admin/about/' . $displayAboutMetal['image'] : 'images/about-us-image-1-metal.jpg';
+$aboutImage2 = !empty($displayAboutMetal['image2']) ? 'admin/about/' . $displayAboutMetal['image2'] : 'images/about-us-image-2-metal.jpg';
+
+// why choose us
+// Fetch data from why_choose_us table
+$whyChooseUs = null;
+$stmtWhy = $db->prepare("SELECT * FROM why_choose_us WHERE id = 1 LIMIT 1");
+$stmtWhy->execute();
+$whyChooseUs = $stmtWhy->get_result()->fetch_assoc();
+
+// Fallback data if database returns nothing
+$fallbackWhy = [
+    'sub_title' => 'Why Choose us',
+    'title' => 'Everything you need to create an event that truly makes an impact',
+    'content' => '<p>We combine strategic planning, creative thinking and seamless execution to deliver events that meet your objectives and create meaningful experiences for every attendee.</p>',
+    'benefits' => '<ul>
+        <li>End-to-end event planning and execution</li>
+        <li>Experienced team for conferences, medical and corporate events</li>
+        <li>Seamless venue, logistics and on-ground coordination</li>
+        <li>Professional audio-visual and production support</li>
+        <li>Creative solutions tailored to your event objectives</li>
+        <li>Dedicated support from planning to completion</li>
+    </ul>',
+    'image' => 'our-benefits-image-1.jpg',
+    'image2' => 'our-benefits-image-2.jpg'
+];
+
+// Use DB results if available, otherwise fallback
+$displayWhy = !empty($whyChooseUs) ? $whyChooseUs : $fallbackWhy;
+
+// Prepare image paths (adjust 'admin/' prefix based on your upload folder)
+$benefitsImage1 = !empty($displayWhy['image']) ? 'admin/why_choose/' . $displayWhy['image'] : 'images/our-benefits-image-1.jpg';
+$benefitsImage2 = !empty($displayWhy['image2']) ? 'admin/why_choose/' . $displayWhy['image2'] : 'images/our-benefits-image-2.jpg';
+
+
+// counter
+// Fetch counters data from database
+$counterData = null;
+$stmtCounters = $db->prepare("SELECT * FROM counters WHERE idcounters = 1 LIMIT 1");
+$stmtCounters->execute();
+$counterData = $stmtCounters->get_result()->fetch_assoc();
+
+// Fallback data if database returns nothing
+$fallbackCounters = [
+    'title1' => 'Years of Experience', 'counter1' => '4',
+    'title2' => 'National Conferences', 'counter2' => '50',
+    'title3' => 'Online Meetups', 'counter3' => '100',
+    'title4' => 'Live Surgeries', 'counter4' => '20'
+];
+
+// Use DB results if available, otherwise fallback
+$displayCounters = !empty($counterData) ? $counterData : $fallbackCounters;
 
 $homeFaqs = [];
 $stmtHomeFaqs = $db->prepare("SELECT * FROM faqs WHERE status = 1 ORDER BY faqs_id ASC LIMIT 5");
@@ -273,4 +403,113 @@ if (empty($achievementsItems) || !is_array($achievementsItems)) {
     ];
 }
 
+
+
+// footer details
+// Fetch company info from database
+$companyInfo = null;
+$stmtCompany = $db->prepare("SELECT * FROM company_info WHERE id = 1 LIMIT 1");
+$stmtCompany->execute();
+$companyInfo = $stmtCompany->get_result()->fetch_assoc();
+
+// Fallback data if database returns nothing
+$fallbackCompany = [
+    'name' => 'Tee Mac Corporation',
+    'about_company' => 'Experience professionally curated medical events designed to inspire innovation, empower healthcare professionals, and connect leaders from across the medical community.',
+    'address' => '355, 2nd Floor, SCO, Main Market, Sector 44D',
+    'city' => 'Chandigarh',
+    'state' => 'Chandigarh',
+    'country' => 'India',
+    'phone1' => '+91 73800 15666',
+    'phone2' => '',
+    'email' => 'info@teemac.co.in',
+    'fax_number' => ''
+];
+
+// Use DB results if available, otherwise fallback
+$displayCompany = !empty($companyInfo) ? $companyInfo : $fallbackCompany;
+
+// Build full address
+$fullAddress = array_filter([
+    $displayCompany['address'],
+    $displayCompany['city'],
+    $displayCompany['state'],
+    $displayCompany['country']
+]);
+$formattedAddress = implode(', ', $fullAddress);
+
+
+// social media
+// Fetch the single row of social links
+$stmtSocial = $db->prepare("SELECT * FROM social_link LIMIT 1");
+$stmtSocial->execute();
+$socialRow = $stmtSocial->get_result()->fetch_assoc();
+
+$displaySocialLinks = [];
+
+if ($socialRow) {
+    // 1. Facebook
+    if (!empty($socialRow['facebook'])) {
+        $displaySocialLinks[] = ['platform' => 'facebook', 'url' => $socialRow['facebook'], 'icon' => 'fab fa-facebook-f'];
+    }
+    
+    // 2. Instagram
+    if (!empty($socialRow['instagram'])) {
+        $displaySocialLinks[] = ['platform' => 'instagram', 'url' => $socialRow['instagram'], 'icon' => 'fa-brands fa-instagram'];
+    }
+    
+    // 3. Twitter / X 
+  $twitterUrl = $socialRow['twiter'] ?? $socialRow['twitter'] ?? $socialRow['twitter_url'] ?? '';
+if (!empty($twitterUrl)) {
+    $displaySocialLinks[] = [
+        'platform' => 'twitter', 
+        'url' => $twitterUrl, 
+        'icon' => 'fa-brands fa-x-twitter'
+    ];
+}
+    
+    // 4. LinkedIn
+    if (!empty($socialRow['linkedin'])) {
+        $displaySocialLinks[] = ['platform' => 'linkedin', 'url' => $socialRow['linkedin'], 'icon' => 'fa-brands fa-linkedin'];
+    }
+}
+
+// Fallback 
+if (empty($displaySocialLinks)) {
+    $displaySocialLinks = [
+        ['platform' => 'facebook', 'url' => 'https://facebook.com', 'icon' => 'fab fa-facebook-f'],
+        ['platform' => 'instagram', 'url' => 'https://instagram.com', 'icon' => 'fa-brands fa-instagram'],
+        ['platform' => 'twitter', 'url' => 'https://twitter.com', 'icon' => 'fa-brands fa-x-twitter'],
+        ['platform' => 'linkedin', 'url' => 'https://linkedin.com', 'icon' => 'fa-brands fa-linkedin']
+    ];
+}
+
+// logo
+// Fetch system settings from database
+$systemSettings = null;
+$stmtSettings = $db->prepare("SELECT * FROM system_setting WHERE id = 1 LIMIT 1");
+$stmtSettings->execute();
+$systemSettings = $stmtSettings->get_result()->fetch_assoc();
+
+// Fallback data if database returns nothing
+$fallbackSettings = [
+    'backpanel_logo' => 'backpanel.jpg',
+    'favicon' => 'tmc.png',
+    'black_image' => 'tmc.png',      // For light backgrounds
+    'white_image' => 'tmc.png',      // For dark backgrounds (footer)
+    'helpdesk' => '+91 98885 36653'
+];
+
+// Use DB results if available, otherwise fallback
+$displaySettings = !empty($systemSettings) ? $systemSettings : $fallbackSettings;
+
+// Determine which logo to use for footer (white_image for dark footer)
+$footerLogo = !empty($displaySettings['white_image']) ? 'admin/logo/' . $displaySettings['white_image'] : 'images/logo.svg';
+$siteLogo = !empty($displaySettings['black_image']) ? 'admin/logo/' . $displaySettings['black_image'] : 'images/logo.svg';
+$favicon = !empty($displaySettings['favicon']) ? 'admin/logo/' . $displaySettings['favicon'] : 'images/favicon.ico';
+
+
+
+
 ?>
+

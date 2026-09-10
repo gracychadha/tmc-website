@@ -64,7 +64,7 @@ $displayHomeServices = !empty($homeServices) ? $homeServices : $fallbackHomeServ
     <!-- Page Title -->
     <title>Our Features - Tee Mac Corporation</title>
     <!-- Favicon Icon -->
-    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
+     <link rel="icon" type="image/png" href="<?= htmlspecialchars($favicon) ?>">
     <!-- Google Fonts Css-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
@@ -131,9 +131,7 @@ $displayHomeServices = !empty($homeServices) ? $homeServices : $fallbackHomeServ
                     : 'images/icon-feature-item-' . ($index + 1) . '.svg';
 
                 // 3. Resolve link: use slug if available, otherwise fallback to ID param
-                $serviceLink = !empty($service['slug']) 
-                    ? 'service/' . $service['slug'] 
-                    : 'our-features.php?id=' . $service['idservices'];
+             
 
                 // 4. Clean description: strips HTML tags and converts newlines to <br>
                 $cleanDesc = nl2br(strip_tags($service['description']));
@@ -158,7 +156,7 @@ $displayHomeServices = !empty($homeServices) ? $homeServices : $fallbackHomeServ
                             </div>
 
                             <div class="feature-item-btn">
-                                <a href="<?= htmlspecialchars($serviceLink) ?>" class="readmore-btn">
+                                <a href="contact-us.php" class="readmore-btn">
                                     Contact Now
                                 </a>
                             </div>

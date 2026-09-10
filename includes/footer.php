@@ -24,12 +24,12 @@
                              <p>Stay informed with instant updates delivered straight to your inbox.</p>
                          </div>
 
-                        <form id="newslettersForm" method="POST">
-    <div class="form-group">
-        <input type="email" name="mail" class="form-control" id="mail" placeholder="Enter E-mail Address*" required>
-        <button type="submit" class="newsletter-btn"><i class="fa-regular fa-paper-plane"></i></button>
-    </div>
-</form>
+                         <form id="newslettersForm" method="POST">
+                             <div class="form-group">
+                                 <input type="email" name="mail" class="form-control" id="mail" placeholder="Enter E-mail Address*" required>
+                                 <button type="submit" class="newsletter-btn"><i class="fa-regular fa-paper-plane"></i></button>
+                             </div>
+                         </form>
                      </div>
                      <!-- Footer Newsletter Form End -->
                  </div>
@@ -40,22 +40,32 @@
                  <!-- About Footer Start -->
                  <div class="about-footer">
                      <div class="footer-logo">
-                         <img src="images/logo.svg" alt="">
+                         <!-- logo white -->
+                         <img src="<?= htmlspecialchars($footerLogo) ?>" alt="<?= htmlspecialchars($displayCompany['name']) ?>">
                      </div>
-
                      <!-- About Footer Content Start -->
                      <div class="about-footer-content">
-                         <p class="text-justify">Experience professionally curated medical events designed to inspire innovation, empower healthcare professionals, and connect leaders from across the medical community.</p>
+                         <p class="text-justify">
+                             <?= nl2br(htmlspecialchars(strip_tags($displayCompany['about_company']))) ?>
+                         </p>
                      </div>
                      <!-- About Footer Content End -->
 
                      <!-- Footer Social Icons Start -->
                      <div class="footer-social-icons">
                          <ul>
-                             <li><a href="#"><i class="fa-brands fa-pinterest-p"></i></a></li>
-                             <li><a href="#"><i class="fa-brands fa-x-twitter"></i></a></li>
-                             <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                             <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
+                             <?php foreach ($displaySocialLinks as $social): ?>
+                                 <?php
+                                    $platform = htmlspecialchars($social['platform'] ?? 'social');
+                                    $url = htmlspecialchars($social['url'] ?? '#');
+                                    $icon = htmlspecialchars($social['icon'] ?? 'fab fa-facebook-f');
+                                    ?>
+                                 <li>
+                                     <a href="<?= $url ?>" target="_blank" rel="noopener noreferrer" aria-label="<?= $platform ?>">
+                                         <i class="<?= $icon ?>"></i>
+                                     </a>
+                                 </li>
+                             <?php endforeach; ?>
                          </ul>
                      </div>
                      <!-- Footer Social Icons End -->
@@ -81,7 +91,6 @@
                      <div class="footer-links">
                          <h3>Schedules</h3>
                          <ul>
-                            
                              <li><a href="our-features.php">Our Features</a></li>
                              <li><a href="our-gallery.php">Our Gallery</a></li>
                              <li><a href="contact-us.php">Contact Us</a></li>
@@ -93,10 +102,33 @@
                      <div class="footer-links footer-contact-links">
                          <h3>Get In Touch</h3>
                          <ul>
-                             <li><a href="tel:+917380015666" target="_blank">+91 73800 15666</a></li>
-                             <li><a href="mailto:info@teemac.co.in" target="_blank">info@teemac.co.in</a></li>
+                             <?php if (!empty($displayCompany['phone1'])): ?>
+                                 <li>
+                                     <a href="tel:<?= preg_replace('/[^0-9+]/', '', $displayCompany['phone1']) ?>" target="_blank">
+                                         <?= htmlspecialchars($displayCompany['phone1']) ?>
+                                     </a>
+                                 </li>
+                             <?php endif; ?>
+
+                             <?php if (!empty($displayCompany['phone2'])): ?>
+                                 <li>
+                                     <a href="tel:<?= preg_replace('/[^0-9+]/', '', $displayCompany['phone2']) ?>" target="_blank">
+                                         <?= htmlspecialchars($displayCompany['phone2']) ?>
+                                     </a>
+                                 </li>
+                             <?php endif; ?>
+
+                             <?php if (!empty($displayCompany['email'])): ?>
+                                 <li>
+                                     <a href="mailto:<?= htmlspecialchars($displayCompany['email']) ?>" target="_blank">
+                                         <?= htmlspecialchars($displayCompany['email']) ?>
+                                     </a>
+                                 </li>
+                             <?php endif; ?>
                          </ul>
-                         <p>355, 2nd Floor, SCO, Main Market, Sector 44D, Sector 44, Chandigarh, 160043</p>
+                         <?php if (!empty($formattedAddress)): ?>
+                             <p><?= htmlspecialchars($formattedAddress) ?></p>
+                         <?php endif; ?>
                      </div>
                      <!-- Footer Links End -->
                  </div>
@@ -112,7 +144,7 @@
                  <div class="col-lg-12">
                      <!-- Footer Copyright Text Start -->
                      <div class="footer-copyright-text">
-                         <p> © <?php echo date('Y'); ?> |  <a href="index.php">Tee Mac Corporation</a></p>
+                         <p>© <?php echo date('Y'); ?> | <a href="index.php"><?= htmlspecialchars($displayCompany['name']) ?></a></p>
                      </div>
                      <!-- Footer Copyright Text End -->
                  </div>

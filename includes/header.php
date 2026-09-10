@@ -5,8 +5,9 @@
              <div class="container">
                  <!-- Logo Start -->
                  <a class="navbar-brand" href="index.php">
-                     <!-- <img src="images/logo.svg" alt="Logo"> -->
-                     <h4 class="" style="color: var(--accent-color);">Tee Mac Corporation</h4>
+                    <!-- logo black -->
+                     <img src="<?= htmlspecialchars($siteLogo) ?>" alt="Logo"> 
+                     <!-- <h4 class="" style="color: var(--accent-color);">Tee Mac Corporation</h4> -->
                  </a>
                  <!-- Logo End -->
 
