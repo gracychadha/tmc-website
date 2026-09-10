@@ -289,7 +289,7 @@ if ($stmt = $db->prepare($sqlfav)) {
                                 <tr>
                                     <th class="no-sort"><div class="form-check form-check-md"><input class="form-check-input" type="checkbox" id="select-all"></div></th>
                                     <th>Title</th>
-                                    <th>Image</th>
+                                    <!-- <th>Image</th> -->
                                     <th>Status</th>
                                     <th>Created Date</th>
                                     <th>Action</th>
@@ -304,7 +304,7 @@ if ($stmt = $db->prepare($sqlfav)) {
                                         <tr>
                                             <td><div class="form-check form-check-md"><input class="form-check-input delete-checkbox" type="checkbox" value="<?php echo $rowservices['idservices']; ?>"></div></td>
                                             <td><div class="d-flex align-items-center"><div class="ms-2"><p class="text-dark mb-0"><?php echo $rowservices['title']; ?></p></div></div></td>
-                                            <td><img src='<?php echo $imagePath; ?>' alt='services Image' style='max-width: 100px; max-height: 100px;'></td>
+                                            <!-- <td><img src='<?php echo $imagePath; ?>' alt='services Image' style='max-width: 100px; max-height: 100px;'></td> -->
                                             <td>
                                                 <?php if ($rowservices['status'] == 1) { ?>
                                                     <span class="badge badge-soft-success d-inline-flex align-items-center"><i class="ti ti-circle-filled fs-5 me-1"></i>Active</span>
@@ -363,7 +363,7 @@ if ($stmt = $db->prepare($sqlfav)) {
                             </div>
                         
                             <!-- Image upload -->
-                            <div class="col-md-6 mb-3">
+                            <!-- <div class="col-md-6 mb-3">
                                 <label class="form-label">Image (Optional)</label>
                                 <div class="d-flex align-items-center upload-pic flex-wrap row-gap-3">
                                     <div class="d-flex align-items-center justify-content-center avatar avatar-xxl border border-dashed me-2 flex-shrink-0 text-dark frames">
@@ -379,7 +379,7 @@ if ($stmt = $db->prepare($sqlfav)) {
                                         <p>Upload image size 4MB, Format JPG, PNG, SVG</p>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <!-- Description input -->
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                 <label for="title" class="form-label">Content *</label>
@@ -427,7 +427,7 @@ if ($stmt = $db->prepare($sqlfav)) {
                             </div>
                         
                             <!-- Image upload -->
-                            <div class="col-md-6 mb-3">
+                            <!-- <div class="col-md-6 mb-3">
                                 <label class="form-label">Image (Optional)</label>
                                 <div class="d-flex align-items-center upload-pic flex-wrap row-gap-3">
                                     <div class="d-flex align-items-center justify-content-center avatar avatar-xxl border border-dashed me-2 flex-shrink-0 text-dark frames">
@@ -443,7 +443,7 @@ if ($stmt = $db->prepare($sqlfav)) {
                                         <p>Upload image size 4MB, Format JPG, PNG, SVG</p>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <!-- Status input -->
                             <div class="col-md-6 modal-status-toggle d-flex align-items-center justify-content-between mb-4">
                                 <div class="status-title">

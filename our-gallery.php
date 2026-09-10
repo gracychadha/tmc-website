@@ -1,5 +1,6 @@
 <?php
 require_once('admin/db/config.php');
+require_once('fetch-all.php');
 
 $galleryImages = [];
 $stmtFetchGallery = $db->prepare("SELECT * FROM gallery WHERE status = 1 ORDER BY idgallery ASC");
@@ -65,7 +66,7 @@ $delays = ['0s', '0.2s', '0.4s', '0.6s', '0.8s', '1s', '1.2s', '1.4s', '1.6s'];
    ?>
 
     <!-- Page Header Section Start -->
-    <div class="page-header parallaxie">
+    <div class="page-header parallaxie" style="background: url('<?= htmlspecialchars($bannerImage) ?>') no-repeat;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">

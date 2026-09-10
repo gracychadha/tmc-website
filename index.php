@@ -1,34 +1,5 @@
 <?php
-require_once('admin/db/config.php');
-
-$homeBlogs = [];
-$stmtHomeBlogs = $db->prepare("SELECT * FROM blog WHERE status = 1 ORDER BY idblog DESC LIMIT 3");
-$stmtHomeBlogs->execute();
-$homeBlogs = $stmtHomeBlogs->get_result()->fetch_all(MYSQLI_ASSOC);
-
-$fallbackHomeBlogs = [
-    ['idblog' => '1', 'title' => 'Mastering Public Speaking: Expert Tips for Confident Presentations', 'image' => 'images/post-1.jpg', 'user' => 'Esther Howard', 'slug' => 'mastering-public-speaking'],
-    ['idblog' => '2', 'title' => 'Simple Self-Defense Skills Everyone Should Learn for Safety', 'image' => 'images/post-2.jpg', 'user' => 'Esther Howard', 'slug' => 'simple-self-defense-skills'],
-    ['idblog' => '3', 'title' => 'The Power of Networking: Building Connections That Last', 'image' => 'images/post-3.jpg', 'user' => 'Esther Howard', 'slug' => 'power-of-networking'],
-];
-
-$displayHomeBlogs = !empty($homeBlogs) ? $homeBlogs : $fallbackHomeBlogs;
-$homeBlogPrimary = $displayHomeBlogs[0] ?? $fallbackHomeBlogs[0];
-$homeBlogSecondary = array_slice($displayHomeBlogs, 1, 2);
-if (count($homeBlogSecondary) < 2) {
-    $homeBlogSecondary[] = $fallbackHomeBlogs[2] ?? $fallbackHomeBlogs[0];
-}
-
-$homeFaqs = [];
-$stmtHomeFaqs = $db->prepare("SELECT * FROM faqs WHERE status = 1 ORDER BY faqs_id ASC LIMIT 5");
-$stmtHomeFaqs->execute();
-$homeFaqs = $stmtHomeFaqs->get_result()->fetch_all(MYSQLI_ASSOC);
-
-$fallbackHomeFaqs = [
-    ['question' => 'No FAQ added', 'answer' => 'No FAQ added yet. Please add FAQs from the admin panel.'],
-];
-
-$displayHomeFaqs = !empty($homeFaqs) ? $homeFaqs : $fallbackHomeFaqs;
+require_once('fetch-all.php');
 ?>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -49,6 +20,7 @@ $displayHomeFaqs = !empty($homeFaqs) ? $homeFaqs : $fallbackHomeFaqs;
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
     <link href="../css2?family=Onest:wght@100..900&display=swap" rel="stylesheet">
+
     <!-- Bootstrap Css -->
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
     <!-- SlickNav Css -->
@@ -481,253 +453,76 @@ $displayHomeFaqs = !empty($homeFaqs) ? $homeFaqs : $fallbackHomeFaqs;
                 </div>
             </div>
 
-
             <div class="row">
                 <div class="col-lg-12">
 
                     <!-- Services Slider Start -->
-                    <div class="feature-slider-metal wow fadeInUp"
-                        data-wow-delay="0.2s">
+                    <div class="feature-slider-metal wow fadeInUp" data-wow-delay="0.2s">
 
                         <div class="swiper">
 
                             <div class="swiper-wrapper" data-cursor-text="Drag">
 
+                                <?php foreach ($displayHomeServices as $index => $service): ?>
+                                    <?php
 
-                                <!-- Medical Events Start -->
-                                <div class="swiper-slide">
+                                    $serviceNo = str_pad($index + 1, 2, '0', STR_PAD_LEFT);
 
-                                    <div class="feature-item-metal box-bg-shape">
 
-                                        <div class="feature-item-content-metal">
+                                    $iconPath = !empty($service['icon'])
+                                        ? $service['icon']
+                                        : 'images/icon-service-' . ($index + 1) . '-metal.svg';
 
-                                            <div class="feature-item-header-metal">
+                                    // Resolve link — use slug/id if available, else default
+                                    $serviceLink = !empty($service['slug'])
+                                        ? 'service/' . $service['slug']
+                                        : 'our-features.php?id=' . $service['idservices'];
+                                    ?>
 
-                                                <div class="feature-item-title-metal">
-                                                    <h3>Medical Events</h3>
+                                    <!-- <?= htmlspecialchars($service['title']) ?> Start -->
+                                    <div class="swiper-slide">
+
+                                        <div class="feature-item-metal box-bg-shape">
+
+                                            <div class="feature-item-content-metal">
+
+                                                <div class="feature-item-header-metal">
+
+                                                    <div class="feature-item-title-metal">
+                                                        <h3><?= htmlspecialchars($service['title']) ?></h3>
+                                                    </div>
+
+                                                    <div class="feature-item-no-metal">
+                                                        <h4><?= $serviceNo ?>.</h4>
+                                                    </div>
+
                                                 </div>
 
-                                                <div class="feature-item-no-metal">
-                                                    <h4>01.</h4>
+                                                <div class="feature-item-body-metal">
+                                                    <p>
+                                                        <?= nl2br(htmlspecialchars(strip_tags($service['description']))) ?>
+                                                    </p>
                                                 </div>
 
                                             </div>
 
-                                            <div class="feature-item-body-metal">
-                                                <p>
-                                                    From medical conferences and seminars
-                                                    to professional gatherings, we create
-                                                    well-organised experiences for the
-                                                    healthcare community.
-                                                </p>
+                                            <div class="feature-item-btn-metal">
+                                                <a href="<?= htmlspecialchars($serviceLink) ?>" class="readmore-btn">
+                                                    Explore Service
+                                                </a>
                                             </div>
 
-                                        </div>
+                                            <div class="feature-item-icon-metal">
+                                                <img src="<?= htmlspecialchars($iconPath) ?>"
+                                                    alt="<?= htmlspecialchars($service['title']) ?>">
+                                            </div>
 
-                                        <div class="feature-item-btn-metal">
-                                            <a href="our-features.php" class="readmore-btn">
-                                                Explore Service
-                                            </a>
-                                        </div>
-
-                                        <div class="feature-item-icon-metal">
-                                            <img src="images/icon-service-1-metal.svg"
-                                                alt="Medical Events">
                                         </div>
 
                                     </div>
+                                    <!-- <?= htmlspecialchars($service['title']) ?> End -->
 
-                                </div>
-                                <!-- Medical Events End -->
-
-
-                                <!-- Conferences & Workshops Start -->
-                                <div class="swiper-slide">
-
-                                    <div class="feature-item-metal box-bg-shape">
-
-                                        <div class="feature-item-content-metal">
-
-                                            <div class="feature-item-header-metal">
-
-                                                <div class="feature-item-title-metal">
-                                                    <h3>Conferences & Workshops</h3>
-                                                </div>
-
-                                                <div class="feature-item-no-metal">
-                                                    <h4>02.</h4>
-                                                </div>
-
-                                            </div>
-
-                                            <div class="feature-item-body-metal">
-                                                <p>
-                                                    We manage conferences, workshops and
-                                                    seminars with thoughtful planning,
-                                                    engaging formats and seamless
-                                                    on-ground execution.
-                                                </p>
-                                            </div>
-
-                                        </div>
-
-                                        <div class="feature-item-btn-metal">
-                                            <a href="our-features.php" class="readmore-btn">
-                                                Explore Service
-                                            </a>
-                                        </div>
-
-                                        <div class="feature-item-icon-metal">
-                                            <img src="images/icon-service-2-metal.svg"
-                                                alt="Conferences and Workshops">
-                                        </div>
-
-                                    </div>
-
-                                </div>
-                                <!-- Conferences & Workshops End -->
-
-
-                                <!-- Corporate Events Start -->
-                                <div class="swiper-slide">
-
-                                    <div class="feature-item-metal box-bg-shape">
-
-                                        <div class="feature-item-content-metal">
-
-                                            <div class="feature-item-header-metal">
-
-                                                <div class="feature-item-title-metal">
-                                                    <h3>Corporate Events</h3>
-                                                </div>
-
-                                                <div class="feature-item-no-metal">
-                                                    <h4>03.</h4>
-                                                </div>
-
-                                            </div>
-
-                                            <div class="feature-item-body-metal">
-                                                <p>
-                                                    From corporate gatherings to
-                                                    brand-focused experiences, we help
-                                                    businesses create events that connect
-                                                    teams, audiences and ideas.
-                                                </p>
-                                            </div>
-
-                                        </div>
-
-                                        <div class="feature-item-btn-metal">
-                                            <a href="our-features.php" class="readmore-btn">
-                                                Explore Service
-                                            </a>
-                                        </div>
-
-                                        <div class="feature-item-icon-metal">
-                                            <img src="images/icon-service-3-metal.svg"
-                                                alt="Corporate Events">
-                                        </div>
-
-                                    </div>
-
-                                </div>
-                                <!-- Corporate Events End -->
-
-
-                                <!-- Event Logistics Start -->
-                                <div class="swiper-slide">
-
-                                    <div class="feature-item-metal box-bg-shape">
-
-                                        <div class="feature-item-content-metal">
-
-                                            <div class="feature-item-header-metal">
-
-                                                <div class="feature-item-title-metal">
-                                                    <h3>Event Logistics</h3>
-                                                </div>
-
-                                                <div class="feature-item-no-metal">
-                                                    <h4>04.</h4>
-                                                </div>
-
-                                            </div>
-
-                                            <div class="feature-item-body-metal">
-                                                <p>
-                                                    We coordinate venues, registrations,
-                                                    hospitality, transportation and
-                                                    on-ground requirements to keep every
-                                                    event running smoothly.
-                                                </p>
-                                            </div>
-
-                                        </div>
-
-                                        <div class="feature-item-btn-metal">
-                                            <a href="our-features.php" class="readmore-btn">
-                                                Explore Service
-                                            </a>
-                                        </div>
-
-                                        <div class="feature-item-icon-metal">
-                                            <img src="images/icon-service-4-metal.svg"
-                                                alt="Event Logistics">
-                                        </div>
-
-                                    </div>
-
-                                </div>
-                                <!-- Event Logistics End -->
-
-
-                                <!-- Audio Visual Solutions Start -->
-                                <div class="swiper-slide">
-
-                                    <div class="feature-item-metal box-bg-shape">
-
-                                        <div class="feature-item-content-metal">
-
-                                            <div class="feature-item-header-metal">
-
-                                                <div class="feature-item-title-metal">
-                                                    <h3>Audio Visual Solutions</h3>
-                                                </div>
-
-                                                <div class="feature-item-no-metal">
-                                                    <h4>05.</h4>
-                                                </div>
-
-                                            </div>
-
-                                            <div class="feature-item-body-metal">
-                                                <p>
-                                                    From sound and lighting to screens
-                                                    and event production, we provide the
-                                                    technical support needed for a
-                                                    powerful event experience.
-                                                </p>
-                                            </div>
-
-                                        </div>
-
-                                        <div class="feature-item-btn-metal">
-                                            <a href="our-features.php" class="readmore-btn">
-                                                Explore Service
-                                            </a>
-                                        </div>
-
-                                        <div class="feature-item-icon-metal">
-                                            <img src="images/icon-service-3-metal.svg"
-                                                alt="Audio Visual Solutions">
-                                        </div>
-
-                                    </div>
-
-                                </div>
-                                <!-- Audio Visual Solutions End -->
-
+                                <?php endforeach; ?>
 
                             </div>
 
@@ -896,7 +691,7 @@ $displayHomeFaqs = !empty($homeFaqs) ? $homeFaqs : $fallbackHomeFaqs;
                         <div class="our-event-btn-gold wow fadeInUp"
                             data-wow-delay="0.4s">
 
-                            <a href="#"
+                            <a href="our-events.php"
                                 class="btn-default btn-highlighted">
                                 Explore All Events
                             </a>
@@ -915,293 +710,77 @@ $displayHomeFaqs = !empty($homeFaqs) ? $homeFaqs : $fallbackHomeFaqs;
                     <!-- Event Items List Start -->
                     <div class="event-items-list-gold">
 
+                        <?php foreach ($displayEvents as $index => $event): ?>
+                            <?php
+                            // Calculate animation delay
+                            $delay = ($index * 0.2) . 's';
 
-                        <!-- Event Item Start -->
-                        <div class="event-item-gold wow fadeInUp">
+                            // Format the date
+                            $formattedDate = formatEventDate($event['date']);
 
-                            <!-- Event Image Start -->
-                            <div class="event-item-image-gold">
+                            // Clean description - strip HTML tags
+                            $cleanDesc = strip_tags($event['description']);
 
-                                <a href="#"
-                                    data-cursor-text="View">
+                            // Build image path
+                            $imagePath = !empty($event['image']) ? 'admin/' . $event['image'] : 'images/event-default.jpg';
 
-                                    <figure>
-                                        <img src="images/event-image-1-gold.jpg"
-                                            alt="Medical Conference">
-                                    </figure>
+                            // Build event link
+                            $eventLink = !empty($event['slug']) ? 'event/' . $event['slug'] : 'event-details.php?id=' . $event['idevent'];
 
-                                </a>
+                            // Get event number (1, 2, 3...)
+                            $eventNumber = str_pad($index + 1, 2, '0', STR_PAD_LEFT);
+                            ?>
 
-                            </div>
-                            <!-- Event Image End -->
+                            <!-- Event Item Start -->
+                            <div class="event-item-gold wow fadeInUp" data-wow-delay="<?= $delay ?>">
 
+                                <!-- Event Image Start -->
+                                <div class="event-item-image-gold">
 
-                            <!-- Event Item Body Start -->
-                            <div class="event-item-body-gold">
-
-                                <div class="event-schedule-content-gold">
-
-                                    <h2>01</h2>
-
-                                    <p>Upcoming</p>
-
-                                    <p>Event Date</p>
+                                    <a href="<?= htmlspecialchars($eventLink) ?>" data-cursor-text="View">
+                                        <figure>
+                                            <img src="<?= htmlspecialchars($imagePath) ?>" alt="<?= htmlspecialchars($event['title']) ?>">
+                                        </figure>
+                                    </a>
 
                                 </div>
+                                <!-- Event Image End -->
 
+                                <!-- Event Item Body Start -->
+                                <div class="event-item-body-gold">
 
-                                <div class="event-item-info-gold">
+                                    <div class="event-schedule-content-gold">
+                                        <h2><?= $eventNumber ?></h2>
+                                        <p>Upcoming</p>
+                                        <p><?= $formattedDate ?></p>
+                                    </div>
 
-                                    <div class="event-item-body-content-gold">
+                                    <div class="event-item-info-gold">
 
-                                        <h3>
-                                            <a href="#">
-                                                Medical Conferences
+                                        <div class="event-item-body-content-gold">
+                                            <h3>
+                                                <a href="<?= htmlspecialchars($eventLink) ?>">
+                                                    <?= htmlspecialchars($event['title']) ?>
+                                                </a>
+                                            </h3>
+                                            <p><?= htmlspecialchars($cleanDesc) ?></p>
+                                        </div>
+
+                                        <div class="event-item-btn-gold">
+                                            <a href="<?= htmlspecialchars($eventLink) ?>" class="readmore-btn">
+                                                View Event Details
                                             </a>
-                                        </h3>
-
-                                        <p>
-                                            Professional conferences designed to
-                                            connect healthcare professionals,
-                                            experts and industry leaders.
-                                        </p>
-
-                                    </div>
-
-
-                                    <div class="event-item-btn-gold">
-
-                                        <a href="#"
-                                            class="readmore-btn">
-                                            View Event Details
-                                        </a>
+                                        </div>
 
                                     </div>
 
                                 </div>
+                                <!-- Event Item Body End -->
 
                             </div>
-                            <!-- Event Item Body End -->
+                            <!-- Event Item End -->
 
-                        </div>
-                        <!-- Event Item End -->
-
-
-                        <!-- Event Item Start -->
-                        <div class="event-item-gold wow fadeInUp"
-                            data-wow-delay="0.2s">
-
-                            <!-- Event Image Start -->
-                            <div class="event-item-image-gold">
-
-                                <a href="#"
-                                    data-cursor-text="View">
-
-                                    <figure>
-                                        <img src="images/event-image-2-gold.jpg"
-                                            alt="Corporate Event">
-                                    </figure>
-
-                                </a>
-
-                            </div>
-                            <!-- Event Image End -->
-
-
-                            <!-- Event Item Body Start -->
-                            <div class="event-item-body-gold">
-
-                                <div class="event-schedule-content-gold">
-
-                                    <h2>02</h2>
-
-                                    <p>Upcoming</p>
-
-                                    <p>Event Date</p>
-
-                                </div>
-
-
-                                <div class="event-item-info-gold">
-
-                                    <div class="event-item-body-content-gold">
-
-                                        <h3>
-                                            <a href="#">
-                                                Corporate Events
-                                            </a>
-                                        </h3>
-
-                                        <p>
-                                            Engaging corporate experiences that
-                                            bring teams, brands and audiences
-                                            together.
-                                        </p>
-
-                                    </div>
-
-
-                                    <div class="event-item-btn-gold">
-
-                                        <a href="#"
-                                            class="readmore-btn">
-                                            View Event Details
-                                        </a>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-                            <!-- Event Item Body End -->
-
-                        </div>
-                        <!-- Event Item End -->
-
-
-                        <!-- Event Item Start -->
-                        <div class="event-item-gold wow fadeInUp"
-                            data-wow-delay="0.4s">
-
-                            <!-- Event Image Start -->
-                            <div class="event-item-image-gold">
-
-                                <a href="#"
-                                    data-cursor-text="View">
-
-                                    <figure>
-                                        <img src="images/event-image-3-gold.jpg"
-                                            alt="Workshop">
-                                    </figure>
-
-                                </a>
-
-                            </div>
-                            <!-- Event Image End -->
-
-
-                            <!-- Event Item Body Start -->
-                            <div class="event-item-body-gold">
-
-                                <div class="event-schedule-content-gold">
-
-                                    <h2>03</h2>
-
-                                    <p>Upcoming</p>
-
-                                    <p>Event Date</p>
-
-                                </div>
-
-
-                                <div class="event-item-info-gold">
-
-                                    <div class="event-item-body-content-gold">
-
-                                        <h3>
-                                            <a href="#">
-                                                Workshops & Seminars
-                                            </a>
-                                        </h3>
-
-                                        <p>
-                                            Interactive learning experiences that
-                                            encourage knowledge sharing, discussion
-                                            and meaningful connections.
-                                        </p>
-
-                                    </div>
-
-
-                                    <div class="event-item-btn-gold">
-
-                                        <a href="#"
-                                            class="readmore-btn">
-                                            View Event Details
-                                        </a>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-                            <!-- Event Item Body End -->
-
-                        </div>
-                        <!-- Event Item End -->
-
-
-                        <!-- Event Item Start -->
-                        <div class="event-item-gold wow fadeInUp"
-                            data-wow-delay="0.6s">
-
-                            <!-- Event Image Start -->
-                            <div class="event-item-image-gold">
-
-                                <a href="#"
-                                    data-cursor-text="View">
-
-                                    <figure>
-                                        <img src="images/event-image-4-gold.jpg"
-                                            alt="Branded Event">
-                                    </figure>
-
-                                </a>
-
-                            </div>
-                            <!-- Event Image End -->
-
-
-                            <!-- Event Item Body Start -->
-                            <div class="event-item-body-gold">
-
-                                <div class="event-schedule-content-gold">
-
-                                    <h2>04</h2>
-
-                                    <p>Upcoming</p>
-
-                                    <p>Event Date</p>
-
-                                </div>
-
-
-                                <div class="event-item-info-gold">
-
-                                    <div class="event-item-body-content-gold">
-
-                                        <h3>
-                                            <a href="#">
-                                                Branded Experiences
-                                            </a>
-                                        </h3>
-
-                                        <p>
-                                            Creative brand experiences designed
-                                            to engage audiences and create lasting
-                                            impressions.
-                                        </p>
-
-                                    </div>
-
-
-                                    <div class="event-item-btn-gold">
-
-                                        <a href="#"
-                                            class="readmore-btn">
-                                            View Event Details
-                                        </a>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-                            <!-- Event Item Body End -->
-
-                        </div>
-                        <!-- Event Item End -->
-
+                        <?php endforeach; ?>
 
                     </div>
                     <!-- Event Items List End -->
@@ -1435,27 +1014,27 @@ $displayHomeFaqs = !empty($homeFaqs) ? $homeFaqs : $fallbackHomeFaqs;
                                 $faqBtnClass = $faqIndex === 0 ? 'accordion-button' : 'accordion-button collapsed';
                                 $faqExpanded = $faqIndex === 0 ? 'true' : 'false';
                             ?>
-                            <div class="accordion-item wow fadeInUp"<?php if ($faqDelay > 0): ?> data-wow-delay="<?php echo number_format($faqDelay, 1); ?>s"<?php endif; ?>>
-                                <h2 class="accordion-header" id="heading<?php echo $faqNum; ?>">
-                                    <button class="<?php echo $faqBtnClass; ?>"
-                                        type="button"
-                                        data-bs-toggle="collapse"
-                                        data-bs-target="#collapse<?php echo $faqNum; ?>"
-                                        aria-expanded="<?php echo $faqExpanded; ?>"
-                                        aria-controls="collapse<?php echo $faqNum; ?>">
-                                        <?php echo $faqNum . '. ' . htmlspecialchars($faqItem['question']); ?>
-                                    </button>
-                                </h2>
-                                <div id="collapse<?php echo $faqNum; ?>"
-                                    class="accordion-collapse collapse <?php echo $faqCollapseClass; ?>"
-                                    role="region"
-                                    aria-labelledby="heading<?php echo $faqNum; ?>"
-                                    data-bs-parent="#accordion">
-                                    <div class="accordion-body">
-                                        <p><?php echo htmlspecialchars($faqItem['answer']); ?></p>
+                                <div class="accordion-item wow fadeInUp" <?php if ($faqDelay > 0): ?> data-wow-delay="<?php echo number_format($faqDelay, 1); ?>s" <?php endif; ?>>
+                                    <h2 class="accordion-header" id="heading<?php echo $faqNum; ?>">
+                                        <button class="<?php echo $faqBtnClass; ?>"
+                                            type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#collapse<?php echo $faqNum; ?>"
+                                            aria-expanded="<?php echo $faqExpanded; ?>"
+                                            aria-controls="collapse<?php echo $faqNum; ?>">
+                                            <?php echo $faqNum . '. ' . htmlspecialchars($faqItem['question']); ?>
+                                        </button>
+                                    </h2>
+                                    <div id="collapse<?php echo $faqNum; ?>"
+                                        class="accordion-collapse collapse <?php echo $faqCollapseClass; ?>"
+                                        role="region"
+                                        aria-labelledby="heading<?php echo $faqNum; ?>"
+                                        data-bs-parent="#accordion">
+                                        <div class="accordion-body">
+                                            <p><?php echo htmlspecialchars($faqItem['answer']); ?></p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                             <?php endforeach; ?>
 
                         </div>
@@ -1477,7 +1056,7 @@ $displayHomeFaqs = !empty($homeFaqs) ? $homeFaqs : $fallbackHomeFaqs;
     ?>
     <!-- Our Testimonials Section Emd -->
 
-    
+
 
     <!-- Our Blog Section Start -->
     <div class="our-blog">
@@ -1497,7 +1076,9 @@ $displayHomeFaqs = !empty($homeFaqs) ? $homeFaqs : $fallbackHomeFaqs;
                 <div class="col-xl-6">
                     <?php
                     $pImage = !empty($homeBlogPrimary['image']) ? $homeBlogPrimary['image'] : 'images/post-1.jpg';
-                    if ($pImage !== 'images/post-1.jpg' && !file_exists($pImage)) { $pImage = 'images/post-1.jpg'; }
+                    if ($pImage !== 'images/post-1.jpg' && !file_exists($pImage)) {
+                        $pImage = 'images/post-1.jpg';
+                    }
                     $pId = $homeBlogPrimary['idblog'] ?? 1;
                     $pTitle = $homeBlogPrimary['title'] ?? 'Blog Post';
                     $pUser = $homeBlogPrimary['user'] ?? 'TMC Team';
@@ -1534,38 +1115,40 @@ $displayHomeFaqs = !empty($homeFaqs) ? $homeFaqs : $fallbackHomeFaqs;
                     <div class="post-item-list">
                         <?php foreach ($homeBlogSecondary as $sIndex => $sBlog):
                             $sImage = !empty($sBlog['image']) ? $sBlog['image'] : 'images/post-' . ($sIndex + 2) . '.jpg';
-                            if ($sImage !== 'images/post-' . ($sIndex + 2) . '.jpg' && !file_exists($sImage)) { $sImage = 'images/post-' . ($sIndex + 2) . '.jpg'; }
+                            if ($sImage !== 'images/post-' . ($sIndex + 2) . '.jpg' && !file_exists($sImage)) {
+                                $sImage = 'images/post-' . ($sIndex + 2) . '.jpg';
+                            }
                             $sId = $sBlog['idblog'] ?? ($sIndex + 2);
                             $sTitle = $sBlog['title'] ?? 'Blog Post';
                             $sUser = $sBlog['user'] ?? 'TMC Team';
                             $sDelay = ($sIndex + 1) * 0.2;
                         ?>
-                        <!-- Post Item Start -->
-                        <div class="post-item wow fadeInUp" data-wow-delay="<?php echo number_format($sDelay, 1); ?>s">
-                            <div class="post-featured-image">
-                                <a href="blog-details.php?id=<?php echo htmlspecialchars($sId); ?>" data-cursor-text="View">
-                                    <figure class="image-anime">
-                                        <img src="<?php echo htmlspecialchars($sImage); ?>" alt="<?php echo htmlspecialchars($sTitle); ?>">
-                                    </figure>
-                                </a>
-                            </div>
-                            <div class="post-item-body">
-                                <div class="post-item-body-content">
-                                    <div class="post-item-meta">
-                                        <ul>
-                                            <li><img src="images/icon-author.svg" alt=""><?php echo htmlspecialchars($sUser); ?></li>
-                                        </ul>
+                            <!-- Post Item Start -->
+                            <div class="post-item wow fadeInUp" data-wow-delay="<?php echo number_format($sDelay, 1); ?>s">
+                                <div class="post-featured-image">
+                                    <a href="blog-details.php?id=<?php echo htmlspecialchars($sId); ?>" data-cursor-text="View">
+                                        <figure class="image-anime">
+                                            <img src="<?php echo htmlspecialchars($sImage); ?>" alt="<?php echo htmlspecialchars($sTitle); ?>">
+                                        </figure>
+                                    </a>
+                                </div>
+                                <div class="post-item-body">
+                                    <div class="post-item-body-content">
+                                        <div class="post-item-meta">
+                                            <ul>
+                                                <li><img src="images/icon-author.svg" alt=""><?php echo htmlspecialchars($sUser); ?></li>
+                                            </ul>
+                                        </div>
+                                        <div class="post-item-content">
+                                            <h2><a href="blog-details.php?id=<?php echo htmlspecialchars($sId); ?>"><?php echo htmlspecialchars($sTitle); ?></a></h2>
+                                        </div>
                                     </div>
-                                    <div class="post-item-content">
-                                        <h2><a href="blog-details.php?id=<?php echo htmlspecialchars($sId); ?>"><?php echo htmlspecialchars($sTitle); ?></a></h2>
+                                    <div class="post-item-btn">
+                                        <a href="blog-details.php?id=<?php echo htmlspecialchars($sId); ?>" class="readmore-btn">read more</a>
                                     </div>
                                 </div>
-                                <div class="post-item-btn">
-                                    <a href="blog-details.php?id=<?php echo htmlspecialchars($sId); ?>" class="readmore-btn">read more</a>
-                                </div>
                             </div>
-                        </div>
-                        <!-- Post Item End -->
+                            <!-- Post Item End -->
                         <?php endforeach; ?>
                     </div>
                 </div>
@@ -1612,6 +1195,60 @@ $displayHomeFaqs = !empty($homeFaqs) ? $homeFaqs : $fallbackHomeFaqs;
     <script src="js/wow.min.js"></script>
     <!-- Main Custom js file -->
     <script src="js/function.js"></script>
+    <!-- Ensure these libraries are loaded -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#newslettersForm').on('submit', function(e) {
+                e.preventDefault(); // Prevents the page from reloading
+
+                var formData = $(this).serialize();
+                var $btn = $(this).find('button[type="submit"]');
+
+                // Disable button and show loading state
+                var originalBtnHtml = $btn.html();
+                $btn.prop('disabled', true).html('<i class="fa-solid fa-spinner fa-spin"></i>');
+
+                $.ajax({
+                    url: 'process-newsletter.php',
+                    type: 'POST',
+                    data: formData,
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Subscribed!',
+                                text: response.message,
+                                timer: 3000,
+                                showConfirmButton: false
+                            });
+                            $('#newslettersForm')[0].reset(); // Clears the input field
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: response.message
+                            });
+                        }
+                    },
+                    error: function() {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Connection Error',
+                            text: 'An error occurred. Please try again later.'
+                        });
+                    },
+                    complete: function() {
+                        // Restore button state
+                        $btn.prop('disabled', false).html(originalBtnHtml);
+                    }
+                });
+            });
+        });
+    </script>
     <script>
         var url = 'https://wati-integration-service.clare.ai/ShopifyWidget/shopifyWidget.js?86687';
         var s = document.createElement('script');

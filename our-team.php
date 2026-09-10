@@ -1,5 +1,6 @@
 <?php
 require_once('admin/db/config.php');
+require_once('fetch-all.php');
 
 $teamMembers = [];
 $stmtFetchTeam = $db->prepare("SELECT * FROM team_members WHERE status = 1 ORDER BY idteam_members ASC");
@@ -64,7 +65,7 @@ $delays = ['0s', '0.2s', '0.4s', '0.6s'];
     ?>
 
     <!-- Page Header Section Start -->
-    <div class="page-header parallaxie">
+    <div class="page-header parallaxie" style="background: url('<?= htmlspecialchars($bannerImage) ?>') no-repeat;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">

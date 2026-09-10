@@ -1,5 +1,6 @@
 <?php
 require_once('admin/db/config.php');
+require_once('fetch-all.php');
 
 $blogPosts = [];
 $stmtFetchBlogs = $db->prepare("SELECT * FROM blog WHERE status = 1 ORDER BY idblog DESC");
@@ -91,7 +92,7 @@ if (!empty($blogPosts) && !empty($blogCategories)) {
     ?>
 
     <!-- Page Header Section Start -->
-    <div class="page-header parallaxie">
+    <div class="page-header parallaxie" style="background: url('<?= htmlspecialchars($bannerImage) ?>') no-repeat;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">

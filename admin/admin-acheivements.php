@@ -59,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['about_submit'])) {
 
     if ($about) {
         // Update
-        $stmt = $db->prepare('UPDATE achievements SET title = ?, sub_title = ?, content = ?, benefits = ?, image = ?,WHERE id = ?');
+        $stmt = $db->prepare('UPDATE achievements SET title = ?, sub_title = ?, content = ?, benefits = ?, image = ? WHERE id = ?');
         $stmt->bind_param('sssssi', $title, $subTitle, $content, $benefits, $image, $about['id']);
     } else {
         // Insert
