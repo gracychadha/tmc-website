@@ -47,7 +47,7 @@ $detailImagePath = !empty($eventDetails['image']) ? 'admin/' . $eventDetails['im
     <!-- Page Title -->
     <title>Welcome to Tee Mac Corporation</title>
     <!-- Favicon Icon -->
-    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
+     <link rel="icon" type="image/png" href="<?= htmlspecialchars($favicon) ?>">
     <!-- Google Fonts Css-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">

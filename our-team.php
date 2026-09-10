@@ -34,7 +34,7 @@ $delays = ['0s', '0.2s', '0.4s', '0.6s'];
     <!-- Page Title -->
     <title>Our Team - Tee Mac Corporation</title>
     <!-- Favicon Icon -->
-    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
+     <link rel="icon" type="image/png" href="<?= htmlspecialchars($favicon) ?>">
     <!-- Google Fonts Css-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">

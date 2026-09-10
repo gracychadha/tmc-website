@@ -115,7 +115,7 @@ $db->close();
 								<?php } ?>
 
 							</li> -->
-						
+
 							<!-- Event -->
 							<li class="">
 								<?php if (in_array('All', $menu_titles) || in_array('Event', $menu_titles)) { ?>
@@ -191,7 +191,13 @@ $db->close();
 										if (in_array('All', $menu_titles) || in_array('About Us', $menu_titles)) {
 											echo '<li><a href="admin-about-us.php">About us </a></li>';
 										}
-										
+										if (in_array('All', $menu_titles) || in_array('Why Choose Us', $menu_titles)) {
+											echo '<li><a href="admin-why-choose.php">Why Choose Us </a></li>';
+										}
+
+										if (in_array('All', $menu_titles) || in_array('Counter', $menu_titles)) {
+											echo '<li><a href="admin-counter.php">Counter</a></li>';
+										}
 
 
 
@@ -229,18 +235,18 @@ $db->close();
 										if (in_array('All', $menu_titles) || in_array('Achievements', $menu_titles)) {
 											echo '<li><a href="admin-acheivements.php">Achievements  </a></li>';
 										}
-										
 
 
 
 
-										
+
+
 
 										// if (in_array('All', $menu_titles) || in_array('Counter', $menu_titles)) {
 										// 	echo '<li><a href="admin-counter.php">Counter</a></li>';
 										// }
 
-									
+
 
 										?>
 									</ul>
