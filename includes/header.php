@@ -6,7 +6,7 @@
                  <!-- Logo Start -->
                  <a class="navbar-brand" href="index.php">
                     <!-- logo black -->
-                     <img src="<?= htmlspecialchars($siteLogo) ?>" alt="Logo"> 
+                     <img src="http://localhost/tmc-website/<?= htmlspecialchars($siteLogo) ?>" alt="Logo"> 
                      <!-- <h4 class="" style="color: var(--accent-color);">Tee Mac Corporation</h4> -->
                  </a>
                  <!-- Logo End -->

@@ -19,7 +19,7 @@
                      <div class="footer-newsletter-form">
                          <div class="footer-newsletter-form-content">
                              <div class="icon-box">
-                                 <img src="images/icon-notification-white.svg" alt="">
+                                 <img src="http://localhost/tmc-website/images/icon-notification-white.svg" alt="">
                              </div>
                              <p>Stay informed with instant updates delivered straight to your inbox.</p>
                          </div>
@@ -41,7 +41,7 @@
                  <div class="about-footer">
                      <div class="footer-logo">
                          <!-- logo white -->
-                         <img src="<?= htmlspecialchars($footerLogo) ?>" alt="<?= htmlspecialchars($displayCompany['name']) ?>">
+                         <img src="http://localhost/tmc-website/<?= htmlspecialchars($footerLogo) ?>" alt="<?= htmlspecialchars($displayCompany['name']) ?>">
                      </div>
                      <!-- About Footer Content Start -->
                      <div class="about-footer-content">

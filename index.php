@@ -1,5 +1,10 @@
 <?php
 require_once('fetch-all.php');
+
+$page_seo_type = 'home';
+
+// 2. Fetch the SEO data
+$seo = get_seo_data($db, $page_seo_type);
 ?>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -9,11 +14,12 @@ require_once('fetch-all.php');
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <meta name="description" content="">
-    <meta name="keywords" content="">
-    <meta name="author" content="Awaiken">
+     <title><?php echo htmlspecialchars($seo['title']); ?></title>
+     <meta name="keywords" content="<?php echo htmlspecialchars($seo['keywords']); ?>">
+    <meta name="description" content="<?php echo htmlspecialchars($seo['description']); ?>">
+    
     <!-- Page Title -->
-    <title>Welcome to Tee Mac Corporation</title>
+   
     <!-- Favicon Icon -->
      <link rel="icon" type="image/png" href="<?= htmlspecialchars($favicon) ?>">
     <!-- Google Fonts Css-->
@@ -546,83 +552,83 @@ require_once('fetch-all.php');
 
                 <div class="col-xl-7">
 
-                    <!-- Event Items List Start -->
-                    <div class="event-items-list-gold">
+                   <!-- Event Items List Start -->
+<div class="event-items-list-gold">
 
-                        <?php foreach ($displayEvents as $index => $event): ?>
-                            <?php
-                            // Calculate animation delay
-                            $delay = ($index * 0.2) . 's';
+    <?php foreach ($displayEvents as $index => $event): ?>
+    <?php
+    // 1. Calculate animation delay
+    $delay = ($index * 0.2) . 's';
 
-                            // Format the date
-                            $formattedDate = formatEventDate($event['date']);
+    // 2. Format the date safely
+    $formattedDate = !empty($event['date']) ? date('M d, Y', strtotime($event['date'])) : 'TBA';
 
-                            // Clean description - strip HTML tags
-                            $cleanDesc = strip_tags($event['description']);
+    // 3. Clean description safely
+    $cleanDesc = strip_tags($event['description'] ?? '');
 
-                            // Build image path
-                            $imagePath = !empty($event['image']) ? 'admin/' . $event['image'] : 'images/event-default.jpg';
+    // 4. Build image path safely
+    $imagePath = !empty($event['image']) ? 'admin/' . $event['image'] : 'images/event-default.jpg';
 
-                            // Build event link
-                            $eventLink = !empty($event['slug']) ? 'event/' . $event['slug'] : 'event-details.php?id=' . $event['idevent'];
+    // 5. Build event link SAFELY (Root-relative for Laragon)
+$eventId = $event['idevent'] ?? 1;
+$eventSlug = trim($event['slug'] ?? '');
 
-                            // Get event number (1, 2, 3...)
-                            $eventNumber = str_pad($index + 1, 2, '0', STR_PAD_LEFT);
-                            ?>
+if (!empty($eventSlug) && stripos($eventSlug, '.php') === false) {
+    $eventLink = '/tmc-website/event-details.php/' . rawurlencode($eventSlug);
+} else {
+    $eventLink = '/tmc-website/event-details.php?id=' . urlencode($eventId);
+}
 
-                            <!-- Event Item Start -->
-                            <div class="event-item-gold wow fadeInUp" data-wow-delay="<?= $delay ?>">
+    // 6. Get event number (1, 2, 3...)
+    $eventNumber = str_pad($index + 1, 2, '0', STR_PAD_LEFT);
+    ?>
 
-                                <!-- Event Image Start -->
-                                <div class="event-item-image-gold">
+    <!-- Event Item Start -->
+    <div class="event-item-gold wow fadeInUp" data-wow-delay="<?= $delay ?>">
 
-                                    <a href="<?= htmlspecialchars($eventLink) ?>" data-cursor-text="View">
-                                        <figure>
-                                            <img src="<?= htmlspecialchars($imagePath) ?>" alt="<?= htmlspecialchars($event['title']) ?>">
-                                        </figure>
-                                    </a>
+        <!-- Event Image Start -->
+        <div class="event-item-image-gold">
+            <a href="<?= htmlspecialchars($eventLink) ?>" data-cursor-text="View">
+                <figure>
+                    <img src="<?= htmlspecialchars($imagePath) ?>" alt="<?= htmlspecialchars($event['title'] ?? 'Event') ?>">
+                </figure>
+            </a>
+        </div>
+        <!-- Event Image End -->
 
-                                </div>
-                                <!-- Event Image End -->
+        <!-- Event Item Body Start -->
+        <div class="event-item-body-gold">
+            <div class="event-schedule-content-gold">
+                <h2><?= $eventNumber ?></h2>
+                <p>Upcoming</p>
+                <p><?= $formattedDate ?></p>
+            </div>
 
-                                <!-- Event Item Body Start -->
-                                <div class="event-item-body-gold">
+            <div class="event-item-info-gold">
+                <div class="event-item-body-content-gold">
+                    <h3>
+                        <a href="<?= htmlspecialchars($eventLink) ?>">
+                            <?= htmlspecialchars($event['title'] ?? 'Event Title') ?>
+                        </a>
+                    </h3>
+                    <p><?= htmlspecialchars($cleanDesc) ?></p>
+                </div>
 
-                                    <div class="event-schedule-content-gold">
-                                        <h2><?= $eventNumber ?></h2>
-                                        <p>Upcoming</p>
-                                        <p><?= $formattedDate ?></p>
-                                    </div>
+                <div class="event-item-btn-gold">
+                    <a href="<?= htmlspecialchars($eventLink) ?>" class="readmore-btn">
+                        View Event Details
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- Event Item Body End -->
 
-                                    <div class="event-item-info-gold">
+    </div>
+    <!-- Event Item End -->
 
-                                        <div class="event-item-body-content-gold">
-                                            <h3>
-                                                <a href="<?= htmlspecialchars($eventLink) ?>">
-                                                    <?= htmlspecialchars($event['title']) ?>
-                                                </a>
-                                            </h3>
-                                            <p><?= htmlspecialchars($cleanDesc) ?></p>
-                                        </div>
-
-                                        <div class="event-item-btn-gold">
-                                            <a href="<?= htmlspecialchars($eventLink) ?>" class="readmore-btn">
-                                                View Event Details
-                                            </a>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-                                <!-- Event Item Body End -->
-
-                            </div>
-                            <!-- Event Item End -->
-
-                        <?php endforeach; ?>
-
-                    </div>
-                    <!-- Event Items List End -->
+<?php endforeach; ?>
+</div>
+<!-- Event Items List End -->
 
                 </div>
 

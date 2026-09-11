@@ -1,5 +1,6 @@
 <?php
 require_once('fetch-all.php');
+
 ?>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -77,7 +78,7 @@ require_once('fetch-all.php');
                    
 
         
-                      <div class="row mt-5">
+                     <div class="row mt-5">
     <?php foreach ($displaySchedule as $index => $item): ?>
         <?php
         // Clean description to prevent HTML tags from showing
@@ -86,9 +87,8 @@ require_once('fetch-all.php');
         // Resolve image path (fallback to default if empty)
         $imagePath = !empty($item['image']) ? 'admin/' . $item['image'] : 'images/event-default.jpg';
 
-        
-       // Resolve link (use slug if available, otherwise fallback to ID)
-$itemLink = !empty($item['slug']) ? 'event-details.php?slug=' . urlencode($item['slug']) : 'event-details.php?id=' . $item['idevent'];
+        // ✅ FIXED: Updated URL format to event-details.php/slug
+        $itemLink = !empty($item['slug']) ? 'event-details.php/' . urlencode($item['slug']) : 'event-details.php?id=' . $item['idevent'];
         ?>
 
         <div class="col-xl-4 col-md-6">
@@ -144,7 +144,7 @@ $itemLink = !empty($item['slug']) ? 'event-details.php?slug=' . urlencode($item[
         </div>
 
     <?php endforeach; ?>
-</div>                     
+</div>
                    
 
                   
