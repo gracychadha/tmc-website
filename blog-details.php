@@ -2,6 +2,19 @@
 require_once('admin/db/config.php');
 require_once('fetch-all.php');
 
+
+$blog_id = isset($_GET['id']) ? intval($_GET['id']) : 0; 
+
+$page_seo_type = 'blog-' . $blog_id;
+
+
+$seo = get_seo_data($db, $page_seo_type);
+
+if (empty($seo['title']) || $seo['title'] == '') {
+    $seo = get_seo_data($db, 'blog'); 
+}
+
+
 $blogId = isset($_GET['id']) ? intval($_GET['id']) : 0;
 $blog = null;
 
@@ -42,11 +55,10 @@ if ($blogImage && $blogImage !== 'images/post-1.jpg' && !file_exists($blogImage)
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <meta name="description" content="">
-    <meta name="keywords" content="">
-    <meta name="author" content="Awaiken">
-    <!-- Page Title -->
-    <title>Blog Details | Tee Mac Corporation</title>
+   <title><?php echo htmlspecialchars($seo['title']); ?></title>
+    <meta name="description" content="<?php echo htmlspecialchars($seo['description']); ?>">
+    <meta name="keywords" content="<?php echo htmlspecialchars($seo['keywords']); ?>">
+    
     <!-- Favicon Icon -->
      <link rel="icon" type="image/png" href="<?= htmlspecialchars($favicon) ?>">
     <!-- Google Fonts Css-->

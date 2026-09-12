@@ -249,6 +249,27 @@ function formatEventDate($dateString) {
 }
 
 
+/**
+ * Fetch SEO data for a specific page type
+ * 
+ * @param mysqli $db Database connection
+ * @param string $type The page type (e.g., 'home', 'about', 'contact', or dynamic slug)
+ * @return array Array containing title, description, and keywords
+ */
+function get_seo_data($db, $type) {
+    $stmt = $db->prepare("SELECT seo_title, seo_description, seo_keywords FROM seo_settings WHERE type = ? LIMIT 1");
+    $stmt->bind_param("s", $type);
+    $stmt->execute();
+    $result = $stmt->get_result()->fetch_assoc();
+    $stmt->close();
+    
+    // Fallback defaults if no data is found in the database
+    return [
+        'title'       => $result['seo_title'] ?? 'Tee Mac Corporation - Professional Event Management',
+        'description' => $result['seo_description'] ?? 'Professional event management company dedicated to creating impactful and memorable medical and corporate experiences.',
+        'keywords'    => $result['seo_keywords'] ?? 'event management, medical conferences, corporate events, workshops, Tee Mac Corporation'
+    ];
+}
 
 
 // event page

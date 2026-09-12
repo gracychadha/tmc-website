@@ -3,6 +3,11 @@
 require_once('admin/db/config.php');
 require_once('fetch-all.php');
 
+$page_seo_type = 'about';
+
+// 2. Fetch the SEO data
+$seo = get_seo_data($db, $page_seo_type);
+
 $homeFaqs = [];
 $stmtHomeFaqs = $db->prepare("SELECT * FROM faqs WHERE status = 1 ORDER BY faqs_id ASC LIMIT 5");
 $stmtHomeFaqs->execute();
@@ -32,11 +37,9 @@ $displayHomeFaqs = !empty($homeFaqs) ? $homeFaqs : [
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-    <meta name="description" content="">
-    <meta name="keywords" content="">
-    <meta name="author" content="Awaiken">
-    <!-- Page Title -->
-    <title>About Us - Tee Mac Corporation</title>
+     <title><?php echo htmlspecialchars($seo['title']); ?></title>
+     <meta name="keywords" content="<?php echo htmlspecialchars($seo['keywords']); ?>">
+    <meta name="description" content="<?php echo htmlspecialchars($seo['description']); ?>">
     <!-- Favicon Icon -->
      <link rel="icon" type="image/png" href="<?= htmlspecialchars($favicon) ?>">
     <!-- Google Fonts Css-->

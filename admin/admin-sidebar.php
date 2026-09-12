@@ -336,11 +336,11 @@ $db->close();
 								<a href="admin-website-setting.php"><i class="ti ti-device-laptop"></i><span>Website Setting</span></a>
 							</li>';
 							}
-							// if (in_array('All', $menu_titles) || in_array('SEO Setting', $menu_titles)) {
-							// 	echo '<li>
-							// 	<a href="admin-seo.php"><i class="ti ti-device-laptop"></i><span>SEO Setting</span></a>
-							// </li>';
-							// }
+							if (in_array('All', $menu_titles) || in_array('SEO Setting', $menu_titles)) {
+								echo '<li>
+								<a href="admin-seo.php"><i class="ti ti-device-laptop"></i><span>SEO Setting</span></a>
+							</li>';
+							}
 							?>
 						</ul>
 					</li>
