@@ -1,0 +1,1 @@
+<p class="mb-0">&copy; <?php echo date("Y"); ?> | <a href="index.php">Tee Mac Corporation</a></p>
