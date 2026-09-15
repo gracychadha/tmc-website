@@ -58,7 +58,7 @@ if (!$eventDetails) {
 // Image path
 $detailImagePath = !empty($eventDetails['image'])
     ? 'admin/' . $eventDetails['image']
-    : 'http://localhost/tmc-website/images/event-default.jpg';
+    : '<?= $baseUrl ?>images/event-default.jpg';
 ?>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -74,28 +74,28 @@ $detailImagePath = !empty($eventDetails['image'])
     <!-- Page Title -->
     <title>Welcome to Tee Mac Corporation</title>
     <!-- Favicon Icon -->
-    <link rel="shortcut icon" type="image/x-icon" href="http://localhost/tmc-website/images/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="<?= $baseUrl ?>images/favicon.png">
     <!-- Google Fonts Css-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
     <link href="../css2?family=Onest:wght@100..900&display=swap" rel="stylesheet">
 
     <!-- Bootstrap Css -->
-    <link href="http://localhost/tmc-website/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="<?= $baseUrl ?>css/bootstrap.min.css" rel="stylesheet" media="screen">
     <!-- SlickNav Css -->
-    <link href="http://localhost/tmc-website/css/slicknav.min.css" rel="stylesheet">
+    <link href="<?= $baseUrl ?>css/slicknav.min.css" rel="stylesheet">
     <!-- Swiper Css -->
-    <link rel="stylesheet" href="http://localhost/tmc-website/css/swiper-bundle.min.css">
+    <link rel="stylesheet" href="<?= $baseUrl ?>css/swiper-bundle.min.css">
     <!-- Font Awesome Icon Css-->
-    <link href="http://localhost/tmc-website/css/all.min.css" rel="stylesheet" media="screen">
+    <link href="<?= $baseUrl ?>css/all.min.css" rel="stylesheet" media="screen">
     <!-- Animated Css -->
-    <link href="http://localhost/tmc-website/css/animate.css" rel="stylesheet">
+    <link href="<?= $baseUrl ?>css/animate.css" rel="stylesheet">
     <!-- Magnific Popup Core Css File -->
-    <link rel="stylesheet" href="http://localhost/tmc-website/css/magnific-popup.css">
+    <link rel="stylesheet" href="<?= $baseUrl ?>css/magnific-popup.css">
     <!-- Mouse Cursor Css File -->
-    <link rel="stylesheet" href="http://localhost/tmc-website/css/mousecursor.css">
+    <link rel="stylesheet" href="<?= $baseUrl ?>css/mousecursor.css">
     <!-- Main Custom Css -->
-    <link href="http://localhost/tmc-website/css/custom.css" rel="stylesheet" media="screen">
+    <link href="<?= $baseUrl ?>css/custom.css" rel="stylesheet" media="screen">
     <style>
         .about-us-footer-metal {
             display: flex;
@@ -118,7 +118,7 @@ $detailImagePath = !empty($eventDetails['image'])
 
 
     <!-- Page Header Section Start -->
-    <div class="page-header parallaxie" style="background: url('http://localhost/tmc-website/<?= htmlspecialchars($bannerImage) ?>') no-repeat;">
+    <div class="page-header parallaxie" style="background: url('<?= $baseUrl ?><?= htmlspecialchars($bannerImage) ?>') no-repeat;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -152,17 +152,17 @@ $detailImagePath = !empty($eventDetails['image'])
                             <h3>Event Information</h3>
                             <ul>
                                 <li>
-                                    <span><img src="http://localhost/tmc-website/images/icon-category-list-1.svg" alt="Date"> Start Date: </span>
+                                    <span><img src="<?= $baseUrl ?>images/icon-category-list-1.svg" alt="Date"> Start Date: </span>
                                     <?= !empty($eventDetails['date']) ? date('d M Y', strtotime($eventDetails['date'])) : 'TBA' ?>
                                 </li>
                                 <li>
-                                    <span><img src="http://localhost/tmc-website/images/icon-category-list-1.svg" alt="Date"> End Date: </span>
+                                    <span><img src="<?= $baseUrl ?>images/icon-category-list-1.svg" alt="Date"> End Date: </span>
                                     <?= !empty($eventDetails['end_date']) ? date('d M Y', strtotime($eventDetails['end_date'])) : 'TBA' ?>
                                 </li>
 
 
                                 <li>
-                                    <span><img src="http://localhost/tmc-website/images/icon-category-list-5.svg" alt="Location"> Location: </span>
+                                    <span><img src="<?= $baseUrl ?>images/icon-category-list-5.svg" alt="Location"> Location: </span>
                                     <?= htmlspecialchars($eventDetails['location'] ?? 'TBA') ?>
                                 </li>
 
@@ -180,7 +180,7 @@ $detailImagePath = !empty($eventDetails['image'])
                         <!-- Page Single image Start -->
                         <div class="page-single-image">
                             <figure class="image-anime reveal">
-                                <img src="http://localhost/tmc-website/<?= htmlspecialchars($detailImagePath) ?>" alt="<?= htmlspecialchars($eventDetails['title']) ?>">
+                                <img src="<?= $baseUrl ?><?= htmlspecialchars($detailImagePath) ?>" alt="<?= htmlspecialchars($eventDetails['title']) ?>">
                             </figure>
                         </div>
                         <!-- Page Single image End -->
@@ -233,37 +233,37 @@ $detailImagePath = !empty($eventDetails['image'])
     require_once('includes/footer.php');
     ?>
     <!-- Jquery Library File -->
-    <script src="http://localhost/tmc-website/js/jquery-3.7.1.min.js"></script>
+    <script src="<?= $baseUrl ?>js/jquery-3.7.1.min.js"></script>
     <!-- Bootstrap js file -->
-    <script src="http://localhost/tmc-website/js/bootstrap.min.js"></script>
+    <script src="<?= $baseUrl ?>js/bootstrap.min.js"></script>
     <!-- Validator js file -->
-    <script src="http://localhost/tmc-website/js/validator.min.js"></script>
+    <script src="<?= $baseUrl ?>js/validator.min.js"></script>
     <!-- SlickNav js file -->
-    <script src="http://localhost/tmc-website/js/jquery.slicknav.js"></script>
+    <script src="<?= $baseUrl ?>js/jquery.slicknav.js"></script>
     <!-- Swiper js file -->
-    <script src="http://localhost/tmc-website/js/swiper-bundle.min.js"></script>
+    <script src="<?= $baseUrl ?>js/swiper-bundle.min.js"></script>
     <!-- Counter js file -->
-    <script src="http://localhost/tmc-website/js/jquery.waypoints.min.js"></script>
-    <script src="http://localhost/tmc-website/js/jquery.counterup.min.js"></script>
+    <script src="<?= $baseUrl ?>js/jquery.waypoints.min.js"></script>
+    <script src="<?= $baseUrl ?>js/jquery.counterup.min.js"></script>
     <!-- Magnific js file -->
-    <script src="http://localhost/tmc-website/js/jquery.magnific-popup.min.js"></script>
+    <script src="<?= $baseUrl ?>js/jquery.magnific-popup.min.js"></script>
     <!-- SmoothScroll -->
-    <script src="http://localhost/tmc-website/js/SmoothScroll.js"></script>
+    <script src="<?= $baseUrl ?>js/SmoothScroll.js"></script>
     <!-- Parallax js -->
-    <script src="http://localhost/tmc-website/js/parallaxie.js"></script>
+    <script src="<?= $baseUrl ?>js/parallaxie.js"></script>
     <!-- MagicCursor js file -->
-    <script src="http://localhost/tmc-website/js/gsap.min.js"></script>
-    <script src="http://localhost/tmc-website/js/magiccursor.js"></script>
+    <script src="<?= $baseUrl ?>js/gsap.min.js"></script>
+    <script src="<?= $baseUrl ?>js/magiccursor.js"></script>
     <!-- Text Effect js file -->
-    <script src="http://localhost/tmc-website/js/SplitText.min.js"></script>
-    <script src="http://localhost/tmc-website/js/ScrollTrigger.min.js"></script>
+    <script src="<?= $baseUrl ?>js/SplitText.min.js"></script>
+    <script src="<?= $baseUrl ?>js/ScrollTrigger.min.js"></script>
     <!-- YTPlayer js File -->
-    <script src="http://localhost/tmc-website/js/jquery.mb.YTPlayer.min.js"></script>
+    <script src="<?= $baseUrl ?>js/jquery.mb.YTPlayer.min.js"></script>
     <!-- Wow js file -->
-    <script src="http://localhost/tmc-website/js/wow.min.js"></script>
+    <script src="<?= $baseUrl ?>js/wow.min.js"></script>
     <!-- Main Custom js file -->
-    <script src="http://localhost/tmc-website/js/function.js"></script>
-    <script src="../assets/http://localhost/tmc-website/js/theme-panel-dynamic.js"></script>
+    <script src="<?= $baseUrl ?>js/function.js"></script>
+    <script src="../assets/<?= $baseUrl ?>js/theme-panel-dynamic.js"></script>
 </body>
 
 </html>

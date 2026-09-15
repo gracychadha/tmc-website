@@ -67,7 +67,7 @@ $db->close();
 						<ul>
 							<?php
 
-							if (in_array('All', $menu_titles) || in_array('Dashboard', $menu_titles)) {
+							if (in_array('All', $menu_titles) || in_array('1', $menu_titles)) {
 								echo '<li>
 							<a href="dashboard.php"><i class="ti ti-layout-dashboard"></i><span>Dashboard</span></a>
 						</li>';
@@ -77,12 +77,12 @@ $db->close();
 							<a href="admin-contact.php"><i class="ti ti-license"></i><span>Contact Requests</span></a>
 						</li>';
 							}
-							if (in_array('All', $menu_titles) || in_array('Contact Us', $menu_titles)) {
+							if (in_array('All', $menu_titles) || in_array('Portfolio Request', $menu_titles)) {
 								echo '<li>
-							<a href="portfolio-contacts.php"><i class="ti ti-license"></i><span>Prtfolio Contact Requests</span></a>
+							<a href="portfolio-contacts.php"><i class="ti ti-license"></i><span>Portfolio Contact Requests</span></a>
 						</li>';
 							}
-							if (in_array('All', $menu_titles) || in_array('Contact Us', $menu_titles)) {
+							if (in_array('All', $menu_titles) || in_array('Subscribers', $menu_titles)) {
 								echo '<li>
 							<a href="admin-subscriber.php"><i class="ti ti-license"></i><span>Subscribers</span></a>
 						</li>';
@@ -92,34 +92,17 @@ $db->close();
 							<a href="admin-calendar.php"><i class="ti ti-calendar-event"></i><span>Calendar Events</span></a>
 						</li>';
 							}
-							// 	if (in_array('All', $menu_titles) || in_array('Service Requests', $menu_titles)) {
-							// 		echo '<li>
-							// 	<a href="admin-serviceapply.php"><i class="ti ti-notebook"></i><span>Service Requests</span></a>
-							// </li>';
-							// 	}
-							// 	if (in_array('All', $menu_titles) || in_array('Apply List', $menu_titles)) {
-							// 		echo '<li>
-							// 	<a href="admin-apply.php"><i class="ti ti-file"></i><span>Apply Requests</span></a>
-							// </li>';
-							// }
+
 							?>
 						</ul>
 					</li>
 				<?php } ?>
 
-				<?php if (in_array('All', $menu_titles) || in_array('Courses', $menu_titles) || in_array('Blog List', $menu_titles) || in_array('Directory Category', $menu_titles) || in_array('Directory List', $menu_titles) || in_array('Pricing', $menu_titles) || in_array('Pricing List', $menu_titles) || in_array('Resources', $menu_titles) || in_array('Pricing', $menu_titles) || in_array('Testinominal', $menu_titles) || in_array('Hero Slider', $menu_titles)) { ?>
+				<?php if (in_array('All', $menu_titles) || in_array('Event', $menu_titles) || in_array('Faq', $menu_titles) || in_array('Gallery', $menu_titles) || in_array('Partners', $menu_titles) || in_array('Team', $menu_titles) || in_array('Testimonial', $menu_titles)) { ?>
 					<li>
 						<h6 class="submenu-hdr"><span>CMS & Blogs</span></h6>
 						<ul>
-							<!-- <li class="">
-								<?php if (in_array('All', $menu_titles) || in_array('Courses', $menu_titles)) { ?>
-									<a href="admin-4courses.php"><i class="ti ti-layout-list"></i><span>Manage Courses</span></a>
 
-
-
-								<?php } ?>
-
-							</li> -->
 
 							<!-- Event -->
 							<li class="">
@@ -183,7 +166,7 @@ $db->close();
 							</li>
 
 							<li class="submenu">
-								<?php if (in_array('All', $menu_titles) || in_array('Gallery', $menu_titles) || in_array('Testinominal', $menu_titles) || in_array('Why Choose Us', $menu_titles) || in_array('Work Process', $menu_titles) || in_array('Hero Slider', $menu_titles) || in_array('banner', $menu_titles)) { ?>
+								<?php if (in_array('All', $menu_titles) || in_array('Home Banner', $menu_titles) || in_array('Ticker', $menu_titles) || in_array('About Us', $menu_titles) || in_array('Why Choose Us', $menu_titles) || in_array('Counter', $menu_titles)) { ?>
 									<a href="javascript:void(0);"><i class="ti ti-building-fortress"></i><span> Home Page</span><span class="menu-arrow"></span></a>
 									<ul>
 										<?php
@@ -204,27 +187,12 @@ $db->close();
 											echo '<li><a href="admin-counter.php">Counter</a></li>';
 										}
 
-
-
-
-										// if (in_array('All', $menu_titles) || in_array('Image Slider', $menu_titles)) {
-										// 	echo '<li><a href="admin-sliders.php">Image Slider</a></li>';
-										// }
-
-										// if (in_array('All', $menu_titles) || in_array('Counter', $menu_titles)) {
-										// 	echo '<li><a href="admin-counter.php">Counter</a></li>';
-										// }
-
-										// if (in_array('All', $menu_titles) || in_array('Common Services', $menu_titles)) {
-										// 	echo '<li><a href="admin-common-services.php">Common Services</a></li>';
-										// }
-
 										?>
 									</ul>
 								<?php } ?>
 							</li>
 							<li class="submenu">
-								<?php if (in_array('All', $menu_titles) || in_array('Gallery', $menu_titles) || in_array('Testinominal', $menu_titles) || in_array('Why Choose Us', $menu_titles) || in_array('Work Process', $menu_titles) || in_array('Hero Slider', $menu_titles) || in_array('banner', $menu_titles)) { ?>
+								<?php if (in_array('All', $menu_titles) || in_array('Common Banner', $menu_titles) || in_array('About Us', $menu_titles) || in_array('Approach', $menu_titles) || in_array('Achievements', $menu_titles)) { ?>
 									<a href="javascript:void(0);"><i class="ti ti-info-circle"></i><span> About Page</span><span class="menu-arrow"></span></a>
 									<ul>
 										<?php
@@ -240,19 +208,6 @@ $db->close();
 										if (in_array('All', $menu_titles) || in_array('Achievements', $menu_titles)) {
 											echo '<li><a href="admin-acheivements.php">Achievements  </a></li>';
 										}
-
-
-
-
-
-
-
-										// if (in_array('All', $menu_titles) || in_array('Counter', $menu_titles)) {
-										// 	echo '<li><a href="admin-counter.php">Counter</a></li>';
-										// }
-
-
-
 										?>
 									</ul>
 								<?php } ?>
@@ -261,38 +216,17 @@ $db->close();
 					</li>
 				<?php } ?>
 
-				<!-- <?php if (in_array('All', $menu_titles) || in_array('About Us', $menu_titles) || in_array('Careers', $menu_titles) || in_array('About The Company', $menu_titles) || in_array('Counter', $menu_titles) || in_array('Profile', $menu_titles) || in_array('Services', $menu_titles) || in_array('Study Abroad', $menu_titles) || in_array('Team Member', $menu_titles)) { ?>
+				<?php if (in_array('All', $menu_titles) || in_array('Profile', $menu_titles) ) { ?>
 					<li>
 						<h6 class="submenu-hdr"><span>Pages</span></h6>
 						<ul>
 
 							<?php
-							if (in_array('All', $menu_titles) || in_array('About Us', $menu_titles)) {
-								echo '<li><a href="admin-about-us.php"><i class="ti ti-layout-distribute-horizontal"></i><span>About Founder</span></a></li>';
-							}
-
-							if (in_array('All', $menu_titles) || in_array('About The Company', $menu_titles)) {
-								echo '<li><a href="admin-thecompany.php"><i class="ti ti-building"></i><span>About The Company</span></a></li>';
-							}
-
-							if (in_array('All', $menu_titles) || in_array('Counter', $menu_titles)) {
-								echo '<li><a href="admin-counter.php"><i class="ti ti-layout-grid"></i><span>Counter</span></a></li>';
-							}
-
-
 							if (in_array('All', $menu_titles) || in_array('Profile', $menu_titles)) {
 
 								echo '<li><a href="profile.php"><i class="ti ti-user"></i><span>Profile</span></a></li>';
 							}
-							if (in_array('All', $menu_titles) || in_array('Services', $menu_titles)) {
 
-								echo '<li><a href="admin-service.php"><i class="ti ti-layout-distribute-vertical"></i><span>Event Services</span></a></li>';
-							}
-
-							if (in_array('All', $menu_titles) || in_array('Team Member', $menu_titles)) {
-
-								echo '<li><a href="admin-team.php"><i class="ti ti-users"></i><span>Team Member</span></a></li>';
-							}
 							if (in_array('All', $menu_titles) || in_array('Privacy Policy', $menu_titles)) {
 								echo '<li><a href="admin-privacy-policy.php"><i class="ti ti-lock"></i><span>Privacy Policy</span></a></li>';
 							}
@@ -303,23 +237,11 @@ $db->close();
 							?>
 						</ul>
 					</li>
-				<?php } ?> -->
-
-				<?php if (in_array('All', $menu_titles) || in_array('Team Profile', $menu_titles)) { ?>
-					<li>
-						<h6 class="submenu-hdr"><span>My Account</span></h6>
-						<ul>
-							<li>
-								<a href="team-profile.php"><i class="ti ti-user-heart"></i><span>My Team Profile</span></a>
-							</li>
-							<li>
-								<a href="profile.php"><i class="ti ti-user"></i><span>Profile</span></a>
-							</li>
-						</ul>
-					</li>
 				<?php } ?>
 
-				<?php if (in_array('All', $menu_titles) || in_array('General Setting', $menu_titles) || in_array('System Setting', $menu_titles) || in_array('Website Setting', $menu_titles) || in_array('SEO Setup', $menu_titles)) { ?>
+			
+
+				<?php if (in_array('All', $menu_titles) || in_array('General Setting', $menu_titles) || in_array('System Setting', $menu_titles) || in_array('Website Setting', $menu_titles) || in_array('SEO Setting', $menu_titles)) { ?>
 					<li>
 						<h6 class="submenu-hdr"><span>Settings</span></h6>
 						<ul>

@@ -1,3 +1,12 @@
+<?php
+
+$envFile = dirname(__DIR__) . '/.env';
+
+if (file_exists($envFile)) {
+    $env = parse_ini_file($envFile);
+    $baseUrl = $env['BASE_URL'] ?? 'http://localhost/tmc-new/';
+}
+?>
  <!-- Header Start -->
  <header class="main-header">
      <div class="header-sticky">
@@ -6,7 +15,7 @@
                  <!-- Logo Start -->
                  <a class="navbar-brand" href="index.php">
                     <!-- logo black -->
-                     <img src="http://localhost/tmc-website/<?= htmlspecialchars($siteLogo) ?>" alt="Logo"> 
+                     <img src="<?= $baseUrl ?><?= htmlspecialchars($siteLogo) ?>" alt="Logo"> 
                      <!-- <h4 class="" style="color: var(--accent-color);">Tee Mac Corporation</h4> -->
                  </a>
                  <!-- Logo End -->

@@ -14,14 +14,14 @@ $seo = get_seo_data($db, $page_seo_type);
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-     <title><?php echo htmlspecialchars($seo['title']); ?></title>
-     <meta name="keywords" content="<?php echo htmlspecialchars($seo['keywords']); ?>">
+    <title><?php echo htmlspecialchars($seo['title']); ?></title>
+    <meta name="keywords" content="<?php echo htmlspecialchars($seo['keywords']); ?>">
     <meta name="description" content="<?php echo htmlspecialchars($seo['description']); ?>">
-    
+
     <!-- Page Title -->
-   
+
     <!-- Favicon Icon -->
-     <link rel="icon" type="image/png" href="<?= htmlspecialchars($favicon) ?>">
+    <link rel="icon" type="image/png" href="<?= htmlspecialchars($favicon) ?>">
     <!-- Google Fonts Css-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
@@ -55,63 +55,63 @@ $seo = get_seo_data($db, $page_seo_type);
     ?>
 
 
-   <!-- Hero Section Start -->
-<div class="hero dark-section parallaxie" style="background-image: url('<?= htmlspecialchars($heroBgImage) ?>');">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <!-- Hero Box Start -->
-                <div class="hero-box">
-                    <!-- Hero Content Start -->
-                    <div class="hero-content">
-                        <!-- Hero Sub Heading Start -->
-                        <div class="hero-sub-heading wow fadeInUp">
-                            <!-- Satisfy Client Content Start -->
-                            <div class="satisfy-client-content">
-                                <p><?= htmlspecialchars($displayHero['sub_title']) ?></p>
+    <!-- Hero Section Start -->
+    <div class="hero dark-section parallaxie" style="background-image: url('<?= htmlspecialchars($heroBgImage) ?>');">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- Hero Box Start -->
+                    <div class="hero-box">
+                        <!-- Hero Content Start -->
+                        <div class="hero-content">
+                            <!-- Hero Sub Heading Start -->
+                            <div class="hero-sub-heading wow fadeInUp">
+                                <!-- Satisfy Client Content Start -->
+                                <div class="satisfy-client-content">
+                                    <p><?= htmlspecialchars($displayHero['sub_title']) ?></p>
+                                </div>
+                                <!-- Satisfy Client Content End -->
                             </div>
-                            <!-- Satisfy Client Content End -->
-                        </div>
-                        <!-- Hero Sub Heading End -->
+                            <!-- Hero Sub Heading End -->
 
-                        <!-- Section Title Start -->
-                        <div class="section-title">
-                            <h1 class="text-anime-style-3" data-cursor="-opaque">
-                                <?= htmlspecialchars($displayHero['main_title']) ?>
-                            </h1>
-                            <p class="wow fadeInUp" data-wow-delay="0.2s">
-                                <?= nl2br(htmlspecialchars(strip_tags($displayHero['description']))) ?>
-                            </p>
-                        </div>
-                        <!-- Section Title End -->
-
-                        <!-- Hero Content Body Start -->
-                        <div class="hero-content-body wow fadeInUp" data-wow-delay="0.4s">
-                            <!-- Hero Button Start -->
-                            <div class="hero-btn">
-                                <a href="about-us.php" class="btn-default btn-highlighted">Explore More</a>
+                            <!-- Section Title Start -->
+                            <div class="section-title">
+                                <h1 class="text-anime-style-3" data-cursor="-opaque">
+                                    <?= htmlspecialchars($displayHero['main_title']) ?>
+                                </h1>
+                                <p class="wow fadeInUp" data-wow-delay="0.2s">
+                                    <?= nl2br(htmlspecialchars(strip_tags($displayHero['description']))) ?>
+                                </p>
                             </div>
-                            <!-- Hero Button End -->
+                            <!-- Section Title End -->
 
-                            <!-- Video Play Button Start -->
-                            <!-- <div class="video-play-button">
+                            <!-- Hero Content Body Start -->
+                            <div class="hero-content-body wow fadeInUp" data-wow-delay="0.4s">
+                                <!-- Hero Button Start -->
+                                <div class="hero-btn">
+                                    <a href="about-us.php" class="btn-default btn-highlighted">Explore More</a>
+                                </div>
+                                <!-- Hero Button End -->
+
+                                <!-- Video Play Button Start -->
+                                <!-- <div class="video-play-button">
                                 <a href="https://www.youtube.com/watch?v=Y-x0efG1seA" class="popup-video" data-cursor-text="Play">
                                     <i class="fa-solid fa-play"></i>
                                 </a>
                                 <h3>Watch Video</h3>
                             </div> -->
-                            <!-- Video Play Button End -->
+                                <!-- Video Play Button End -->
+                            </div>
+                            <!-- Hero Content Body End -->
                         </div>
-                        <!-- Hero Content Body End -->
+                        <!-- Hero Content End -->
                     </div>
-                    <!-- Hero Content End -->
+                    <!-- Hero Box End -->
                 </div>
-                <!-- Hero Box End -->
             </div>
         </div>
     </div>
-</div>
-<!-- Hero Section End -->
+    <!-- Hero Section End -->
 
     <!-- Scrolling Ticker Section Start -->
     <div class="our-scrolling-ticker">
@@ -147,7 +147,7 @@ $seo = get_seo_data($db, $page_seo_type);
                             <!-- About Us Image Start -->
                             <div class="about-us-image-metal">
                                 <figure class="image-anime">
-                                    <img src="<?= htmlspecialchars($aboutImage1) ?>"
+                                    <img src="<?= $baseUrl ?><?= htmlspecialchars($aboutImage1) ?>"
                                         alt="<?= htmlspecialchars($displayAboutMetal['sub_title']) ?>">
                                 </figure>
                             </div>
@@ -342,78 +342,78 @@ $seo = get_seo_data($db, $page_seo_type);
             <div class="row">
                 <div class="col-lg-12">
 
-                  <!-- Services Slider Start -->
-<div class="feature-slider-metal wow fadeInUp" data-wow-delay="0.2s">
+                    <!-- Services Slider Start -->
+                    <div class="feature-slider-metal wow fadeInUp" data-wow-delay="0.2s">
 
-    <div class="swiper">
+                        <div class="swiper">
 
-        <div class="swiper-wrapper" data-cursor-text="Drag">
+                            <div class="swiper-wrapper" data-cursor-text="Drag">
 
-            <?php foreach ($displayHomeServices as $index => $service): ?>
-                <?php
-                // Zero-padded number: 01, 02, 03...
-                $serviceNo = str_pad($index + 1, 2, '0', STR_PAD_LEFT);
+                                <?php foreach ($displayHomeServices as $index => $service): ?>
+                                    <?php
+                                    // Zero-padded number: 01, 02, 03...
+                                    $serviceNo = str_pad($index + 1, 2, '0', STR_PAD_LEFT);
 
-                // Resolve icon — use DB column if exists, else fallback pattern
-                $iconPath = !empty($service['icon']) 
-                    ? $service['icon'] 
-                    : 'images/icon-service-' . ($index + 1) . '-metal.svg';
-                ?>
+                                    // Resolve icon — use DB column if exists, else fallback pattern
+                                    $iconPath = !empty($service['icon'])
+                                        ? $service['icon']
+                                        : 'images/icon-service-' . ($index + 1) . '-metal.svg';
+                                    ?>
 
-                <!-- <?= htmlspecialchars($service['title']) ?> Start -->
-                <div class="swiper-slide">
+                                    <!-- <?= htmlspecialchars($service['title']) ?> Start -->
+                                    <div class="swiper-slide">
 
-                    <div class="feature-item-metal box-bg-shape">
+                                        <div class="feature-item-metal box-bg-shape">
 
-                        <div class="feature-item-content-metal">
+                                            <div class="feature-item-content-metal">
 
-                            <div class="feature-item-header-metal">
+                                                <div class="feature-item-header-metal">
 
-                                <div class="feature-item-title-metal">
-                                    <h3><?= htmlspecialchars($service['title']) ?></h3>
-                                </div>
+                                                    <div class="feature-item-title-metal">
+                                                        <h3><?= htmlspecialchars($service['title']) ?></h3>
+                                                    </div>
 
-                                <div class="feature-item-no-metal">
-                                    <h4><?= $serviceNo ?>.</h4>
-                                </div>
+                                                    <div class="feature-item-no-metal">
+                                                        <h4><?= $serviceNo ?>.</h4>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="feature-item-body-metal">
+                                                    <p>
+                                                        <?= nl2br(htmlspecialchars(strip_tags($service['description']))) ?>
+                                                    </p>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="feature-item-btn-metal">
+                                                <!-- Link changed to contact-us.php -->
+                                                <a href="contact-us.php" class="readmore-btn">
+                                                    Contact Us
+                                                </a>
+                                            </div>
+
+                                            <div class="feature-item-icon-metal">
+                                                <img src="<?= htmlspecialchars($iconPath) ?>"
+                                                    alt="<?= htmlspecialchars($service['title']) ?>">
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    <!-- <?= htmlspecialchars($service['title']) ?> End -->
+
+                                <?php endforeach; ?>
 
                             </div>
 
-                            <div class="feature-item-body-metal">
-                                <p>
-                                    <?= nl2br(htmlspecialchars(strip_tags($service['description']))) ?>
-                                </p>
-                            </div>
+                            <div class="feature-pagination-metal"></div>
 
-                        </div>
-
-                        <div class="feature-item-btn-metal">
-                            <!-- Link changed to contact-us.php -->
-                            <a href="contact-us.php" class="readmore-btn">
-                                Contact Us
-                            </a>
-                        </div>
-
-                        <div class="feature-item-icon-metal">
-                            <img src="<?= htmlspecialchars($iconPath) ?>"
-                                alt="<?= htmlspecialchars($service['title']) ?>">
                         </div>
 
                     </div>
-
-                </div>
-                <!-- <?= htmlspecialchars($service['title']) ?> End -->
-
-            <?php endforeach; ?>
-
-        </div>
-
-        <div class="feature-pagination-metal"></div>
-
-    </div>
-
-</div>
-<!-- Services Slider End -->
+                    <!-- Services Slider End -->
 
                 </div>
             </div>
@@ -552,83 +552,83 @@ $seo = get_seo_data($db, $page_seo_type);
 
                 <div class="col-xl-7">
 
-                   <!-- Event Items List Start -->
-<div class="event-items-list-gold">
+                    <!-- Event Items List Start -->
+                    <div class="event-items-list-gold">
 
-    <?php foreach ($displayEvents as $index => $event): ?>
-    <?php
-    // 1. Calculate animation delay
-    $delay = ($index * 0.2) . 's';
+                        <?php foreach ($displayEvents as $index => $event): ?>
+                            <?php
+                            // 1. Calculate animation delay
+                            $delay = ($index * 0.2) . 's';
 
-    // 2. Format the date safely
-    $formattedDate = !empty($event['date']) ? date('M d, Y', strtotime($event['date'])) : 'TBA';
+                            // 2. Format the date safely
+                            $formattedDate = !empty($event['date']) ? date('M d, Y', strtotime($event['date'])) : 'TBA';
 
-    // 3. Clean description safely
-    $cleanDesc = strip_tags($event['description'] ?? '');
+                            // 3. Clean description safely
+                            $cleanDesc = strip_tags($event['description'] ?? '');
 
-    // 4. Build image path safely
-    $imagePath = !empty($event['image']) ? 'admin/' . $event['image'] : 'images/event-default.jpg';
+                            // 4. Build image path safely
+                            $imagePath = !empty($event['image']) ? 'admin/' . $event['image'] : 'images/event-default.jpg';
 
-    // 5. Build event link SAFELY (Root-relative for Laragon)
-$eventId = $event['idevent'] ?? 1;
-$eventSlug = trim($event['slug'] ?? '');
+                            // 5. Build event link SAFELY (Root-relative for Laragon)
+                            $eventId = $event['idevent'] ?? 1;
+                            $eventSlug = trim($event['slug'] ?? '');
 
-if (!empty($eventSlug) && stripos($eventSlug, '.php') === false) {
-    $eventLink = '/tmc-website/event-details.php/' . rawurlencode($eventSlug);
-} else {
-    $eventLink = '/tmc-website/event-details.php?id=' . urlencode($eventId);
-}
+                            if (!empty($eventSlug) && stripos($eventSlug, '.php') === false) {
+                                $eventLink = '/tmc-website/event-details.php/' . rawurlencode($eventSlug);
+                            } else {
+                                $eventLink = '/tmc-website/event-details.php?id=' . urlencode($eventId);
+                            }
 
-    // 6. Get event number (1, 2, 3...)
-    $eventNumber = str_pad($index + 1, 2, '0', STR_PAD_LEFT);
-    ?>
+                            // 6. Get event number (1, 2, 3...)
+                            $eventNumber = str_pad($index + 1, 2, '0', STR_PAD_LEFT);
+                            ?>
 
-    <!-- Event Item Start -->
-    <div class="event-item-gold wow fadeInUp" data-wow-delay="<?= $delay ?>">
+                            <!-- Event Item Start -->
+                            <div class="event-item-gold wow fadeInUp" data-wow-delay="<?= $delay ?>">
 
-        <!-- Event Image Start -->
-        <div class="event-item-image-gold">
-            <a href="<?= htmlspecialchars($eventLink) ?>" data-cursor-text="View">
-                <figure>
-                    <img src="<?= htmlspecialchars($imagePath) ?>" alt="<?= htmlspecialchars($event['title'] ?? 'Event') ?>">
-                </figure>
-            </a>
-        </div>
-        <!-- Event Image End -->
+                                <!-- Event Image Start -->
+                                <div class="event-item-image-gold">
+                                    <a href="<?= htmlspecialchars($eventLink) ?>" data-cursor-text="View">
+                                        <figure>
+                                            <img src="<?= htmlspecialchars($imagePath) ?>" alt="<?= htmlspecialchars($event['title'] ?? 'Event') ?>">
+                                        </figure>
+                                    </a>
+                                </div>
+                                <!-- Event Image End -->
 
-        <!-- Event Item Body Start -->
-        <div class="event-item-body-gold">
-            <div class="event-schedule-content-gold">
-                <h2><?= $eventNumber ?></h2>
-                <p>Upcoming</p>
-                <p><?= $formattedDate ?></p>
-            </div>
+                                <!-- Event Item Body Start -->
+                                <div class="event-item-body-gold">
+                                    <div class="event-schedule-content-gold">
+                                        <h2><?= $eventNumber ?></h2>
+                                        <p>Upcoming</p>
+                                        <p><?= $formattedDate ?></p>
+                                    </div>
 
-            <div class="event-item-info-gold">
-                <div class="event-item-body-content-gold">
-                    <h3>
-                        <a href="<?= htmlspecialchars($eventLink) ?>">
-                            <?= htmlspecialchars($event['title'] ?? 'Event Title') ?>
-                        </a>
-                    </h3>
-                    <p><?= htmlspecialchars($cleanDesc) ?></p>
-                </div>
+                                    <div class="event-item-info-gold">
+                                        <div class="event-item-body-content-gold">
+                                            <h3>
+                                                <a href="<?= htmlspecialchars($eventLink) ?>">
+                                                    <?= htmlspecialchars($event['title'] ?? 'Event Title') ?>
+                                                </a>
+                                            </h3>
+                                            <p><?= htmlspecialchars($cleanDesc) ?></p>
+                                        </div>
 
-                <div class="event-item-btn-gold">
-                    <a href="<?= htmlspecialchars($eventLink) ?>" class="readmore-btn">
-                        View Event Details
-                    </a>
-                </div>
-            </div>
-        </div>
-        <!-- Event Item Body End -->
+                                        <div class="event-item-btn-gold">
+                                            <a href="<?= htmlspecialchars($eventLink) ?>" class="readmore-btn">
+                                                View Event Details
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Event Item Body End -->
 
-    </div>
-    <!-- Event Item End -->
+                            </div>
+                            <!-- Event Item End -->
 
-<?php endforeach; ?>
-</div>
-<!-- Event Items List End -->
+                        <?php endforeach; ?>
+                    </div>
+                    <!-- Event Items List End -->
 
                 </div>
 
@@ -781,13 +781,13 @@ if (!empty($eventSlug) && stripos($eventSlug, '.php') === false) {
                                         <img src="images/icon-phone-accent.svg"
                                             alt="Call Eventful">
                                     </div>
-
-                                    <p>
-                                        <a href="tel:+919999999999">
-                                            +91 99999 99999
-                                        </a>
-                                    </p>
-
+                                    <?php if (!empty($displayCompany['phone1'])): ?>
+                                        <p>
+                                            <a href="tel:<?= preg_replace('/[^0-9+]/', '', $displayCompany['phone1']) ?>" target="_blank">
+                                                <?= htmlspecialchars($displayCompany['phone1']) ?>
+                                            </a>
+                                        </p>
+                                    <?php endif; ?>
                                 </div>
                                 <!-- Faqs CTA Box Item End -->
 
@@ -1096,7 +1096,7 @@ if (!empty($eventSlug) && stripos($eventSlug, '.php') === false) {
                 "ctaText": "Start Chat",
                 "borderRadius": "25",
                 "autoShow": false,
-                "phoneNumber": "+919888536653"
+                "phoneNumber": "+917380015666"
             }
         };
         s.onload = function() {

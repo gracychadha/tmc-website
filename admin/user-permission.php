@@ -168,7 +168,7 @@ $result_permission = $db->query($permission);
     <meta name="robots" content="noindex, nofollow">
     <title>User Permission - Tee Mac Corporation</title>
     <link rel="shortcut icon" type="image/x-icon" href="<?php echo htmlspecialchars($faviconPath); ?>">
-    <script src="assets/js/theme-script.js" type="094c2cc781cee01c60adaad3-text/javascript"></script>
+    <script src="assets/js/theme-script.js" "></script>
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/plugins/icons/feather/feather.css">
     <link rel="stylesheet" href="assets/plugins/tabler-icons/tabler-icons.css">
@@ -307,14 +307,18 @@ $result_permission = $db->query($permission);
                                             <td><?php echo htmlspecialchars($row['date']); ?></td>
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <a href="#" class="btn btn-outline-light bg-white btn-icon d-flex align-items-center justify-content-center rounded-circle edit-btn p-0 me-2"
-                                                        data-bs-toggle="modal" data-bs-target="#editUserModal"
-                                                        data-id="<?php echo $row['admin_id']; ?>"
-                                                        data-username="<?php echo htmlspecialchars($row['username']); ?>"
-                                                        data-email="<?php echo htmlspecialchars($row['email']); ?>"
-                                                        data-phone="<?php echo htmlspecialchars($row['phone']); ?>"
-                                                        data-status="<?php echo $row['status']; ?>"
-                                                        data-permission='<?php echo htmlspecialchars($row['permission']); ?>'>
+                                                    <a href="#"
+                                                        class="btn btn-outline-light bg-white btn-icon d-flex align-items-center justify-content-center rounded-circle edit-btn p-0 me-2"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#editUserModal"
+
+                                                        data-id="<?php echo (int)$row['admin_id']; ?>"
+                                                        data-username="<?php echo htmlspecialchars($row['username'], ENT_QUOTES, 'UTF-8'); ?>"
+                                                        data-email="<?php echo htmlspecialchars($row['email'], ENT_QUOTES, 'UTF-8'); ?>"
+                                                        data-phone="<?php echo htmlspecialchars($row['phone'], ENT_QUOTES, 'UTF-8'); ?>"
+                                                        data-status="<?php echo htmlspecialchars($row['status'], ENT_QUOTES, 'UTF-8'); ?>"
+                                                        data-permission="<?php echo htmlspecialchars($row['permission'] ?? '[]', ENT_QUOTES, 'UTF-8'); ?>">
+
                                                         <i class="ti ti-edit-circle text-primary"></i>
                                                     </a>
                                                     <a href="#" class="btn btn-outline-light bg-white btn-icon d-flex align-items-center justify-content-center rounded-circle p-0 me-3 delete-btn"
@@ -368,7 +372,7 @@ $result_permission = $db->query($permission);
                             <div class="mb-3">
                                 <label>Permission</label>
                                 <select name="permission[]" id="edit-permission" class="form-control select2" multiple>
-                                    
+
                                     <?php
                                     // Reset result_permission to start
                                     mysqli_data_seek($result_permission, 0);
@@ -412,28 +416,28 @@ $result_permission = $db->query($permission);
         </div>
 
 
-        <script src="assets/js/jquery-3.7.1.min.js" type="094c2cc781cee01c60adaad3-text/javascript"></script>
-        <script src="assets/js/bootstrap.bundle.min.js" type="094c2cc781cee01c60adaad3-text/javascript"></script>
-        <script src="assets/js/moment.js" type="094c2cc781cee01c60adaad3-text/javascript"></script>
-        <script src="assets/plugins/daterangepicker/daterangepicker.js" type="094c2cc781cee01c60adaad3-text/javascript"></script>
-        <script src="assets/js/bootstrap-datetimepicker.min.js" type="094c2cc781cee01c60adaad3-text/javascript"></script>
-        <script src="assets/js/feather.min.js" type="094c2cc781cee01c60adaad3-text/javascript"></script>
-        <script src="assets/js/jquery.slimscroll.min.js" type="094c2cc781cee01c60adaad3-text/javascript"></script>
-        <script src="assets/js/jquery.dataTables.min.js" type="094c2cc781cee01c60adaad3-text/javascript"></script>
-        <script src="assets/js/dataTables.bootstrap5.min.js" type="094c2cc781cee01c60adaad3-text/javascript"></script>
-        <script src="assets/plugins/select2/js/select2.min.js" type="094c2cc781cee01c60adaad3-text/javascript"></script>
-        <script src="assets/plugins/summernote/summernote-lite.min.js" type="094c2cc781cee01c60adaad3-text/javascript"></script>
-        <script src="assets/js/script.js" type="094c2cc781cee01c60adaad3-text/javascript"></script>
+        <script src="assets/js/jquery-3.7.1.min.js" ></script>
+        <script src="assets/js/bootstrap.bundle.min.js" "></script>
+        <script src="assets/js/moment.js" "></script>
+        <script src="assets/plugins/daterangepicker/daterangepicker.js" "></script>
+        <script src="assets/js/bootstrap-datetimepicker.min.js" "></script>
+        <script src="assets/js/feather.min.js" "></script>
+        <script src="assets/js/jquery.slimscroll.min.js" "></script>
+        <script src="assets/js/jquery.dataTables.min.js" "></script>
+        <script src="assets/js/dataTables.bootstrap5.min.js" "></script>
+        <script src="assets/plugins/select2/js/select2.min.js" "></script>
+        <script src="assets/plugins/summernote/summernote-lite.min.js" "></script>
+        <script src="assets/js/script.js" "></script>
         <script src="assets/js/admin-custom.js"></script>
         <script src="assets/js/rocket-loader.min.js" data-cf-settings="094c2cc781cee01c60adaad3-|49" defer=""></script>
 
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-        
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.10/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.10/vfs_fonts.js"></script>
-    <script src="assets/js/export.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.10/pdfmake.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.10/vfs_fonts.js"></script>
+        <script src="assets/js/export.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 
         <script>
             $(document).ready(function() {
@@ -482,21 +486,61 @@ $result_permission = $db->query($permission);
                         unset($_SESSION['msg_type']); ?>
                     <?php endif; ?>
                 });
-                // Edit button click event
-                $('.edit-btn').click(function() {
-                    var userId = $(this).data('id');
-                    var username = $(this).data('username');
-                    var email = $(this).data('email');
-                    var phone = $(this).data('phone');
-                    var status = $(this).data('status');
-                    var permission = $(this).data('permission');
+                // Initialize Select2 only once
+                $('#edit-permission').select2({
+                    dropdownParent: $('#editUserModal')
+                });
 
-                    $('#edit-id').val(userId);
+
+                $(document).on('click', '.edit-btn', function() {
+
+                    var button = $(this);
+
+                    var id = button.attr('data-id');
+                    var username = button.attr('data-username');
+                    var email = button.attr('data-email');
+                    var phone = button.attr('data-phone');
+                    var status = button.attr('data-status');
+                    var permissionData = button.attr('data-permission');
+
+                    console.log("EDIT DATA:");
+                    console.log("ID:", id);
+                    console.log("Username:", username);
+                    console.log("Email:", email);
+                    console.log("Phone:", phone);
+                    console.log("Status:", status);
+                    console.log("Permission:", permissionData);
+
+                    // Fill existing data
+                    $('#edit-id').val(id);
                     $('#edit-username').val(username);
                     $('#edit-email').val(email);
                     $('#edit-mobile').val(phone);
                     $('#edit-status').val(status);
-                    $('#edit-permission').val(permission ? JSON.parse(permission) : []).trigger('change');
+
+                    // Permission
+                    var permissions = [];
+
+                    if (permissionData) {
+                        try {
+                            permissions = JSON.parse(permissionData);
+
+                            if (!Array.isArray(permissions)) {
+                                permissions = [];
+                            }
+
+                        } catch (error) {
+                            console.log("Permission JSON error:", error);
+                            permissions = [];
+                        }
+                    }
+
+                    permissions = permissions.map(String);
+
+                    $('#edit-permission')
+                        .val(permissions)
+                        .trigger('change');
+
                 });
 
                 // Delete button click event
