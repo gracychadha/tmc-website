@@ -79,6 +79,11 @@ $db->close();
 							}
 							if (in_array('All', $menu_titles) || in_array('Contact Us', $menu_titles)) {
 								echo '<li>
+							<a href="portfolio-contacts.php"><i class="ti ti-license"></i><span>Prtfolio Contact Requests</span></a>
+						</li>';
+							}
+							if (in_array('All', $menu_titles) || in_array('Contact Us', $menu_titles)) {
+								echo '<li>
 							<a href="admin-subscriber.php"><i class="ti ti-license"></i><span>Subscribers</span></a>
 						</li>';
 							}

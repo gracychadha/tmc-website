@@ -493,6 +493,14 @@ if (!empty($twitterUrl)) {
     if (!empty($socialRow['linkedin'])) {
         $displaySocialLinks[] = ['platform' => 'linkedin', 'url' => $socialRow['linkedin'], 'icon' => 'fa-brands fa-linkedin'];
     }
+    // 4. Youtube
+    if (!empty($socialRow['youtube'])) {
+        $displaySocialLinks[] = ['platform' => 'youtube', 'url' => $socialRow['youtube'], 'icon' => 'fa-brands fa-youtube'];
+    }
+    // 4. Pinterest
+    if (!empty($socialRow['pinterest'])) {
+        $displaySocialLinks[] = ['platform' => 'pinterest', 'url' => $socialRow['pinterest'], 'icon' => 'fa-brands fa-pinterest'];
+    }
 }
 
 // Fallback 
@@ -501,7 +509,9 @@ if (empty($displaySocialLinks)) {
         ['platform' => 'facebook', 'url' => 'https://facebook.com', 'icon' => 'fab fa-facebook-f'],
         ['platform' => 'instagram', 'url' => 'https://instagram.com', 'icon' => 'fa-brands fa-instagram'],
         ['platform' => 'twitter', 'url' => 'https://twitter.com', 'icon' => 'fa-brands fa-x-twitter'],
-        ['platform' => 'linkedin', 'url' => 'https://linkedin.com', 'icon' => 'fa-brands fa-linkedin']
+        ['platform' => 'linkedin', 'url' => 'https://linkedin.com', 'icon' => 'fa-brands fa-linkedin'],
+        ['platform' => 'youtube', 'url' => 'https://youtube.com', 'icon' => 'fa-brands fa-youtube'],
+        ['platform' => 'pinterest', 'url' => 'https://pinterest.com', 'icon' => 'fa-brands fa-pinterest']
     ];
 }
 

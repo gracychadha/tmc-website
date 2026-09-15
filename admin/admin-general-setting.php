@@ -44,6 +44,8 @@ $facebook = '';
 $instagram = '';
 $twitter = '';
 $linkedin = '';
+$youtube = '';
+$pinterest = '';
 
 if ($result_social->num_rows > 0) {
     $row_social = $result_social->fetch_assoc();
@@ -51,6 +53,8 @@ if ($result_social->num_rows > 0) {
     $instagram = $row_social['instagram'];
     $twitter = $row_social['twiter'];
     $linkedin = $row_social['linkedin'];
+    $youtube = $row_social['youtube'];
+    $pinterest = $row_social['pinterest'];
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -94,6 +98,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $instagram = isset($_POST['instagram']) ? $_POST['instagram'] : '';
         $twitter = isset($_POST['twitter']) ? $_POST['twitter'] : '';
         $linkedin = isset($_POST['linkedin']) ? $_POST['linkedin'] : '';
+        $youtube = isset($_POST['youtube']) ? $_POST['youtube'] : '';
+        $pinterest = isset($_POST['pinterest']) ? $_POST['pinterest'] : '';
 
         // Re-fetch the existing data to ensure the result is accurate
         $result_social = $db->query($sql_check_social);
@@ -101,16 +107,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($result_social->num_rows > 0) {
             // Update record
             $row_social = $result_social->fetch_assoc();
-            $sql_update = "UPDATE social_link SET facebook = ?, instagram = ?, twiter = ?, linkedin = ? WHERE id = ?";
+            $sql_update = "UPDATE social_link SET facebook = ?, instagram = ?, twiter = ?, linkedin = ?, youtube= ?, pinterest = ? WHERE id = ?";
             $stmt = $db->prepare($sql_update);
-            $stmt->bind_param("ssssi", $facebook, $instagram, $twitter, $linkedin, $row_social['id']);
+            $stmt->bind_param("ssssssi", $facebook, $instagram, $twitter, $linkedin, $youtube, $pinterest, $row_social['id']);
             $stmt->execute();
             $_SESSION['message'] = "Social links record updated successfully.";
         } else {
             // Insert record
-            $sql_insert = "INSERT INTO social_link (facebook, instagram, twiter, linkedin) VALUES (?, ?, ?, ?)";
+            $sql_insert = "INSERT INTO social_link (facebook, instagram, twiter, linkedin, youtube, pinterest) VALUES (?, ?, ?, ?, ?, ?)";
             $stmt = $db->prepare($sql_insert);
-            $stmt->bind_param("ssss", $facebook, $instagram, $twitter, $linkedin);
+            $stmt->bind_param("ssssss", $facebook, $instagram, $twitter, $linkedin, $youtube, $pinterest);
             $stmt->execute();
             $_SESSION['message'] = "Social links record added successfully.";
         }
@@ -290,6 +296,14 @@ if ($stmt = $db->prepare($sqlfav)) {
                                         <div class="col-md-6 mb-3">
                                             <label for="linkedin" class="form-label">LinkedIn</label>
                                             <input type="text" class="form-control" id="linkedin" name="linkedin" placeholder="Enter LinkedIn URL" value="<?php echo htmlspecialchars($linkedin); ?>">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="youtube" class="form-label">Youtube</label>
+                                            <input type="text" class="form-control" id="youtube" name="youtube" placeholder="Enter Youtube URL" value="<?php echo ($youtube); ?>">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="pinterest" class="form-label">Pinterest</label>
+                                            <input type="text" class="form-control" id="pinterest" name="pinterest" placeholder="Enter Pinterest URL" value="<?php echo ($pinterest); ?>">
                                         </div>
                                     </div>
                                     <div class="text-left">
