@@ -5,9 +5,18 @@ $page_seo_type = 'contact';
 
 // Fetch the SEO data
 $seo = get_seo_data($db, $page_seo_type);
+
+// Fetch reCAPTCHA Site Key dynamically from database
+$recaptcha_sitekey = '';
+$captcha_query = "SELECT sitekey FROM google_captcha LIMIT 1";
+$captcha_result = $db->query($captcha_query);
+if ($captcha_result && $captcha_row = $captcha_result->fetch_assoc()) {
+    $recaptcha_sitekey = trim($captcha_row['sitekey']);
+}
 ?>
 <!DOCTYPE html>
 <html lang="zxx">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,14 +24,14 @@ $seo = get_seo_data($db, $page_seo_type);
     <title><?php echo htmlspecialchars($seo['title'] ?? 'Contact Us'); ?></title>
     <meta name="keywords" content="<?php echo htmlspecialchars($seo['keywords'] ?? ''); ?>">
     <meta name="description" content="<?php echo htmlspecialchars($seo['description'] ?? ''); ?>">
-    
+
     <link rel="icon" type="image/png" href="<?= htmlspecialchars($favicon ?? 'favicon.png') ?>">
-    
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap" rel="stylesheet">
-    
+
     <!-- CSS Files -->
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="css/slicknav.min.css" rel="stylesheet">
@@ -32,13 +41,13 @@ $seo = get_seo_data($db, $page_seo_type);
     <link rel="stylesheet" href="css/magnific-popup.css">
     <link rel="stylesheet" href="css/mousecursor.css">
     <link href="css/custom.css" rel="stylesheet" media="screen">
-    
+
     <!-- SweetAlert2 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    
+
     <!-- intl-tel-input -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
-    
+
     <!-- Google reCAPTCHA v2 -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
@@ -128,12 +137,13 @@ $seo = get_seo_data($db, $page_seo_type);
                                     <div class="form-group col-md-12 mb-4">
                                         <textarea name="message" class="form-control" id="message" rows="5" placeholder="Write your message here..." required></textarea>
                                     </div>
-                                    
+
                                     <!-- Google reCAPTCHA -->
                                     <div class="form-group col-md-12 mb-4">
-                                        <div class="g-recaptcha" data-sitekey="6LduZ7UtAAAAABPi4-m1AlD_Ua8LvGARfusTkN3T"></div>
+                                        <?php if (!empty($recaptcha_sitekey)): ?>
+                                            <div class="g-recaptcha" data-sitekey="<?= htmlspecialchars($recaptcha_sitekey) ?>"></div>
+                                        <?php endif; ?>
                                     </div>
-
                                     <div class="col-lg-12">
                                         <div class="contact-form-btn">
                                             <button type="submit" class="btn-default"><span>Send a Message</span></button>
@@ -184,7 +194,7 @@ $seo = get_seo_data($db, $page_seo_type);
     <script src="js/wow.min.js"></script>
     <script src="js/function.js"></script>
     <script src="../assets/js/theme-panel-dynamic.js"></script>
-    
+
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- intl-tel-input -->
@@ -192,71 +202,84 @@ $seo = get_seo_data($db, $page_seo_type);
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
 
     <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Initialize International Telephone Input
-        var phoneInput = document.querySelector("#phone");
-        var iti = window.intlTelInput(phoneInput, {
-            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
-            preferredCountries: ["in"],
-            separateDialCode: true,
-            initialCountry: "in"
-        });
+        document.addEventListener("DOMContentLoaded", function() {
+            // Initialize International Telephone Input
+            var phoneInput = document.querySelector("#phone");
+            var iti = window.intlTelInput(phoneInput, {
+                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+                preferredCountries: ["in"],
+                separateDialCode: true,
+                initialCountry: "in"
+            });
 
-        $('#contactForm').on('submit', function(e) {
-            e.preventDefault(); 
-            
-            // Get full international phone number (e.g., +919876543210)
-            var fullPhoneNumber = iti.getNumber();
-            var formData = $(this).serializeArray();
-            
-            // Override the phone value with the properly formatted international number
-            var phoneIndex = formData.findIndex(item => item.name === 'phone');
-            if (phoneIndex !== -1) {
-                formData[phoneIndex].value = fullPhoneNumber;
-            }
+            $('#contactForm').on('submit', function(e) {
+                e.preventDefault();
 
-            var $btn = $(this).find('button[type="submit"]');
-            var originalBtnText = $btn.html();
-            
-            // Frontend reCAPTCHA check
-            if (typeof grecaptcha !== 'undefined' && grecaptcha.getResponse() === "") {
-                Swal.fire({ icon: 'error', title: 'Oops...', text: 'Please complete the reCAPTCHA.' });
-                return false;
-            }
+                // Get full international phone number (e.g., +919876543210)
+                var fullPhoneNumber = iti.getNumber();
+                var formData = $(this).serializeArray();
 
-            $btn.prop('disabled', true).html('<span>Sending...</span>');
-
-            $.ajax({
-                url: 'process-contact.php', 
-                type: 'POST',
-                data: formData,
-                dataType: 'json',
-                success: function(response) {
-                    if(response.status === 'success') {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Message Sent!',
-                            text: response.message,
-                            timer: 3000,
-                            showConfirmButton: false
-                        });
-                        $('#contactForm')[0].reset();
-                        iti.setCountry("in"); // Reset phone input
-                        if (typeof grecaptcha !== 'undefined') grecaptcha.reset();
-                    } else {
-                        Swal.fire({ icon: 'error', title: 'Validation Error', text: response.message });
-                        if (typeof grecaptcha !== 'undefined') grecaptcha.reset();
-                    }
-                },
-                error: function() {
-                    Swal.fire({ icon: 'error', title: 'Connection Error', text: 'An error occurred. Please try again later.' });
-                },
-                complete: function() {
-                    $btn.prop('disabled', false).html(originalBtnText);
+                // Override the phone value with the properly formatted international number
+                var phoneIndex = formData.findIndex(item => item.name === 'phone');
+                if (phoneIndex !== -1) {
+                    formData[phoneIndex].value = fullPhoneNumber;
                 }
+
+                var $btn = $(this).find('button[type="submit"]');
+                var originalBtnText = $btn.html();
+
+                // Frontend reCAPTCHA check
+                if (typeof grecaptcha !== 'undefined' && grecaptcha.getResponse() === "") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Please complete the reCAPTCHA.'
+                    });
+                    return false;
+                }
+
+                $btn.prop('disabled', true).html('<span>Sending...</span>');
+
+                $.ajax({
+                    url: 'process-contact.php',
+                    type: 'POST',
+                    data: formData,
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Message Sent!',
+                                text: response.message,
+                                timer: 3000,
+                                showConfirmButton: false
+                            });
+                            $('#contactForm')[0].reset();
+                            iti.setCountry("in"); // Reset phone input
+                            if (typeof grecaptcha !== 'undefined') grecaptcha.reset();
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Validation Error',
+                                text: response.message
+                            });
+                            if (typeof grecaptcha !== 'undefined') grecaptcha.reset();
+                        }
+                    },
+                    error: function() {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Connection Error',
+                            text: 'An error occurred. Please try again later.'
+                        });
+                    },
+                    complete: function() {
+                        $btn.prop('disabled', false).html(originalBtnText);
+                    }
+                });
             });
         });
-    });
     </script>
 </body>
+
 </html>
