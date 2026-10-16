@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['add-form']) && $_SERVER['REQUEST_METHOD'] == "POST") {
         // Capture form inputs
         $servicesTitle = htmlspecialchars(strip_tags(trim($_POST['title'])));
-        $status = isset($_POST['status']) ? 0 : 1; // Convert checkbox value to 1 or 0
+        $status = 1; // Convert checkbox value to 1 or 0
         $slug = generateSlug($servicesTitle); // Generate slug from title
         $description = $_POST['content']; // Getting the content
 
