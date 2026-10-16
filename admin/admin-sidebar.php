@@ -110,6 +110,11 @@ $db->close();
 									<a href="admin-event.php"><i class="fa-solid fa-calendar-days"></i><span>Manage Event(s)</span></a>
 								<?php } ?>
 							</li>
+							<li class="">
+								<?php if (in_array('All', $menu_titles) || in_array('Services', $menu_titles)) { ?>
+									<a href="admin-service.php"><i class="fa-solid fa-handshake"></i><span>Manage Service(s)</span></a>
+								<?php } ?>
+							</li>
 							<!-- Faq -->
 							<li class="">
 								<?php if (in_array('All', $menu_titles) || in_array('Faq', $menu_titles)) { ?>
