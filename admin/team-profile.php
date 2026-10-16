@@ -2,6 +2,7 @@
 session_start();
 require_once('db/config.php');
 require_once('includes/mailer.php');
+require_once('includes/csrf.php');
 
 if (!isset($_SESSION['adminId'])) {
     header("Location: index.php");
@@ -33,6 +34,13 @@ if ($team_id > 0) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Verify CSRF token on every POST
+    if (!csrf_verify()) {
+        $_SESSION['error'] = "Security token mismatch. Please refresh the page and try again.";
+        header("Location: team-profile.php");
+        exit();
+    }
+
     if (isset($_POST['team_profile_submit'])) {
         if (!$team) {
             $_SESSION['message'] = "No team profile is linked to your account.";
@@ -193,6 +201,18 @@ if ($stmt = $db->prepare($sqlfav)) {
                 });
                 <?php unset($_SESSION['message']); ?>
             <?php endif; ?>
+            <?php if (isset($_SESSION['error'])): ?>
+                Swal.fire({
+                    toast: true,
+                    position: 'bottom-end',
+                    icon: 'error',
+                    title: "<?php echo htmlspecialchars($_SESSION['error'], ENT_QUOTES, 'UTF-8'); ?>",
+                    showConfirmButton: false,
+                    timer: 8000,
+                    timerProgressBar: true
+                });
+                <?php unset($_SESSION['error']); ?>
+            <?php endif; ?>
         });
     </script>
 
@@ -230,6 +250,7 @@ if ($stmt = $db->prepare($sqlfav)) {
                                 </div>
                                 <div class="card-body">
                                     <form action="team-profile.php" method="POST" enctype="multipart/form-data">
+                                        <?php echo csrf_field(); ?>
                                         <div class="row">
                                             <div class="col-md-6 mb-3">
                                                 <label class="form-label">Full Name</label>
@@ -290,6 +311,7 @@ if ($stmt = $db->prepare($sqlfav)) {
                                 </div>
                                 <div class="card-body">
                                     <form action="team-profile.php" method="POST">
+                                        <?php echo csrf_field(); ?>
                                         <div class="mb-3">
                                             <label class="form-label">Current Password</label>
                                             <input type="password" name="current_password" class="form-control" required>

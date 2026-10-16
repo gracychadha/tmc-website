@@ -1,6 +1,8 @@
 <?php
 require_once('fetch-all.php');
 
+$baseUrl = parse_ini_file(__DIR__ . '/.env')['BASE_URL'] ?? '';
+
 $page_seo_type = 'home';
 
 // 2. Fetch the SEO data
@@ -220,7 +222,7 @@ $seo = get_seo_data($db, $page_seo_type);
                             <!-- About Client Content Start -->
                             <div class="about-client-content-metal">
                                 <h3>
-                                    Delivering Experiences That Bring People Together
+                                    Planning Events. Creating Experiences. Making an Impact.
                                 </h3>
                             </div>
                             <!-- About Client Content End -->
@@ -292,8 +294,8 @@ $seo = get_seo_data($db, $page_seo_type);
                                     </h3>
 
                                     <p>
-                                        <a href="mailto:info@teemaccorp.com" target="_blank">
-                                            info@teemaccorp.com
+                                        <a href="mailto:info@teemac.co.in" target="_blank">
+                                            info@teemac.co.in
                                         </a>
                                     </p>
 
@@ -349,15 +351,17 @@ $seo = get_seo_data($db, $page_seo_type);
 
                             <div class="swiper-wrapper" data-cursor-text="Drag">
 
+
+
                                 <?php foreach ($displayHomeServices as $index => $service): ?>
                                     <?php
                                     // Zero-padded number: 01, 02, 03...
                                     $serviceNo = str_pad($index + 1, 2, '0', STR_PAD_LEFT);
 
-                                    // Resolve icon — use DB column if exists, else fallback pattern
+                                    // Resolve icon and add BASE_URL
                                     $iconPath = !empty($service['icon'])
-                                        ? $service['icon']
-                                        : 'images/icon-service-' . ($index + 1) . '-metal.svg';
+                                        ? $baseUrl . ltrim($service['icon'], '/')
+                                        : $baseUrl . 'images/icon-service-' . ($index + 1) . '-metal.svg';
                                     ?>
 
                                     <!-- <?= htmlspecialchars($service['title']) ?> Start -->
@@ -388,8 +392,7 @@ $seo = get_seo_data($db, $page_seo_type);
                                             </div>
 
                                             <div class="feature-item-btn-metal">
-                                                <!-- Link changed to contact-us.php -->
-                                                <a href="contact-us.php" class="readmore-btn">
+                                                <a href="<?= htmlspecialchars($baseUrl . 'contact-us.php') ?>" class="readmore-btn">
                                                     Contact Us
                                                 </a>
                                             </div>
@@ -402,8 +405,6 @@ $seo = get_seo_data($db, $page_seo_type);
                                         </div>
 
                                     </div>
-                                    <!-- <?= htmlspecialchars($service['title']) ?> End -->
-
                                 <?php endforeach; ?>
 
                             </div>
@@ -555,53 +556,58 @@ $seo = get_seo_data($db, $page_seo_type);
                     <!-- Event Items List Start -->
                     <div class="event-items-list-gold">
 
+
+
                         <?php foreach ($displayEvents as $index => $event): ?>
                             <?php
                             // 1. Calculate animation delay
                             $delay = ($index * 0.2) . 's';
 
-                            // 2. Format the date safely
-                            $formattedDate = !empty($event['date']) ? date('M d, Y', strtotime($event['date'])) : 'TBA';
+                            // 2. Format date safely
+                            $formattedDate = !empty($event['date'])
+                                ? date('M d, Y', strtotime($event['date']))
+                                : 'TBA';
 
                             // 3. Clean description safely
                             $cleanDesc = strip_tags($event['description'] ?? '');
 
-                            // 4. Build image path safely
-                            $imagePath = !empty($event['image']) ? 'admin/' . $event['image'] : 'images/event-default.jpg';
+                            // 4. Build image path using BASE_URL
+                            $imagePath = !empty($event['image'])
+                                ? $baseUrl . 'admin/' . ltrim($event['image'], '/')
+                                : $baseUrl . 'images/event-default.jpg';
 
-                            // 5. Build event link SAFELY (Root-relative for Laragon)
+                            // 5. Build clean event URL using BASE_URL
                             $eventId = $event['idevent'] ?? 1;
                             $eventSlug = trim($event['slug'] ?? '');
 
                             if (!empty($eventSlug) && stripos($eventSlug, '.php') === false) {
-                                $eventLink = '/tmc-website/event-details.php/' . rawurlencode($eventSlug);
+                                $eventLink = $baseUrl . rawurlencode($eventSlug);
                             } else {
-                                $eventLink = '/tmc-website/event-details.php?id=' . urlencode($eventId);
+                                $eventLink = $baseUrl . 'event-details.php?id=' . urlencode($eventId);
                             }
 
-                            // 6. Get event number (1, 2, 3...)
+                            // 6. Get event number
                             $eventNumber = str_pad($index + 1, 2, '0', STR_PAD_LEFT);
                             ?>
 
                             <!-- Event Item Start -->
-                            <div class="event-item-gold wow fadeInUp" data-wow-delay="<?= $delay ?>">
+                            <div class="event-item-gold wow fadeInUp"
+                                data-wow-delay="<?= htmlspecialchars($delay) ?>">
 
-                                <!-- Event Image Start -->
                                 <div class="event-item-image-gold">
                                     <a href="<?= htmlspecialchars($eventLink) ?>" data-cursor-text="View">
                                         <figure>
-                                            <img src="<?= htmlspecialchars($imagePath) ?>" alt="<?= htmlspecialchars($event['title'] ?? 'Event') ?>">
+                                            <img src="<?= htmlspecialchars($imagePath) ?>"
+                                                alt="<?= htmlspecialchars($event['title'] ?? 'Event') ?>">
                                         </figure>
                                     </a>
                                 </div>
-                                <!-- Event Image End -->
 
-                                <!-- Event Item Body Start -->
                                 <div class="event-item-body-gold">
                                     <div class="event-schedule-content-gold">
                                         <h2><?= $eventNumber ?></h2>
                                         <p>Upcoming</p>
-                                        <p><?= $formattedDate ?></p>
+                                        <p><?= htmlspecialchars($formattedDate) ?></p>
                                     </div>
 
                                     <div class="event-item-info-gold">
@@ -621,8 +627,6 @@ $seo = get_seo_data($db, $page_seo_type);
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Event Item Body End -->
-
                             </div>
                             <!-- Event Item End -->
 

@@ -1,3 +1,0 @@
-RewriteEngine On
-
-RewriteRule ^event-details\.php/([^/]+)/?$ event-details.php?slug=$1 [L,QSA]

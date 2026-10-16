@@ -83,6 +83,8 @@
                              <li><a href="about-us.php">About Us</a></li>
                              <li><a href="our-team.php">Our Team</a></li>
                              <li><a href="our-blogs.php">Our Blogs</a></li>
+                             <li><a href="privacy-policy.php">Privacy Policy</a></li>
+                             <li><a href="terms-conditions.php">Terms and Conditions</a></li>
                          </ul>
                      </div>
                      <!-- Footer Links End -->

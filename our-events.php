@@ -4,6 +4,7 @@ require_once('fetch-all.php');
 ?>
 <!DOCTYPE html>
 <html lang="zxx">
+
 <head>
     <!-- Meta -->
     <meta charset="utf-8">
@@ -15,7 +16,7 @@ require_once('fetch-all.php');
     <!-- Page Title -->
     <title>Welcome to Tee Mac Corporation</title>
     <!-- Favicon Icon -->
-     <link rel="icon" type="image/png" href="<?= htmlspecialchars($favicon) ?>">
+    <link rel="icon" type="image/png" href="<?= htmlspecialchars($favicon) ?>">
     <!-- Google Fonts Css-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
@@ -38,17 +39,18 @@ require_once('fetch-all.php');
     <!-- Main Custom Css -->
     <link href="css/custom.css" rel="stylesheet" media="screen">
 </head>
+
 <body>
-   <?php
+    <?php
 
     require_once('includes/preloader.php');
 
     require_once('includes/header.php');
     ?>
 
- 
+
     <!-- Page Header Section Start -->
-   <div class="page-header parallaxie" style="background: url('<?= htmlspecialchars($bannerImage) ?>') no-repeat;">
+    <div class="page-header parallaxie" style="background: url('<?= htmlspecialchars($bannerImage) ?>') no-repeat;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -75,88 +77,88 @@ require_once('fetch-all.php');
             <div class="row">
                 <!-- Page Schedule Box Start -->
                 <div class="page-schedule-box tab-content wow fadeInUp" data-wow-delay="0.2s">
-                   
 
-        
-                     <div class="row mt-5">
-    <?php foreach ($displaySchedule as $index => $item): ?>
-        <?php
-        // Clean description to prevent HTML tags from showing
-        $cleanDesc = nl2br(strip_tags($item['description']));
-        
-        // Resolve image path (fallback to default if empty)
-        $imagePath = !empty($item['image']) ? 'admin/' . $item['image'] : 'images/event-default.jpg';
 
-        // ✅ FIXED: Updated URL format to event-details.php/slug
-        $itemLink = !empty($item['slug']) ? 'event-details.php/' . urlencode($item['slug']) : 'event-details.php?id=' . $item['idevent'];
-        ?>
 
-        <div class="col-xl-4 col-md-6">
-            <!-- Schedule Item Start -->
-            <div class="schedule-item wow fadeInUp" data-wow-delay="<?= ($index * 0.1) ?>s">
-                
-                <!-- Schedule Item Image Start -->
-                <div class="schedule-item-image">
-                    <a href="<?= htmlspecialchars($itemLink) ?>" data-cursor-text="View">
-                        <figure>
-                            <img src="<?= htmlspecialchars($imagePath) ?>" alt="<?= htmlspecialchars($item['title']) ?>">
-                        </figure>
-                    </a>
-                </div>
-                <!-- Schedule Item Image End -->
+                    <div class="row mt-5">
+                        <?php foreach ($displaySchedule as $index => $item): ?>
+                            <?php
+                            // Clean description to prevent HTML tags from showing
+                            $cleanDesc = nl2br(strip_tags($item['description']));
 
-                <!-- Schedule Item Body Start -->
-                <div class="schedule-item-body">
-                    <div class="schedule-item-meta">
-                        <ul>
-                            <?php if (!empty($item['time'])): ?>
-                                <li>
-                                    <img src="images/icon-clock.svg" alt="Time">
-                                    <?= htmlspecialchars($item['time']) ?>
-                                </li>
-                            <?php endif; ?>
-                            
-                            <?php if (!empty($item['location'])): ?>
-                                <li>
-                                    <img src="images/icon-location-accent.svg" alt="Location">
-                                    <?= htmlspecialchars($item['location']) ?>
-                                </li>
-                            <?php endif; ?>
-                        </ul>
+                            // Resolve image path (fallback to default if empty)
+                            $imagePath = !empty($item['image']) ? 'admin/' . $item['image'] : 'images/event-default.jpg';
+
+                            // ✅ FIXED: Updated URL format to event-details.php/slug
+                            $itemLink = !empty($item['slug']) ? 'event-details.php/' . urlencode($item['slug']) : 'event-details.php?id=' . $item['idevent'];
+                            ?>
+
+                            <div class="col-xl-4 col-md-6">
+                                <!-- Schedule Item Start -->
+                                <div class="schedule-item wow fadeInUp" data-wow-delay="<?= ($index * 0.1) ?>s">
+
+                                    <!-- Schedule Item Image Start -->
+                                    <div class="schedule-item-image">
+                                        <a href="<?= htmlspecialchars($itemLink) ?>" data-cursor-text="View">
+                                            <figure>
+                                                <img src="<?= htmlspecialchars($imagePath) ?>" alt="<?= htmlspecialchars($item['title']) ?>">
+                                            </figure>
+                                        </a>
+                                    </div>
+                                    <!-- Schedule Item Image End -->
+
+                                    <!-- Schedule Item Body Start -->
+                                    <div class="schedule-item-body">
+                                        <div class="schedule-item-meta">
+                                            <ul>
+                                                <?php if (!empty($item['time'])): ?>
+                                                    <li>
+                                                        <img src="images/icon-clock.svg" alt="Time">
+                                                        <?= htmlspecialchars($item['time']) ?>
+                                                    </li>
+                                                <?php endif; ?>
+
+                                                <?php if (!empty($item['location'])): ?>
+                                                    <li>
+                                                        <img src="images/icon-location-accent.svg" alt="Location">
+                                                        <?= htmlspecialchars($item['location']) ?>
+                                                    </li>
+                                                <?php endif; ?>
+                                            </ul>
+                                        </div>
+
+                                        <div class="schedule-item-body-content">
+                                            <h3>
+                                                <a href="<?= htmlspecialchars($itemLink) ?>">
+                                                    <?= htmlspecialchars($item['title']) ?>
+                                                </a>
+                                            </h3>
+                                            <p><?= $cleanDesc ?></p>
+                                        </div>
+
+                                        <div class="schedule-item-btn">
+                                            <a href="<?= htmlspecialchars($itemLink) ?>" class="btn-default">View Details</a>
+                                        </div>
+                                    </div>
+                                    <!-- Schedule Item Body End -->
+                                </div>
+                                <!-- Schedule Item End -->
+                            </div>
+
+                        <?php endforeach; ?>
                     </div>
-                    
-                    <div class="schedule-item-body-content">
-                        <h3>
-                            <a href="<?= htmlspecialchars($itemLink) ?>">
-                                <?= htmlspecialchars($item['title']) ?>
-                            </a>
-                        </h3>
-                        <p><?= $cleanDesc ?></p>
-                    </div>
-                    
-                    <div class="schedule-item-btn">
-                        <a href="<?= htmlspecialchars($itemLink) ?>" class="btn-default">View Details</a>
-                    </div>
-                </div>
-                <!-- Schedule Item Body End -->                            
-            </div>
-            <!-- Schedule Item End -->
-        </div>
 
-    <?php endforeach; ?>
-</div>
-                   
 
-                  
+
                 </div>
             </div>
         </div>
     </div>
     <!-- Page Schedule Section End -->
 
-    
 
-     <?php
+
+    <?php
     require_once('includes/footer.php');
     ?>
 
@@ -192,6 +194,7 @@ require_once('fetch-all.php');
     <script src="js/wow.min.js"></script>
     <!-- Main Custom js file -->
     <script src="js/function.js"></script>
-	<script src="../assets/js/theme-panel-dynamic.js"></script>
+    <script src="../assets/js/theme-panel-dynamic.js"></script>
 </body>
+
 </html>

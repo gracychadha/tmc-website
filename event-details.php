@@ -2,6 +2,7 @@
 require_once("admin/db/config.php");
 require_once("fetch-all.php");
 
+$baseUrl = parse_ini_file(__DIR__ . '/.env')['BASE_URL'] ?? '';
 // Get slug from PATH_INFO or normal GET parameter
 $eventSlug = '';
 
@@ -165,6 +166,7 @@ $detailImagePath = !empty($eventDetails['image'])
                                     <span><img src="<?= $baseUrl ?>images/icon-category-list-5.svg" alt="Location"> Location: </span>
                                     <?= htmlspecialchars($eventDetails['location'] ?? 'TBA') ?>
                                 </li>
+                               
 
 
                             </ul>

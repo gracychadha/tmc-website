@@ -2,9 +2,41 @@
 session_start();
 require_once('db/config.php');
 require_once('includes/mailer.php');
+require_once('includes/csrf.php');
 
 if (!isset($_SESSION['adminId'])) {
     header("Location: index.php");
+    exit;
+}
+
+// Server-side permission check (mirrors the "Manage Team" sidebar gate)
+$permAdminId = base64_decode($_SESSION['adminId']);
+$permTitles = [];
+$stmt = $db->prepare("SELECT permission FROM admin WHERE admin_id = ?");
+$stmt->bind_param("i", $permAdminId);
+$stmt->execute();
+$permResult = $stmt->get_result();
+$stmt->close();
+
+if ($permResult->num_rows > 0) {
+    $permRow = $permResult->fetch_assoc();
+    $permIds = json_decode($permRow['permission'], true);
+    if (!empty($permIds) && is_array($permIds)) {
+        $placeholders = implode(',', array_fill(0, count($permIds), '?'));
+        $stmt = $db->prepare("SELECT title FROM menu WHERE id IN ($placeholders)");
+        $stmt->bind_param(str_repeat('i', count($permIds)), ...$permIds);
+        $stmt->execute();
+        $permMenus = $stmt->get_result();
+        $stmt->close();
+        while ($permMenu = $permMenus->fetch_assoc()) {
+            $permTitles[] = $permMenu['title'];
+        }
+    }
+}
+
+if (!in_array('All', $permTitles) && !in_array('Team', $permTitles)) {
+    $_SESSION['error'] = "You do not have permission to manage team members.";
+    header("Location: dashboard.php");
     exit;
 }
 
@@ -88,6 +120,13 @@ function create_team_login($team_id, $member_name, $email, $phone = '')
 
 // Handle form submissions for adding a new team post
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Verify CSRF token on every POST
+    if (!csrf_verify()) {
+        $_SESSION['error'] = "Security token mismatch. Please refresh the page and try again.";
+        header('Location: admin-team.php');
+        exit();
+    }
+
     // Check if the form is being submitted for adding a new team
     // Handle file upload (Featured image)
     if (isset($_POST['add-form']) && $_SERVER['REQUEST_METHOD'] == "POST") {
@@ -395,7 +434,7 @@ if ($stmt = $db->prepare($sqlfav)) {
     <link rel="shortcut icon" type="image/x-icon" href="<?php echo htmlspecialchars($faviconPath); ?>">
 
     <!-- Theme Script -->
-    <script src="assets/js/theme-script.js" type="094c2cc781cee01c60adaad3-text/javascript"></script>
+    <script src="assets/js/theme-script.js"></script>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
@@ -436,7 +475,6 @@ if ($stmt = $db->prepare($sqlfav)) {
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.10/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.10/vfs_fonts.js"></script>
-    <script src="assets/js/export.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.css" rel="stylesheet">
@@ -598,12 +636,20 @@ if ($stmt = $db->prepare($sqlfav)) {
                                     <?php
                                     if ($resultteam->num_rows > 0) {
                                         while ($rowteam = $resultteam->fetch_assoc()) {
-                                            $imagePath = htmlspecialchars($rowteam['profile_picture']);
+                                            $imagePath = htmlspecialchars($rowteam['profile_picture'], ENT_QUOTES, 'UTF-8');
+                                            $memberName = htmlspecialchars($rowteam['member_name'], ENT_QUOTES, 'UTF-8');
+                                            $memberRole = htmlspecialchars($rowteam['role'], ENT_QUOTES, 'UTF-8');
+                                            $memberEmail = htmlspecialchars($rowteam['email'], ENT_QUOTES, 'UTF-8');
+                                            $memberPhone = htmlspecialchars($rowteam['phone'], ENT_QUOTES, 'UTF-8');
+                                            $memberLinkedin = htmlspecialchars($rowteam['linkedin'], ENT_QUOTES, 'UTF-8');
+                                            $memberTwitter = htmlspecialchars($rowteam['twitter'], ENT_QUOTES, 'UTF-8');
+                                            $memberFacebook = htmlspecialchars($rowteam['facebook'], ENT_QUOTES, 'UTF-8');
+                                            $memberDate = htmlspecialchars($rowteam['date'], ENT_QUOTES, 'UTF-8');
                                     ?>
                                             <tr>
                                                 <td>
                                                     <div class="form-check form-check-md">
-                                                        <input class="form-check-input delete-checkbox" type="checkbox" value="<?php echo $rowteam['idteam_members']; ?>">
+                                                        <input class="form-check-input delete-checkbox" type="checkbox" value="<?php echo intval($rowteam['idteam_members']); ?>">
                                                     </div>
                                                 </td>
                                                 <td><img src="<?php echo $imagePath; ?>" class="tmc-img-sm" alt=""></td>
@@ -611,11 +657,11 @@ if ($stmt = $db->prepare($sqlfav)) {
                                                 <td>
                                                     <div class="d-flex align-items-center">
                                                         <div class="ms-2">
-                                                            <p class="text-dark mb-0"><?php echo $rowteam['member_name']; ?></p>
+                                                            <p class="text-dark mb-0"><?php echo $memberName; ?></p>
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td><?php echo $rowteam['role']; ?></td>
+                                                <td><?php echo $memberRole; ?></td>
                                                 <td>
                                                     <?php if ($rowteam['status'] == 1) { ?>
                                                         <span class="badge badge-soft-success d-inline-flex align-items-center"><i class="ti ti-circle-filled fs-5 me-1"></i>Active</span>
@@ -630,27 +676,28 @@ if ($stmt = $db->prepare($sqlfav)) {
                                                         <span class="badge badge-soft-secondary d-inline-flex align-items-center"><i class="ti ti-user-off fs-5 me-1"></i>No Login</span>
                                                     <?php } ?>
                                                 </td>
-                                                <td><?php echo $rowteam['date']; ?></td>
+                                                <td><?php echo $memberDate; ?></td>
                                                 <td>
                                                     <div class="d-flex align-items-center">
                                                         <a href="#" class="btn btn-outline-light bg-white btn-icon edit-btn d-flex align-items-center justify-content-center rounded-circle p-0 me-2"
-                                                            data-id="<?php echo $rowteam['idteam_members']; ?>"
-                                                            data-name="<?php echo $rowteam['member_name']; ?>"
-                                                            data-role="<?php echo $rowteam['role']; ?>"
-                                                            data-email="<?php echo $rowteam['email']; ?>"
-                                                            data-phone="<?php echo $rowteam['phone']; ?>"
-                                                            data-linkedin="<?php echo $rowteam['linkedin']; ?>"
-                                                            data-twitter="<?php echo $rowteam['twitter']; ?>"
-                                                            data-facebook="<?php echo $rowteam['facebook']; ?>"
-                                                            data-content="<?php echo htmlspecialchars($rowteam['bio']); ?>"
-                                                            data-image="<?php echo $rowteam['profile_picture']; ?>"
-                                                            data-status="<?php echo $rowteam['status']; ?>"
+                                                            data-id="<?php echo intval($rowteam['idteam_members']); ?>"
+                                                            data-name="<?php echo $memberName; ?>"
+                                                            data-role="<?php echo $memberRole; ?>"
+                                                            data-email="<?php echo $memberEmail; ?>"
+                                                            data-phone="<?php echo $memberPhone; ?>"
+                                                            data-linkedin="<?php echo $memberLinkedin; ?>"
+                                                            data-twitter="<?php echo $memberTwitter; ?>"
+                                                            data-facebook="<?php echo $memberFacebook; ?>"
+                                                            data-content="<?php echo htmlspecialchars($rowteam['bio'], ENT_QUOTES, 'UTF-8'); ?>"
+                                                            data-image="<?php echo $imagePath; ?>"
+                                                            data-status="<?php echo intval($rowteam['status']); ?>"
                                                             data-bs-toggle="modal" data-bs-target="#edit_role"><i class="ti ti-edit-circle text-primary"></i></a>
                                                         <form method="POST" action="admin-team.php" class="d-inline" onsubmit="return confirm('Reset this member\'s login password and email new credentials to them?');">
-                                                            <input type="hidden" name="reset_id" value="<?php echo $rowteam['idteam_members']; ?>">
+                                                            <?php echo csrf_field(); ?>
+                                                            <input type="hidden" name="reset_id" value="<?php echo intval($rowteam['idteam_members']); ?>">
                                                             <button type="submit" name="reset-form" class="btn btn-outline-light bg-white btn-icon d-flex align-items-center justify-content-center rounded-circle p-0 me-2" title="Reset Login Password & Email Credentials"><i class="ti ti-key text-warning"></i></button>
                                                         </form>
-                                                        <a href="#" class="btn btn-outline-light bg-white btn-icon d-flex align-items-center justify-content-center delete-btn rounded-circle p-0 me-3" data-id="<?php echo $rowteam['idteam_members']; ?>" data-bs-toggle="modal" data-bs-target="#delete-modal"><i class="ti ti-trash-x text-danger"></i></a>
+                                                        <a href="#" class="btn btn-outline-light bg-white btn-icon d-flex align-items-center justify-content-center delete-btn rounded-circle p-0 me-3" data-id="<?php echo intval($rowteam['idteam_members']); ?>" data-bs-toggle="modal" data-bs-target="#delete-modal"><i class="ti ti-trash-x text-danger"></i></a>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -678,6 +725,7 @@ if ($stmt = $db->prepare($sqlfav)) {
                         </button>
                     </div>
                     <form action="admin-team.php" method="POST" enctype="multipart/form-data">
+                        <?php echo csrf_field(); ?>
                         <div class="modal-body">
                             <div class="row">
                                 <!-- Title input -->
@@ -768,6 +816,7 @@ if ($stmt = $db->prepare($sqlfav)) {
                         </button>
                     </div>
                     <form id="teamForm" action="admin-team.php" method="POST" enctype="multipart/form-data">
+                        <?php echo csrf_field(); ?>
                         <div class="modal-body">
                             <div class="row">
                                 <!-- Hidden input for career ID -->
@@ -868,6 +917,7 @@ if ($stmt = $db->prepare($sqlfav)) {
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <form method="POST" action="admin-team.php">
+                        <?php echo csrf_field(); ?>
                         <input type="hidden" name="action" value="delete">
                         <input type="hidden" name="ids" id="delete-career-ids" value=""> <!-- Hidden input for career IDs -->
                         <div class="modal-body text-center">
@@ -901,38 +951,39 @@ if ($stmt = $db->prepare($sqlfav)) {
     <!-- /Main Wrapper -->
 
     <!-- jQuery -->
-    <script src="assets/js/jquery-3.7.1.min.js" type="094c2cc781cee01c60adaad3-text/javascript"></script>
+    <script src="assets/js/jquery-3.7.1.min.js"></script>
 
     <!-- Bootstrap Core JS -->
-    <script src="assets/js/bootstrap.bundle.min.js" type="094c2cc781cee01c60adaad3-text/javascript"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
 
     <!-- Daterangepicker JS -->
-    <script src="assets/js/moment.js" type="094c2cc781cee01c60adaad3-text/javascript"></script>
-    <script src="assets/plugins/daterangepicker/daterangepicker.js" type="094c2cc781cee01c60adaad3-text/javascript"></script>
-    <script src="assets/js/bootstrap-datetimepicker.min.js" type="094c2cc781cee01c60adaad3-text/javascript"></script>
+    <script src="assets/js/moment.js"></script>
+    <script src="assets/plugins/daterangepicker/daterangepicker.js"></script>
+    <script src="assets/js/bootstrap-datetimepicker.min.js"></script>
 
     <!-- Feather Icon JS -->
-    <script src="assets/js/feather.min.js" type="094c2cc781cee01c60adaad3-text/javascript"></script>
+    <script src="assets/js/feather.min.js"></script>
 
     <!-- Slimscroll JS -->
-    <script src="assets/js/jquery.slimscroll.min.js" type="094c2cc781cee01c60adaad3-text/javascript"></script>
+    <script src="assets/js/jquery.slimscroll.min.js"></script>
 
-    <script src="assets/js/jquery.dataTables.min.js" type="094c2cc781cee01c60adaad3-text/javascript"></script>
-    <script src="assets/js/dataTables.bootstrap5.min.js" type="094c2cc781cee01c60adaad3-text/javascript"></script>
+    <script src="assets/js/jquery.dataTables.min.js"></script>
+    <script src="assets/js/dataTables.bootstrap5.min.js"></script>
 
 
     <!-- Select2 JS -->
-    <script src="assets/plugins/select2/js/select2.min.js" type="094c2cc781cee01c60adaad3-text/javascript"></script>
+    <script src="assets/plugins/select2/js/select2.min.js"></script>
 
     <!-- Summernote JS -->
-    <script src="assets/plugins/summernote/summernote-lite.min.js" type="094c2cc781cee01c60adaad3-text/javascript"></script>
+    <script src="assets/plugins/summernote/summernote-lite.min.js"></script>
 
     <!-- Custom JS -->
-    <script src="assets/js/script.js" type="094c2cc781cee01c60adaad3-text/javascript"></script>
+    <script src="assets/js/script.js"></script>
 
     <script src="assets/js/admin-custom.js"></script>
 
-    <script src="assets/js/rocket-loader.min.js" data-cf-settings="094c2cc781cee01c60adaad3-|49" defer=""></script>
+    <!-- Export JS (needs jQuery, so load after it) -->
+    <script src="assets/js/export.js"></script>
 
 
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.js"></script>
@@ -966,6 +1017,13 @@ if ($stmt = $db->prepare($sqlfav)) {
 
     <script>
         $(document).ready(function() {
+            // Initialize the Summernote editor inside the edit modal
+            $('#summernote1').summernote({
+                height: 200,
+                placeholder: 'Enter content here...',
+                tabsize: 2
+            });
+
             $('.edit-btn').on('click', function() {
                 var teamId = $(this).data('id');
                 var title = $(this).data('name');

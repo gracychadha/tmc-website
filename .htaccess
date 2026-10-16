@@ -1,0 +1,12 @@
+
+RewriteEngine On
+RewriteBase /tmc-new/
+
+# Redirect old event URL to clean slug URL
+RewriteCond %{THE_REQUEST} \s/+tmc-new/event-details\.php/([^\s?]+) [NC]
+RewriteRule ^event-details\.php/(.+)$ /tmc-new/$1 [R=301,L,NE]
+
+# Route event slug to event-details.php internally
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([a-zA-Z0-9_-]+)/?$ event-details.php/$1 [L,QSA]

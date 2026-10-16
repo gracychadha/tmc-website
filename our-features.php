@@ -35,12 +35,7 @@ $fallbackHomeServices = [
         'description' => 'We coordinate venues, registrations, hospitality, transportation and on-ground requirements to keep every event running smoothly.',
         'icon'        => 'images/icon-service-4-metal.svg'
     ],
-    [
-        'idservices'  => '5',
-        'title'       => 'Audio Visual Solutions',
-        'description' => 'From sound and lighting to screens and event production, we provide the technical support needed for a powerful event experience.',
-        'icon'        => 'images/icon-service-5-metal.svg'
-    ],
+   
 ];
 
 // Use DB results if available, otherwise fallback
