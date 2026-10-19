@@ -118,6 +118,49 @@ function create_team_login($team_id, $member_name, $email, $phone = '')
     return ['ok' => false, 'msg' => $err];
 }
 
+// Resolve a department id from the submitted form.
+// Uses an existing department when a valid id is posted, otherwise creates
+// one from the "new department" text input. Returns null for "Unassigned".
+function resolve_department_id($postedId, $newName)
+{
+    global $db;
+
+    $newName = trim(strip_tags((string)$newName));
+
+    if ($newName !== '') {
+        $stmt = $db->prepare("SELECT department_id FROM department WHERE department_name = ?");
+        $stmt->bind_param("s", $newName);
+        $stmt->execute();
+        $found = $stmt->get_result();
+        $stmt->close();
+        if ($found->num_rows > 0) {
+            return intval($found->fetch_assoc()['department_id']);
+        }
+
+        $stmt = $db->prepare("INSERT INTO department (department_name) VALUES (?)");
+        $stmt->bind_param("s", $newName);
+        if ($stmt->execute()) {
+            $newDeptId = intval($db->insert_id);
+            $stmt->close();
+            return $newDeptId;
+        }
+        $stmt->close();
+        return null;
+    }
+
+    $postedId = intval($postedId);
+    if ($postedId <= 0) {
+        return null;
+    }
+
+    $stmt = $db->prepare("SELECT department_id FROM department WHERE department_id = ?");
+    $stmt->bind_param("i", $postedId);
+    $stmt->execute();
+    $valid = $stmt->get_result();
+    $stmt->close();
+    return $valid->num_rows > 0 ? $postedId : null;
+}
+
 // Handle form submissions for adding a new team post
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Verify CSRF token on every POST
@@ -140,6 +183,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $twitter = htmlspecialchars(strip_tags(trim($_POST['twitter'])));
         $content = $_POST['content'];
         $status = isset($_POST['status']) ? 0 : 1; // Convert checkbox value to 1 or 0
+        $departmentId = resolve_department_id($_POST['department_id'] ?? 0, $_POST['department_new'] ?? '');
 
 
         date_default_timezone_set('Asia/Kolkata');
@@ -176,11 +220,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Insert the team data into the database
         // Prepare the SQL query
-        $stmt = $db->prepare("INSERT INTO team_members (member_name, role, email, phone, linkedin, twitter, facebook, bio, profile_picture, date, status) 
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $db->prepare("INSERT INTO team_members (member_name, role, email, phone, linkedin, twitter, facebook, bio, profile_picture, date, status, department_id) 
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-        // Corrected bind_param() with 11 parameters
-        $stmt->bind_param("ssssssssssi", $name, $designation, $email, $phone, $linkedin, $twitter, $facebook, $content, $featuredImage, $date, $status);
+        // Corrected bind_param() with 12 parameters
+        $stmt->bind_param("ssssssssssii", $name, $designation, $email, $phone, $linkedin, $twitter, $facebook, $content, $featuredImage, $date, $status, $departmentId);
 
 
         if ($stmt->execute()) {
@@ -222,6 +266,7 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $twitter = htmlspecialchars(strip_tags(trim($_POST['twitter'])));
         $content = $_POST['content'];
         $status = isset($_POST['status']) ? 1 : 0; // Convert checkbox value to 1 or 0
+        $departmentId = resolve_department_id($_POST['department_id'] ?? 0, $_POST['department_new'] ?? '');
 
 
 
@@ -238,8 +283,8 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $image_path = $_POST['existing_image']; // Use existing image if no new image is uploaded
         }
 
-        $stmt = $db->prepare("UPDATE team_members SET member_name =?, role=?, email=?, phone=?, linkedin=?, twitter=?, facebook=?, bio=?, profile_picture=?,  status=? WHERE idteam_members = ?");
-        $stmt->bind_param("ssssssssssi", $name, $designation, $email, $phone, $linkedin, $twitter, $facebook, $content, $image_path, $status, $idteam_members);
+        $stmt = $db->prepare("UPDATE team_members SET member_name =?, role=?, email=?, phone=?, linkedin=?, twitter=?, facebook=?, bio=?, profile_picture=?,  status=?, department_id=? WHERE idteam_members = ?");
+        $stmt->bind_param("sssssssssiii", $name, $designation, $email, $phone, $linkedin, $twitter, $facebook, $content, $image_path, $status, $departmentId, $idteam_members);
 
         if ($stmt->execute()) {
             $stmt->close();
@@ -399,6 +444,18 @@ $qLogin = $db->query("SELECT team_id FROM admin WHERE team_id IS NOT NULL");
 if ($qLogin) {
     while ($lLogin = $qLogin->fetch_assoc()) {
         $loginMap[$lLogin['team_id']] = true;
+    }
+}
+
+// Departments, in display order, plus a name lookup keyed by id
+$departments = [];
+$deptNameById = [];
+$qDept = $db->query("SELECT department_id, department_name FROM department ORDER BY (LOWER(department_name) = 'management') DESC, department_name ASC");
+if ($qDept) {
+    while ($dDept = $qDept->fetch_assoc()) {
+        $deptId = intval($dDept['department_id']);
+        $departments[] = ['department_id' => $deptId, 'department_name' => $dDept['department_name']];
+        $deptNameById[$deptId] = $dDept['department_name'];
     }
 }
 
@@ -613,99 +670,135 @@ if ($stmt = $db->prepare($sqlfav)) {
                     <div class="card-body p-0 py-3">
                         <!-- Categories List -->
 
-                        <div class="custom-datatable-filter table-responsive">
-                            <table class="table datatable" data-name-col="2" data-status-col="4">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th class="no-sort">
-                                            <div class="form-check form-check-md">
-                                                <input class="form-check-input" type="checkbox" id="select-all">
-                                            </div>
-                                        </th>
-
-                                        <th>Photo</th>
-                                        <th>Name</th>
-                                        <th>Designation</th>
-                                        <th>Status</th>
-                                        <th>Login</th>
-                                        <th>Created Date</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    if ($resultteam->num_rows > 0) {
-                                        while ($rowteam = $resultteam->fetch_assoc()) {
-                                            $imagePath = htmlspecialchars($rowteam['profile_picture'], ENT_QUOTES, 'UTF-8');
-                                            $memberName = htmlspecialchars($rowteam['member_name'], ENT_QUOTES, 'UTF-8');
-                                            $memberRole = htmlspecialchars($rowteam['role'], ENT_QUOTES, 'UTF-8');
-                                            $memberEmail = htmlspecialchars($rowteam['email'], ENT_QUOTES, 'UTF-8');
-                                            $memberPhone = htmlspecialchars($rowteam['phone'], ENT_QUOTES, 'UTF-8');
-                                            $memberLinkedin = htmlspecialchars($rowteam['linkedin'], ENT_QUOTES, 'UTF-8');
-                                            $memberTwitter = htmlspecialchars($rowteam['twitter'], ENT_QUOTES, 'UTF-8');
-                                            $memberFacebook = htmlspecialchars($rowteam['facebook'], ENT_QUOTES, 'UTF-8');
-                                            $memberDate = htmlspecialchars($rowteam['date'], ENT_QUOTES, 'UTF-8');
-                                    ?>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check form-check-md">
-                                                        <input class="form-check-input delete-checkbox" type="checkbox" value="<?php echo intval($rowteam['idteam_members']); ?>">
-                                                    </div>
-                                                </td>
-                                                <td><img src="<?php echo $imagePath; ?>" class="tmc-img-sm" alt=""></td>
-
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="ms-2">
-                                                            <p class="text-dark mb-0"><?php echo $memberName; ?></p>
+                        <?php
+                        // Bucket members by department (departments first, then Unassigned)
+                        $rowsByDept = [];
+                        foreach ($departments as $dRow) {
+                            $rowsByDept[$dRow['department_id']] = [];
+                        }
+                        $unassignedRows = [];
+                        while ($rowteam = $resultteam->fetch_assoc()) {
+                            $did = $rowteam['department_id'] !== null ? intval($rowteam['department_id']) : 0;
+                            if ($did > 0 && isset($rowsByDept[$did])) {
+                                $rowsByDept[$did][] = $rowteam;
+                            } else {
+                                $unassignedRows[] = $rowteam;
+                            }
+                        }
+                        $sections = [];
+                        foreach ($departments as $dRow) {
+                            if (!empty($rowsByDept[$dRow['department_id']])) {
+                                $sections[] = ['name' => $dRow['department_name'], 'rows' => $rowsByDept[$dRow['department_id']]];
+                            }
+                        }
+                        if (!empty($unassignedRows)) {
+                            $sections[] = ['name' => 'Unassigned', 'rows' => $unassignedRows];
+                        }
+                        ?>
+                        <?php if (empty($sections)): ?>
+                            <div class="text-center text-muted py-4">No team members found.</div>
+                        <?php else: ?>
+                            <?php foreach ($sections as $section): ?>
+                                <div class="dept-section mb-2">
+                                    <div class="d-flex align-items-center justify-content-between px-3 pt-3">
+                                        <h5 class="mb-0"><i class="ti ti-building-community me-1"></i><?php echo htmlspecialchars($section['name'], ENT_QUOTES, 'UTF-8'); ?></h5>
+                                        <span class="badge badge-soft-primary"><?php echo count($section['rows']); ?> member(s)</span>
+                                    </div>
+                                    <div class="custom-datatable-filter table-responsive">
+                                        <table class="table datatable" data-name-col="2" data-status-col="4">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th class="no-sort">
+                                                        <div class="form-check form-check-md">
+                                                            <input class="form-check-input select-all" type="checkbox">
                                                         </div>
-                                                    </div>
-                                                </td>
-                                                <td><?php echo $memberRole; ?></td>
-                                                <td>
-                                                    <?php if ($rowteam['status'] == 1) { ?>
-                                                        <span class="badge badge-soft-success d-inline-flex align-items-center"><i class="ti ti-circle-filled fs-5 me-1"></i>Active</span>
-                                                    <?php } else { ?>
-                                                        <span class="badge badge-soft-danger d-inline-flex align-items-center"><i class="ti ti-circle-filled fs-5 me-1"></i>Inactive</span>
-                                                    <?php } ?>
-                                                </td>
-                                                <td>
-                                                    <?php if (isset($loginMap[$rowteam['idteam_members']])) { ?>
-                                                        <span class="badge badge-soft-success d-inline-flex align-items-center"><i class="ti ti-user-check fs-5 me-1"></i>Active</span>
-                                                    <?php } else { ?>
-                                                        <span class="badge badge-soft-secondary d-inline-flex align-items-center"><i class="ti ti-user-off fs-5 me-1"></i>No Login</span>
-                                                    <?php } ?>
-                                                </td>
-                                                <td><?php echo $memberDate; ?></td>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#" class="btn btn-outline-light bg-white btn-icon edit-btn d-flex align-items-center justify-content-center rounded-circle p-0 me-2"
-                                                            data-id="<?php echo intval($rowteam['idteam_members']); ?>"
-                                                            data-name="<?php echo $memberName; ?>"
-                                                            data-role="<?php echo $memberRole; ?>"
-                                                            data-email="<?php echo $memberEmail; ?>"
-                                                            data-phone="<?php echo $memberPhone; ?>"
-                                                            data-linkedin="<?php echo $memberLinkedin; ?>"
-                                                            data-twitter="<?php echo $memberTwitter; ?>"
-                                                            data-facebook="<?php echo $memberFacebook; ?>"
-                                                            data-content="<?php echo htmlspecialchars($rowteam['bio'], ENT_QUOTES, 'UTF-8'); ?>"
-                                                            data-image="<?php echo $imagePath; ?>"
-                                                            data-status="<?php echo intval($rowteam['status']); ?>"
-                                                            data-bs-toggle="modal" data-bs-target="#edit_role"><i class="ti ti-edit-circle text-primary"></i></a>
-                                                        <form method="POST" action="admin-team.php" class="d-inline" onsubmit="return confirm('Reset this member\'s login password and email new credentials to them?');">
-                                                            <?php echo csrf_field(); ?>
-                                                            <input type="hidden" name="reset_id" value="<?php echo intval($rowteam['idteam_members']); ?>">
-                                                            <button type="submit" name="reset-form" class="btn btn-outline-light bg-white btn-icon d-flex align-items-center justify-content-center rounded-circle p-0 me-2" title="Reset Login Password & Email Credentials"><i class="ti ti-key text-warning"></i></button>
-                                                        </form>
-                                                        <a href="#" class="btn btn-outline-light bg-white btn-icon d-flex align-items-center justify-content-center delete-btn rounded-circle p-0 me-3" data-id="<?php echo intval($rowteam['idteam_members']); ?>" data-bs-toggle="modal" data-bs-target="#delete-modal"><i class="ti ti-trash-x text-danger"></i></a>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                    <?php }
-                                    } ?>
-                                </tbody>
-                            </table>
-                        </div>
+                                                    </th>
+
+                                                    <th>Photo</th>
+                                                    <th>Name</th>
+                                                    <th>Designation</th>
+                                                    <th>Status</th>
+                                                    <!-- <th>Login</th> -->
+                                                    <th>Created Date</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php foreach ($section['rows'] as $rowteam):
+                                                    $imagePath = htmlspecialchars($rowteam['profile_picture'], ENT_QUOTES, 'UTF-8');
+                                                    $memberName = htmlspecialchars($rowteam['member_name'], ENT_QUOTES, 'UTF-8');
+                                                    $memberRole = htmlspecialchars($rowteam['role'], ENT_QUOTES, 'UTF-8');
+                                                    $memberEmail = htmlspecialchars($rowteam['email'], ENT_QUOTES, 'UTF-8');
+                                                    $memberPhone = htmlspecialchars($rowteam['phone'], ENT_QUOTES, 'UTF-8');
+                                                    $memberLinkedin = htmlspecialchars($rowteam['linkedin'], ENT_QUOTES, 'UTF-8');
+                                                    $memberTwitter = htmlspecialchars($rowteam['twitter'], ENT_QUOTES, 'UTF-8');
+                                                    $memberFacebook = htmlspecialchars($rowteam['facebook'], ENT_QUOTES, 'UTF-8');
+                                                    $memberDate = htmlspecialchars($rowteam['date'], ENT_QUOTES, 'UTF-8');
+                                                    $memberDept = intval($rowteam['department_id']);
+                                                ?>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="form-check form-check-md">
+                                                                <input class="form-check-input delete-checkbox" type="checkbox" value="<?php echo intval($rowteam['idteam_members']); ?>">
+                                                            </div>
+                                                        </td>
+                                                        <td><img src="<?php echo $imagePath; ?>" class="tmc-img-sm" alt=""></td>
+
+                                                        <td>
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="ms-2">
+                                                                    <p class="text-dark mb-0"><?php echo $memberName; ?></p>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td><?php echo $memberRole; ?></td>
+                                                        <td>
+                                                            <?php if ($rowteam['status'] == 1) { ?>
+                                                                <span class="badge badge-soft-success d-inline-flex align-items-center"><i class="ti ti-circle-filled fs-5 me-1"></i>Active</span>
+                                                            <?php } else { ?>
+                                                                <span class="badge badge-soft-danger d-inline-flex align-items-center"><i class="ti ti-circle-filled fs-5 me-1"></i>Inactive</span>
+                                                            <?php } ?>
+                                                        </td>
+                                                        <!-- <td>
+                                                            <?php if (isset($loginMap[$rowteam['idteam_members']])) { ?>
+                                                                <span class="badge badge-soft-success d-inline-flex align-items-center"><i class="ti ti-user-check fs-5 me-1"></i>Active</span>
+                                                            <?php } else { ?>
+                                                                <span class="badge badge-soft-secondary d-inline-flex align-items-center"><i class="ti ti-user-off fs-5 me-1"></i>No Login</span>
+                                                            <?php } ?>
+                                                        </td> -->
+                                                        <td><?php echo $memberDate; ?></td>
+                                                        <td>
+                                                            <div class="d-flex align-items-center">
+                                                                <a href="#" class="btn btn-outline-light bg-white btn-icon edit-btn d-flex align-items-center justify-content-center rounded-circle p-0 me-2"
+                                                                    data-id="<?php echo intval($rowteam['idteam_members']); ?>"
+                                                                    data-name="<?php echo $memberName; ?>"
+                                                                    data-role="<?php echo $memberRole; ?>"
+                                                                    data-department="<?php echo $memberDept; ?>"
+                                                                    data-email="<?php echo $memberEmail; ?>"
+                                                                    data-phone="<?php echo $memberPhone; ?>"
+                                                                    data-linkedin="<?php echo $memberLinkedin; ?>"
+                                                                    data-twitter="<?php echo $memberTwitter; ?>"
+                                                                    data-facebook="<?php echo $memberFacebook; ?>"
+                                                                    data-content="<?php echo htmlspecialchars($rowteam['bio'], ENT_QUOTES, 'UTF-8'); ?>"
+                                                                    data-image="<?php echo $imagePath; ?>"
+                                                                    data-status="<?php echo intval($rowteam['status']); ?>"
+                                                                    data-bs-toggle="modal" data-bs-target="#edit_role"><i class="ti ti-edit-circle text-primary"></i></a>
+                                                                <!-- <form method="POST" action="admin-team.php" class="d-inline" onsubmit="return confirm('Reset this member\'s login password and email new credentials to them?');">
+                                                                    <?php echo csrf_field(); ?>
+                                                                    <input type="hidden" name="reset_id" value="<?php echo intval($rowteam['idteam_members']); ?>">
+                                                                    <button type="submit" name="reset-form" class="btn btn-outline-light bg-white btn-icon d-flex align-items-center justify-content-center rounded-circle p-0 me-2" title="Reset Login Password & Email Credentials"><i class="ti ti-key text-warning"></i></button>
+                                                                </form> -->
+                                                                <a href="#" class="btn btn-outline-light bg-white btn-icon d-flex align-items-center justify-content-center delete-btn rounded-circle p-0 me-3" data-id="<?php echo intval($rowteam['idteam_members']); ?>" data-bs-toggle="modal" data-bs-target="#delete-modal"><i class="ti ti-trash-x text-danger"></i></a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                         <!-- /Categories List -->
                     </div>
                 </div>
@@ -737,6 +830,21 @@ if ($stmt = $db->prepare($sqlfav)) {
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Designtion</label>
                                     <input type="text" name="designation" class="form-control" placeholder="Enter Designtion">
+                                </div>
+
+                                <!-- Department input -->
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Department</label>
+                                    <select name="department_id" id="add-department-select" class="form-select">
+                                        <option value="">Unassigned</option>
+                                        <?php foreach ($departments as $dOption): ?>
+                                        <option value="<?php echo intval($dOption['department_id']); ?>">
+                                            <?php echo htmlspecialchars($dOption['department_name'], ENT_QUOTES, 'UTF-8'); ?>
+                                        </option>
+                                        <?php endforeach; ?>
+                                        <option value="__new__">Add new department...</option>
+                                    </select>
+                                    <input type="text" name="department_new" id="add-department-new" class="form-control mt-2" placeholder="Enter new department name" style="display:none;">
                                 </div>
 
                                 <div class="col-md-6 mb-3">
@@ -826,11 +934,28 @@ if ($stmt = $db->prepare($sqlfav)) {
                                     <label class="form-label">Team Name</label>
                                     <input type="text" name="name" id="edit-title" placeholder="Enter Team title" class="form-control">
                                 </div>
-                                <!-- Designation input -->
+                                                                <!-- Designation input -->
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Designation</label>
                                     <input type="text" name="designation" id="edit-role" class="form-control" placeholder="Enter Designation">
                                 </div>
+
+                                <!-- Department input -->
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Department</label>
+                                    <select name="department_id" id="edit-department" class="form-select">
+                                        <option value="">Unassigned</option>
+                                        <?php foreach ($departments as $dOption): ?>
+                                        <option value="<?php echo intval($dOption['department_id']); ?>">
+                                            <?php echo htmlspecialchars($dOption['department_name'], ENT_QUOTES, 'UTF-8'); ?>
+                                        </option>
+                                        <?php endforeach; ?>
+                                        <option value="__new__">Add new department...</option>
+                                    </select>
+                                    <input type="text" name="department_new" id="edit-department-new" class="form-control mt-2" placeholder="Enter new department name" style="display:none;">
+                                </div>
+
+
                                 <!-- Phone Number input -->
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Phone Number</label>
@@ -1029,6 +1154,7 @@ if ($stmt = $db->prepare($sqlfav)) {
                 var title = $(this).data('name');
                 var phone = $(this).data('phone');
                 var role = $(this).data('role');
+                var department = $(this).data('department');
                 var email = $(this).data('email');
                 var facebook = $(this).data('facebook');
                 var twitter = $(this).data('twitter');
@@ -1050,6 +1176,8 @@ if ($stmt = $db->prepare($sqlfav)) {
                 $('#edit-twitter').val(twitter);
                 $('#edit-status').prop('checked', status == 1);
                 $('#edit-contents').val(content);
+                $('#edit-department').val(department ? String(department) : '');
+                $('#edit-department-new').val('').hide();
 
 
 
@@ -1096,8 +1224,37 @@ if ($stmt = $db->prepare($sqlfav)) {
                     // Show the modal
                     $('#delete-modal').modal('show');
                 } else {
-                    alert('Please select at least one career post to delete.');
+                    alert('Please select at least one team member to delete.');
                 }
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            // Department "add new" toggle (add + edit modals)
+            function toggleNewDept(selectSel, inputSel) {
+                $(document).on('change', selectSel, function() {
+                    if ($(this).val() === '__new__') {
+                        $(inputSel).show().focus();
+                    } else {
+                        $(inputSel).val('').hide();
+                    }
+                });
+            }
+            toggleNewDept('#add-department-select', '#add-department-new');
+            toggleNewDept('#edit-department', '#edit-department-new');
+
+            // Per-table select-all (multiple department tables on one page)
+            $(document).on('change', '.select-all', function() {
+                var checked = $(this).prop('checked');
+                $(this).closest('table').find('.delete-checkbox').prop('checked', checked);
+            });
+            $(document).on('change', '.delete-checkbox', function() {
+                var $table = $(this).closest('table');
+                var total = $table.find('.delete-checkbox').length;
+                var checked = $table.find('.delete-checkbox:checked').length;
+                $table.find('.select-all').prop('checked', total > 0 && total === checked);
             });
         });
     </script>
